@@ -16,7 +16,7 @@ import frc.robot.commands.Drivetrain.*;
 public class FollowCone extends SequentialCommandGroup {
     public FollowCone() {
         addCommands(
-            new RotateToCone()
+            new RotateToCone().repeatedly()
         );  
     }
 }

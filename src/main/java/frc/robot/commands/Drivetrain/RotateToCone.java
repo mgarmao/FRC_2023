@@ -32,6 +32,7 @@ public class RotateToCone extends CommandBase {
   double loopTime = 0.0;
   
   public RotateToCone() {
+    
   }
 
   // Called when the command is initially scheduled.
@@ -42,34 +43,36 @@ public class RotateToCone extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    Instant start = Instant.now();
+    while(true){
+      Instant start = Instant.now();
 
-    error = vision.ConeX();
+      error = vision.ConeX();
 
-    P = kP*error;
-    I = preI+kI*error;
-    Instant end = Instant.now();
-    Duration timeElapsed = Duration.between(start, end);
-    D = kD*(pError-error);
-    double PID= P+I+D;
-    
-    pError=error;
-    
-    if(PID>=1||PID<=-1){
-      PID=1;
+      P = kP*error;
+      I = preI+kI*error;
+      Instant end = Instant.now();
+      Duration timeElapsed = Duration.between(start, end);
+      D = kD*(pError-error);
+      double PID= P+I+D;
+      
+      if(PID>=1){
+        PID=1;
+      }
+      if(PID<=-1){
+        PID=-1;
+      }
+
+      m_drivetrain.tankDrive(PID, -PID);
+
+      pError=error;
+      SmartDashboard.putNumber("PID",PID);
+      SmartDashboard.putNumber("Millis", timeElapsed.toMillis());
     }
-
-
-    m_drivetrain.tankDrive(PID, -PID);
-
-    SmartDashboard.putNumber("PID",PID);
-    SmartDashboard.putNumber("Millis", timeElapsed.toMillis());
 
     // while(vision.ConeX()==0){
     //   m_drivetrain.tankDrive(0.6, -0.6);
     // }
-    
-    
+
 
     // while(vision.ConeX()>4) {
       

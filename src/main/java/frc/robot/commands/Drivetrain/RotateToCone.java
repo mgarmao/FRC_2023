@@ -44,27 +44,31 @@ public class RotateToCone extends CommandBase {
   public void execute() {
     Instant start = Instant.now();
 
-    while(1==1){
-      error = vision.ConeX();
+    error = vision.ConeX();
 
-      P = kP*error;
-      I = preI+kI*error;
-      Instant end = Instant.now();
-      Duration timeElapsed = Duration.between(start, end);
-      D = kD*(pError-error)/(double)(timeElapsed.toMillis()/100);
-      double PID= P+I+D;
-      SmartDashboard.putNumber("PID",PID);
-      pError=error;
-      
-      if(PID>1){
-        PID=1;
-      }
-      m_drivetrain.tankDrive(PID, -PID);
-
-      while(vision.ConeX()==0){
-        m_drivetrain.tankDrive(0.6, -0.6);
-      }
+    P = kP*error;
+    I = preI+kI*error;
+    Instant end = Instant.now();
+    Duration timeElapsed = Duration.between(start, end);
+    D = kD*(pError-error);
+    double PID= P+I+D;
+    
+    pError=error;
+    
+    if(PID>=1||PID<=-1){
+      PID=1;
     }
+
+
+    m_drivetrain.tankDrive(PID, -PID);
+
+    SmartDashboard.putNumber("PID",PID);
+    SmartDashboard.putNumber("Millis", timeElapsed.toMillis());
+
+    // while(vision.ConeX()==0){
+    //   m_drivetrain.tankDrive(0.6, -0.6);
+    // }
+    
     
 
     // while(vision.ConeX()>4) {

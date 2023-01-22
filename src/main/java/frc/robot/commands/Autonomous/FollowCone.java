@@ -11,7 +11,10 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 import static frc.robot.RobotContainer.*;
 
+import java.util.function.DoubleSupplier;
+
 import frc.robot.commands.Drivetrain.*;
+
 
 public class FollowCone extends SequentialCommandGroup {
     public FollowCone() {

@@ -11,10 +11,13 @@ import static frc.robot.RobotContainer.*;
 import java.time.Duration;
 import java.time.Instant;
 
+import com.fasterxml.jackson.annotation.JsonCreator.Mode;
+
+
 import frc.robot.subsystems.Limelight;
 
 public class RotateToCone extends CommandBase {
-
+    
   Limelight vision = new Limelight();
 
   double kP = 0.05;
@@ -30,9 +33,8 @@ public class RotateToCone extends CommandBase {
   double pError = 0.0;
 
   double loopTime = 0.0;
-  
-  public RotateToCone() {
-    
+  Duration timeElapsed = Duration.between(Instant.now(), Instant.now());
+  public void RotateCone() {
   }
 
   // Called when the command is initially scheduled.
@@ -45,13 +47,15 @@ public class RotateToCone extends CommandBase {
   public void execute() {
     while(true){
       Instant start = Instant.now();
+      Duration timeElapsed = Duration.between(start, start);
+      start = Instant.now();
 
       error = vision.ConeX();
 
       P = kP*error;
       I = preI+kI*error;
       Instant end = Instant.now();
-      Duration timeElapsed = Duration.between(start, end);
+      timeElapsed = Duration.between(start, end);
       D = kD*(pError-error);
       double PID= P+I+D;
       
@@ -61,27 +65,12 @@ public class RotateToCone extends CommandBase {
       if(PID<=-1){
         PID=-1;
       }
-
+    
       m_drivetrain.tankDrive(PID, -PID);
-
       pError=error;
       SmartDashboard.putNumber("PID",PID);
       SmartDashboard.putNumber("Millis", timeElapsed.toMillis());
     }
-
-    // while(vision.ConeX()==0){
-    //   m_drivetrain.tankDrive(0.6, -0.6);
-    // }
-
-
-    // while(vision.ConeX()>4) {
-      
-    //   m_drivetrain.tankDrive(0.6, -0.6);
-    // }
-    
-    // while(vision.ConeX()<-4) {
-    //   m_drivetrain.tankDrive(-0.6, 0.6);
-    // }
   }
 
   // Called once the command ends or is interrupted.

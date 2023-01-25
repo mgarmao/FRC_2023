@@ -44,6 +44,7 @@ public class RobotContainer {
   public static final Shooter m_shooter = new Shooter();
   public static final Climber m_climber = new Climber();
   public static final Gyroscope m_gyro = new Gyroscope();
+  public static final Photon m_photon = new Photon();
   public static final Limelight m_limelight = new Limelight();
 
   /** Autonomous Commands */

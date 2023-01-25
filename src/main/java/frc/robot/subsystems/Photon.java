@@ -54,25 +54,22 @@ public class Photon extends SubsystemBase{
         SmartDashboard.putNumber("targetToCamera Y",targetToCamera.getY());
         SmartDashboard.putNumber("targetToCamera Z",targetToCamera.getZ());
 
-
-
-        
         // double distanceToTarget = PhotonUtils.getDistanceToPose(robotPose, targetPose);
-
     }
+
     public void autoAline(){
-        var result = camera.getLatestResult();
-        PhotonTrackedTarget target = result.getBestTarget();
+        // var result = camera.getLatestResult();
+        // PhotonTrackedTarget target = result.getBestTarget();
 
-        double range = PhotonUtils.calculateDistanceToTargetMeters(
-            CAMERA_HEIGHT_METERS,
-            TARGET_HEIGHT_METERS,
-            CAMERA_PITCH_RADIANS,
-            Units.degreesToRadians(result.getBestTarget().getPitch()));
+        // double range = PhotonUtils.calculateDistanceToTargetMeters(
+        //     CAMERA_HEIGHT_METERS,
+        //     TARGET_HEIGHT_METERS,
+        //     CAMERA_PITCH_RADIANS,
+        //     Units.degreesToRadians(result.getBestTarget().getPitch()));
 
-        Pose2D robotPose = PhotonUtils.estimateFieldToRobot(kCameraHeight, kTargetHeight, kCameraPitch, kTargetPitch, Rotation2d.fromDegrees(-target.getYaw()), gyro.getRotation2d(), targetPose, cameraToRobot);
-        double forwardSpeed = -controller.calculate(range, 2);
-        double distanceToTarget = PhotonUtils.getDistanceToPose(robotPose, targetPose);
+        // Pose2D robotPose = PhotonUtils.estimateFieldToRobot(kCameraHeight, kTargetHeight, kCameraPitch, kTargetPitch, Rotation2d.fromDegrees(-target.getYaw()), gyro.getRotation2d(), targetPose, cameraToRobot);
+        // double forwardSpeed = -controller.calculate(range, 2);
+        // double distanceToTarget = PhotonUtils.getDistanceToPose(robotPose, targetPose);
 
     }
 }

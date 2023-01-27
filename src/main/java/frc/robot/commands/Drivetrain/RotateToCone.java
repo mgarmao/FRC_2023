@@ -51,12 +51,12 @@ public class RotateToCone extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    while(true){
-      error = vision.ConeX();
-      double PID = MathUtil.clamp(pid.calculate(error, 0), -1, 1);
-      m_drivetrain.tankDrive(PID, -PID);
-      SmartDashboard.putNumber("Rotate PID",PID);
-    }
+
+    error = vision.ConeX();
+    double PID = MathUtil.clamp(pid.calculate(error, 0), -1, 1);
+    m_drivetrain.tankDrive(PID, -PID);
+    SmartDashboard.putNumber("Rotate PID",PID);
+   
   }
 
   // Called once the command ends or is interrupted.

@@ -17,9 +17,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.*;
 
 import frc.robot.commands.Drivetrain.*;
-import frc.robot.commands.Gatekeeper.*;
-import frc.robot.commands.Indexer.*;
-import frc.robot.commands.Shooter.*;
+
 import frc.robot.commands.Autonomous.*;
 
 /**
@@ -37,19 +35,9 @@ public class RobotContainer {
 
   /** Robot Components */
   public static final Drivetrain m_drivetrain = new Drivetrain();
-  public static final Intake m_intake = new Intake();
-  public static final Indexer m_indexer = new Indexer();
-  public static final Gatekeeper m_gatekeeper = new Gatekeeper();
-  public static final Shooter m_shooter = new Shooter();
-  public static final Climber m_climber = new Climber();
-  public static final Gyroscope m_gyro = new Gyroscope();
-  public static final Limelight m_limelight = new Limelight();
+  
 
-  /** Autonomous Commands */
-  private final Command TWO_BALL_AUTO = new TwoBall();
-  private final Command FOUR_BALL_AUTO = new FourBallAuto();
-  private final Command ONE_BALL_AUTO = new OneBall();
-  private final Command RotateToCone = new RotateToCone();
+
   private final Command WAIT_NONE = new WaitCommand(0);
   private SendableChooser<Command> m_auto = new SendableChooser<>();
 
@@ -57,10 +45,7 @@ public class RobotContainer {
   public RobotContainer() {
 
     /** Autonomous Chooser */
-    m_auto.setDefaultOption("Two Ball", TWO_BALL_AUTO);
-    m_auto.addOption("One Ball", ONE_BALL_AUTO);
-    m_auto.addOption("Turn TO Cone", RotateToCone);
-    m_auto.addOption("Four Ball", FOUR_BALL_AUTO);
+
     m_auto.addOption("Do Nothing", WAIT_NONE);
     SmartDashboard.putData("Autonomous Routine", m_auto);
 
@@ -79,15 +64,7 @@ public class RobotContainer {
 
     /** Indexer Controls */
     /** The Operator's left joystick controls the indexer belt. */
-    m_indexer.setDefaultCommand(new IndexerController(m_indexer, () -> m_operator.getLeftY()));
-
-    /** Gatekeeper Controls */
-    /** The Operator's right trigger unlocks the gatekeeper. */
-    m_gatekeeper.setDefaultCommand(new GatekeeperController(m_gatekeeper, () -> m_operator.getRightTriggerAxis()));
-
-    /** Shooter Controls */
-    /** The Operator's left trigger spins up the flywheel. */
-    m_shooter.setDefaultCommand(new ShooterController(m_shooter, () -> m_operator.getLeftTriggerAxis()));
+    
 }
 
   /**
@@ -98,25 +75,6 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     
-    /** Intake Controls */
-    /** The Driver's triggers toggle the state of the intake arms. */
-    new JoystickButton(m_driverLeft, 1).whenPressed(() -> m_intake.toggle());
-    new JoystickButton(m_driverRight, 1).whenPressed(() -> m_intake.toggle());
-    /** The Driver's thumb buttons control the retrieval and ejection of the cargo. */
-    new JoystickButton(m_driverLeft, 2)
-      .whenPressed(() -> m_intake.eject())
-      .whenReleased(() -> m_intake.stop());
-    new JoystickButton(m_driverRight, 2)
-      .whenPressed(() -> m_intake.retrieve())
-      .whenReleased(() -> m_intake.stop());
-
-    /** Climber Controls */
-    /** The Operator's right bumper retracts the climber */
-    new JoystickButton(m_operator, Button.kRightBumper.value)
-      .whenPressed(() -> m_climber.climb(1.0));
-    /** The Operator's left bumper extends the climber */
-    new JoystickButton(m_operator, Button.kLeftBumper.value)
-      .whenPressed(() -> m_climber.climb(-1.0));
   }
 
   /**

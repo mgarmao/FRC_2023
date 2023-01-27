@@ -26,6 +26,12 @@ public class Photon extends SubsystemBase{
     public Photon() {
         SmartDashboard.putNumber("Photon", 0);
     }
+    
+    public double ConeY(){
+        var result = camera.getLatestResult();
+        
+        return 0.0;
+    }
 
     @Override
     public void periodic() {
@@ -58,14 +64,16 @@ public class Photon extends SubsystemBase{
             SmartDashboard.putNumber("targetToCamera Z",targetToCamera.getZ());
 
         }
-        
+    }
+
+
         
 
 
         
 //         // double distanceToTarget = PhotonUtils.getDistanceToPose(robotPose, targetPose);
 
-    }
+
 //     // public void autoAline(){
 //     //     var result = camera.getLatestResult();
 //     //     PhotonTrackedTarget target = result.getBestTarget();

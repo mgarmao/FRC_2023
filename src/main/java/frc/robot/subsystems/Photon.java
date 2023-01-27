@@ -32,6 +32,9 @@ public class Photon extends SubsystemBase{
         var result = camera.getLatestResult();         
         boolean hasTargets = result.hasTargets();
         List<PhotonTrackedTarget> targets = result.getTargets();
+        
+        SmartDashboard.putNumber("Target 1 ID",targets.get(1).getFiducialId());
+        
 
         SmartDashboard.putBoolean("Has Target",hasTargets);
         if(hasTargets){

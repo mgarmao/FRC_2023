@@ -4,8 +4,11 @@
 
 package frc.robot.commands.Drivetrain;
 
+import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+
 import static frc.robot.RobotContainer.*;
 
 import java.time.Duration;
@@ -34,6 +37,9 @@ public class RotateToCone extends CommandBase {
 
   double loopTime = 0.0;
   Duration timeElapsed = Duration.between(Instant.now(), Instant.now());
+
+  PIDController pid = new PIDController(kP, kI, kD);
+
   public void RotateCone() {
   }
 
@@ -46,30 +52,10 @@ public class RotateToCone extends CommandBase {
   @Override
   public void execute() {
     while(true){
-      Instant start = Instant.now();
-      Duration timeElapsed = Duration.between(start, start);
-      start = Instant.now();
-
       error = vision.ConeX();
-
-      P = kP*error;
-      I = preI+kI*error;
-      Instant end = Instant.now();
-      timeElapsed = Duration.between(start, end);
-      D = kD*(pError-error);
-      double PID= P+I+D;
-      
-      if(PID>=1){
-        PID=1;
-      }
-      if(PID<=-1){
-        PID=-1;
-      }
-    
+      double PID = MathUtil.clamp(pid.calculate(error, 0), -1, 1);
       m_drivetrain.tankDrive(PID, -PID);
-      pError=error;
-      SmartDashboard.putNumber("PID",PID);
-      SmartDashboard.putNumber("Millis", timeElapsed.toMillis());
+      SmartDashboard.putNumber("Rotate PID",PID);
     }
   }
 

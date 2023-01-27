@@ -5,7 +5,8 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-
+import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import com.revrobotics.CANSparkMax;
@@ -19,7 +20,12 @@ import frc.robot.Constants;
 public class Climber extends SubsystemBase {
     private CANSparkMax m_climber;
     private RelativeEncoder m_encoder;
-    private double power = 0;
+
+    private double kP = 0.5;
+    private double kI = 0.5;
+    private double kD = 0.5;
+    PIDController pid = new PIDController(kP, kI, kD);
+
     public Climber() {
         m_climber = new CANSparkMax(Constants.CLIMBER, MotorType.kBrushless);
         m_encoder = m_climber.getEncoder();
@@ -32,10 +38,9 @@ public class Climber extends SubsystemBase {
     }
 
     public void climb(double input){
-        if(!(m_encoder.getPosition()<0||m_encoder.getPosition()>80)){
-            m_climber.set(input);   
-            power=input;     
-        }
+        double error = m_encoder.getPosition();
+        double PID = MathUtil.clamp(pid.calculate(error, 0), -1, 1);
+        m_climber.set(PID); 
     }
 
     public void stop() {
@@ -44,9 +49,5 @@ public class Climber extends SubsystemBase {
 
     @Override
     public void periodic() {
-        if(((m_encoder.getPosition()<0)&&power==-1)||((m_encoder.getPosition()>80)&&power==1)){
-            m_climber.stopMotor();
-            power=0;
-        }
     }
 }

@@ -24,6 +24,7 @@ import frc.robot.commands.Gatekeeper.*;
 import frc.robot.commands.Indexer.*;
 import frc.robot.commands.Shooter.*;
 import frc.robot.commands.Autonomous.*;
+import frc.robot.commands.Autonomous.ApriltagAngle;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -54,6 +55,7 @@ public class RobotContainer {
   private final Command FOUR_BALL_AUTO = new FourBallAuto();
   private final Command ONE_BALL_AUTO = new OneBall();
   private final Command RotateToCone = new RotateToCone();
+  private final Command AlignApriltagAngle = new ApriltagAngle();
   private final Command WAIT_NONE = new WaitCommand(0);
   private SendableChooser<Command> m_auto = new SendableChooser<>();
 
@@ -64,6 +66,7 @@ public class RobotContainer {
     m_auto.setDefaultOption("Two Ball", TWO_BALL_AUTO);
     m_auto.addOption("One Ball", ONE_BALL_AUTO);
     m_auto.addOption("Turn TO Cone", RotateToCone);
+    m_auto.addOption("AlignApriltagAngle", AlignApriltagAngle);
     m_auto.addOption("Four Ball", FOUR_BALL_AUTO);
     m_auto.addOption("Do Nothing", WAIT_NONE);
     SmartDashboard.putData("Autonomous Routine", m_auto);
@@ -117,10 +120,10 @@ public class RobotContainer {
     /** Climber Controls */
     /** The Operator's right bumper retracts the climber */
     new JoystickButton(m_operator, Button.kRightBumper.value)
-      .whenPressed(() -> m_climber.climb(1.0));
+    .whenPressed(() -> m_climber.climberUp());
     /** The Operator's left bumper extends the climber */
     new JoystickButton(m_operator, Button.kLeftBumper.value)
-      .whenPressed(() -> m_climber.climb(-1.0));
+      .whenPressed(() -> m_climber.climberDown());
   }
 
   /**

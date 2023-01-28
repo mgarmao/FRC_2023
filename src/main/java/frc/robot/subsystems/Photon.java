@@ -11,12 +11,12 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Photon extends SubsystemBase{
-    PhotonCamera camera = new PhotonCamera("OV5647");//or photonvision
+    PhotonCamera camera = new PhotonCamera("OV5647");
 //     // Angle between horizontal and the camera.
     final double CAMERA_PITCH_RADIANS = Units.degreesToRadians(0);    
     double CAMERA_HEIGHT_METERS = 1;
     double TARGET_HEIGHT_METERS =1;
-
+    double yaw = 0;
     double kCameraHeight = 1;
     double kTargetHeight = 1;
     double kCameraPitch = 1;
@@ -24,13 +24,17 @@ public class Photon extends SubsystemBase{
 //     // AprilTagFieldLayout aprilTagFieldLayout = new AprilTagFieldLayout(AprilTagFieldLayout.loadFromResource(AprilTagFields.k2022RapidReact.m_resourceFile));
 
     public Photon() {
-        SmartDashboard.putNumber("Photon", 0);
+        SmartDashboard.putBoolean("Photon",true);
     }
     
-    public double ConeY(){
-        var result = camera.getLatestResult();
-        
-        return 0.0;
+    public double getYaw(){
+        var result = camera.getLatestResult();         
+        boolean hasTargets = result.hasTargets();        
+        if(hasTargets){
+            PhotonTrackedTarget target = result.getBestTarget();
+            yaw = target.getYaw();
+        }   
+        return yaw;
     }
 
     @Override
@@ -38,12 +42,10 @@ public class Photon extends SubsystemBase{
         var result = camera.getLatestResult();         
         boolean hasTargets = result.hasTargets();
         List<PhotonTrackedTarget> targets = result.getTargets();
-        
-        SmartDashboard.putNumber("Target 1 ID",targets.get(1).getFiducialId());
-        
 
         SmartDashboard.putBoolean("Has Target",hasTargets);
         if(hasTargets){
+            // SmartDashboard.putNumber("Target 1 ID",targets.get(1).getFiducialId());
             PhotonTrackedTarget target = result.getBestTarget();
             double yaw = target.getYaw();
             double pitch = target.getPitch();

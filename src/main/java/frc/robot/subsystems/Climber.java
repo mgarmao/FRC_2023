@@ -21,9 +21,11 @@ public class Climber extends SubsystemBase {
     private CANSparkMax m_climber;
     private RelativeEncoder m_encoder;
 
-    private double kP = 0.5;
-    private double kI = 0.5;
-    private double kD = 0.5;
+    private double kP = 0.06;
+    private double kI = 0.00;
+    private double kD = 0.01;
+    private double ClimberCommanded = 0;
+    double PID = 0;
     PIDController pid = new PIDController(kP, kI, kD);
 
     public Climber() {
@@ -37,10 +39,12 @@ public class Climber extends SubsystemBase {
         m_encoder.setPosition(0);
     }
 
-    public void climb(double input){
-        double error = m_encoder.getPosition();
-        double PID = MathUtil.clamp(pid.calculate(error, 0), -1, 1);
-        m_climber.set(PID); 
+    public void climberDown(){
+        ClimberCommanded = 0;
+    }
+
+    public void climberUp(){
+        ClimberCommanded= 160;
     }
 
     public void stop() {
@@ -49,5 +53,12 @@ public class Climber extends SubsystemBase {
 
     @Override
     public void periodic() {
+        
+        SmartDashboard.putNumber("CLimber Position", m_encoder.getPosition()); 
+        PID = pid.calculate(m_encoder.getPosition(), ClimberCommanded);
+        SmartDashboard.putNumber("Climber PID", PID);
+
+        m_climber.set(PID); 
+        
     }
 }

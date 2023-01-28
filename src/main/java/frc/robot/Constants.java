@@ -21,8 +21,8 @@ public final class Constants {
     //public static final double DRIVER_INPUT_CURVE = 3;
 
     /** Drive Train */
-    public static final int DRIVE_FRONT_LEFT = 9;
-    public static final int DRIVE_REAR_LEFT = 10;
-    public static final int DRIVE_FRONT_RIGHT = 0;
-    public static final int DRIVE_REAR_RIGHT = 19;
+    public static final int DRIVE_FRONT_LEFT = 1;
+    public static final int DRIVE_REAR_LEFT = 5;
+    public static final int DRIVE_FRONT_RIGHT = 4;
+    public static final int DRIVE_REAR_RIGHT = 2; 
 }

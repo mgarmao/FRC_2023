@@ -19,7 +19,7 @@ public class RotateAlignApriltagAngle extends CommandBase {
   double kP = 0.05;
   double kI = 0.0;
   double kD = 0.01;
-
+  double PID = 1;
   PIDController pid = new PIDController(kP, kI, kD);
 
   public void RotateCone() {
@@ -33,9 +33,12 @@ public class RotateAlignApriltagAngle extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double PID = pid.calculate(photon.getYaw(), 15);
-    m_drivetrain.tankDrive(PID, -PID);
-    SmartDashboard.putNumber("Rotate PID",PID);
+    while(PID>=0.1||PID<=0.1){
+      PID = pid.calculate(photon.getYaw(), 15);
+      m_drivetrain.tankDrive(PID, -PID);
+      SmartDashboard.putNumber("Rotate PID",PID);
+    }
+    
   }
 
   // Called once the command ends or is interrupted.

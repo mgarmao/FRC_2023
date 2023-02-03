@@ -21,6 +21,11 @@ public class Photon extends SubsystemBase{
     double kTargetHeight = 1;
     double kCameraPitch = 1;
     double kTargetPitch = 1;
+
+    double xDistance;
+    double yDistance;
+    double zDistance;
+    double h;
 //     // AprilTagFieldLayout aprilTagFieldLayout = new AprilTagFieldLayout(AprilTagFieldLayout.loadFromResource(AprilTagFields.k2022RapidReact.m_resourceFile));
 
     public Photon() {
@@ -35,6 +40,73 @@ public class Photon extends SubsystemBase{
             yaw = target.getYaw();
         }   
         return yaw;
+    }
+
+    public double xDistance(){
+        var result = camera.getLatestResult();         
+        boolean hasTargets = result.hasTargets();        
+        if(hasTargets){
+            PhotonTrackedTarget target = result.getBestTarget();
+            Transform3d targetToCamera = target.getBestCameraToTarget();
+            xDistance = targetToCamera.getX();
+        }
+        else{
+            xDistance = 0;
+        }
+        return xDistance;
+    }
+
+    public double yDistance(){
+        var result = camera.getLatestResult();         
+        boolean hasTargets = result.hasTargets();        
+        if(hasTargets){
+            PhotonTrackedTarget target = result.getBestTarget();
+            Transform3d targetToCamera = target.getBestCameraToTarget();
+            yDistance = targetToCamera.getY();
+        }
+        else{
+            yDistance = 0;
+        }
+        return yDistance;
+    }
+
+    public double hypot(){
+        var result = camera.getLatestResult();         
+        boolean hasTargets = result.hasTargets();        
+        if(hasTargets){
+            PhotonTrackedTarget target = result.getBestTarget();
+            Transform3d targetToCamera = target.getBestCameraToTarget();
+            double y = targetToCamera.getY();
+            double x = targetToCamera.getX();
+            double xSqr = Math.pow(x,2);
+            double ySqr = Math.pow(y,2);
+            double hSqr = xSqr + ySqr;
+            h = Math.sqrt(hSqr);
+        }
+        else{
+            h = 0;
+        }
+        return h;
+    }
+
+    public double zDistance(){
+        var result = camera.getLatestResult();         
+        boolean hasTargets = result.hasTargets();        
+        if(hasTargets){
+            PhotonTrackedTarget target = result.getBestTarget();
+            Transform3d targetToCamera = target.getBestCameraToTarget();
+            zDistance = targetToCamera.getY();
+        }
+        else{
+            zDistance = 0;
+        }
+        return zDistance;
+    }
+
+    public boolean hasTarget(){
+        var result = camera.getLatestResult();         
+        boolean hasTargets = result.hasTargets();        
+        return hasTargets;
     }
 
     @Override

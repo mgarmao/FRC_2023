@@ -48,6 +48,7 @@ public class RobotContainer {
   public static final Climber m_climber = new Climber();
   public static final Gyroscope m_gyro = new Gyroscope();
   public static final Photon m_photon = new Photon();
+  public static final TeleopIndicator TeleopIndicator = new TeleopIndicator();
   public static final Limelight m_limelight = new Limelight();
 
   /** Autonomous Commands */
@@ -63,10 +64,10 @@ public class RobotContainer {
   public RobotContainer() {
 
     /** Autonomous Chooser */
-    m_auto.setDefaultOption("Two Ball", TWO_BALL_AUTO);
+    m_auto.setDefaultOption("AlignApriltagAngle", AlignApriltagAngle);
+    m_auto.addOption("Two Ball", TWO_BALL_AUTO);
     m_auto.addOption("One Ball", ONE_BALL_AUTO);
     m_auto.addOption("Turn TO Cone", RotateToCone);
-    m_auto.addOption("AlignApriltagAngle", AlignApriltagAngle);
     m_auto.addOption("Four Ball", FOUR_BALL_AUTO);
     m_auto.addOption("Do Nothing", WAIT_NONE);
     SmartDashboard.putData("Autonomous Routine", m_auto);

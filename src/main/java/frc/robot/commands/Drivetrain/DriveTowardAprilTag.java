@@ -12,19 +12,20 @@ import static frc.robot.RobotContainer.*;
 
 import frc.robot.subsystems.Photon;
 
-public class RotateAlignApriltagAngle extends CommandBase {
+public class DriveTowardAprilTag extends CommandBase {
     
   Photon photon = new Photon();
 
   double kP = 0.04;
   double kI = 0.0;
   double kD = 0.01;
-  double PID = 1; 
+  double yawPID = 1; 
+  double drive = 0;
+
   double m_setpoint;
   PIDController pid = new PIDController(kP, kI, kD);
 
-  public RotateAlignApriltagAngle(double setpoint) {
-    m_setpoint = setpoint;
+  public DriveTowardAprilTag() {
   }
 
   
@@ -38,19 +39,25 @@ public class RotateAlignApriltagAngle extends CommandBase {
   public void execute() {
     // (PID>=0.05||PID<=-0.05)&&
     while(photon.hasTarget()&&!TeleopIndicator.getTeleopMode()){
-      PID = pid.calculate(photon.getYaw(), m_setpoint);
-      if(PID>=1){
-        PID=1;
-      }
-      if(PID<=-1){
-        PID=-1;
-      }
+      yawPID = pid.calculate(photon.getYaw(), m_setpoint);
       
-      m_drivetrain.tankDrive(-PID, PID);
+      if(yawPID>=1){
+        yawPID=1;
+      }
+
+      if(yawPID<=-1){
+        yawPID=-1;
+      }
+
+      
+
+      drive = 0.3+yawPID;
+      m_drivetrain.tankDrive(-drive, drive);
+      
       SmartDashboard.putBoolean("PID AprilTag",true);
       SmartDashboard.putNumber("yaw",photon.getYaw());
       SmartDashboard.putNumber("Rotate Setpoint",m_setpoint);
-      SmartDashboard.putNumber("Rotate PID",PID);
+      SmartDashboard.putNumber("Yaw PID",yawPID);
     }
   }
 

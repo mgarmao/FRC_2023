@@ -59,6 +59,5 @@ public class Climber extends SubsystemBase {
         SmartDashboard.putNumber("Climber PID", PID);
 
         m_climber.set(PID); 
-        
     }
 }

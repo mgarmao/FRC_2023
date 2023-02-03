@@ -19,7 +19,7 @@ import frc.robot.commands.Drivetrain.*;
 public class ApriltagAngle extends SequentialCommandGroup {
     public ApriltagAngle() {
         addCommands(
-            new RotateAlignApriltagAngle().withTimeout(5)
+            new RotateAlignApriltagAngle(10).withTimeout(10)
         );  
     }
 }

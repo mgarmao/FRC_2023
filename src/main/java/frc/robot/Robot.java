@@ -68,12 +68,11 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during autonomous. */
   @Override
   public void autonomousPeriodic() {
-    
+    TeleopIndicator.teleopDisabled();
   }
 
   @Override
   public void teleopInit() {
-    
     TeleopIndicator.teleopEnabled();
     // This makes sure that the autonomous stops running when
     // teleop starts running. If you want the autonomous to
@@ -86,7 +85,9 @@ public class Robot extends TimedRobot {
 
   /** This function is called periodically during operator control. */
   @Override
-  public void teleopPeriodic() {}
+  public void teleopPeriodic() {
+    TeleopIndicator.teleopEnabled();
+  }
 
   @Override
   public void testInit() {

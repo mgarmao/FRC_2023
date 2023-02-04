@@ -31,25 +31,24 @@ public class RotateAlignApriltagAngle extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    SmartDashboard.putBoolean("Rotate Stage",false);
+    SmartDashboard.putBoolean("Drive Stage",false);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    // 
-    while(photon.hasTarget()&&!TeleopIndicator.getTeleopMode()&&(PID>=0.1||PID<=-0.1)){
-      PID = pid.calculate(photon.getYaw(), m_setpoint);
-      if(PID>=1){
-        PID=1;
+    while(photon.apriltagHasTarget()&&!TeleopIndicator.getTeleopMode()&&(PID>=0.1||PID<=-0.1)){
+      PID = pid.calculate(photon.getApriltagYaw(), m_setpoint);
+      if(PID>=0.6){
+        PID=0.6;
       }
-      if(PID<=-1){
-        PID=-1;
+      if(PID<=-0.6){
+        PID=-0.6;
       }
       
       m_drivetrain.tankDrive(-PID, PID);
-      SmartDashboard.putBoolean("PID AprilTag",true);
-      SmartDashboard.putNumber("yaw",photon.getYaw());
-      SmartDashboard.putNumber("Rotate Setpoint",m_setpoint);
+      SmartDashboard.putBoolean("Rotate Stage",true);
       SmartDashboard.putNumber("Rotate PID",PID);
     }
   }

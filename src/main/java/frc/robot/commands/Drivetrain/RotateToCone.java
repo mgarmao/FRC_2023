@@ -10,29 +10,25 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 
 import static frc.robot.RobotContainer.*;
 
+import frc.robot.subsystems.Photon;
+
 import java.time.Duration;
 import java.time.Instant;
+
+import org.opencv.photo.Photo;
 
 import frc.robot.subsystems.Limelight;
 
 public class RotateToCone extends CommandBase {
-    
-  Limelight vision = new Limelight();
+  Photon photon = new Photon();
 
   double kP = 0.05;
   double kI = 0.0;
   double kD = 0.01;
 
-  double P = 0.0;
-  double I = 0.0;
-  double preI = 0.0;
-  double D = 0.0;
-
-  double error = 0.0;
-  double pError = 0.0;
+  double PID =1;
 
   double loopTime = 0.0;
-  Duration timeElapsed = Duration.between(Instant.now(), Instant.now());
 
   PIDController pid = new PIDController(kP, kI, kD);
 
@@ -47,10 +43,13 @@ public class RotateToCone extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    // double PID = pid.calculate(vision.ConeX(), 0);
-    // m_drivetrain.tankDrive(PID, -PID);
-    // SmartDashboard.putNumber("Rotate PID",PID);
-   
+    //PID>=0.1||PID<=-0.1
+    while(true){
+      SmartDashboard.putNumber("Cone Yaw",photon.getConeYaw());
+      PID = pid.calculate(photon.getConeYaw(), 0);
+      m_drivetrain.tankDrive(PID, -PID);
+      SmartDashboard.putNumber("Rotate PID",PID);
+    }
   }
 
   // Called once the command ends or is interrupted.

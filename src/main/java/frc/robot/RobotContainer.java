@@ -9,8 +9,6 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
-import org.opencv.photo.Photo;
-
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
@@ -24,7 +22,6 @@ import frc.robot.commands.Gatekeeper.*;
 import frc.robot.commands.Indexer.*;
 import frc.robot.commands.Shooter.*;
 import frc.robot.commands.Autonomous.*;
-import frc.robot.commands.Autonomous.ApriltagAngle;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -57,7 +54,7 @@ public class RobotContainer {
   private final Command ONE_BALL_AUTO = new OneBall();
   private final Command RotateToCone = new RotateToCone();
   private final Command AlignApriltagAngle = new ApriltagAngle();
-  private final Command DriveTowardAprilTag = new DriveTowardAprilTag();
+  private final Command DriveTowardAprilTag = new DriveTowardTag();
   private final Command WAIT_NONE = new WaitCommand(0);
   private SendableChooser<Command> m_auto = new SendableChooser<>();
 

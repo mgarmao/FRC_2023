@@ -36,8 +36,8 @@ public class RotateAlignApriltagAngle extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    // (PID>=0.05||PID<=-0.05)&&
-    while(photon.hasTarget()&&!TeleopIndicator.getTeleopMode()){
+    // 
+    while(photon.hasTarget()&&!TeleopIndicator.getTeleopMode()&&(PID>=0.1||PID<=-0.1)){
       PID = pid.calculate(photon.getYaw(), m_setpoint);
       if(PID>=1){
         PID=1;

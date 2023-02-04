@@ -20,7 +20,8 @@ public class DriveTowardAprilTag extends CommandBase {
   double kI = 0.0;
   double kD = 0.01;
   double yawPID = 1; 
-  double drive = 0;
+  double driveLeft = 0;
+  double driveRight = 0;
 
   double m_setpoint;
   PIDController pid = new PIDController(kP, kI, kD);
@@ -49,15 +50,19 @@ public class DriveTowardAprilTag extends CommandBase {
         yawPID=-1;
       }
 
-      
 
-      drive = 0.3+yawPID;
-      m_drivetrain.tankDrive(-drive, drive);
+
+      driveLeft = 0.3-yawPID;
+      driveRight = 0.3+yawPID;
+
+      m_drivetrain.tankDrive(driveLeft, driveRight);
       
       SmartDashboard.putBoolean("PID AprilTag",true);
       SmartDashboard.putNumber("yaw",photon.getYaw());
-      SmartDashboard.putNumber("Rotate Setpoint",m_setpoint);
+      SmartDashboard.putNumber("DriveLeft",driveLeft);
+      SmartDashboard.putNumber("driveRight",driveRight);
       SmartDashboard.putNumber("Yaw PID",yawPID);
+      SmartDashboard.putNumber("hypot",photon.hypot());
     }
   }
 

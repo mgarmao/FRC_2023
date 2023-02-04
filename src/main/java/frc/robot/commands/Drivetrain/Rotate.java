@@ -26,11 +26,11 @@ public class Rotate extends CommandBase {
   @Override
   public void execute() {
     while(m_gyro.getAngle() < (m_initAngle + m_angle)-20) {
-      m_drivetrain.tankDrive(0.7, -0.7);
+      m_drivetrain.tankDrive(0.6, -0.6);
     }
     
     while(m_gyro.getAngle() < m_initAngle + m_angle) {
-      m_drivetrain.tankDrive(0.55, -0.55);
+      m_drivetrain.tankDrive(0.5, -0.5);
     }
   }
 

@@ -57,6 +57,7 @@ public class RobotContainer {
   private final Command ONE_BALL_AUTO = new OneBall();
   private final Command RotateToCone = new RotateToCone();
   private final Command AlignApriltagAngle = new ApriltagAngle();
+  private final Command DriveTowardAprilTag = new DriveTowardAprilTag();
   private final Command WAIT_NONE = new WaitCommand(0);
   private SendableChooser<Command> m_auto = new SendableChooser<>();
 
@@ -66,6 +67,7 @@ public class RobotContainer {
     /** Autonomous Chooser */
     m_auto.setDefaultOption("AlignApriltagAngle", AlignApriltagAngle);
     m_auto.addOption("Two Ball", TWO_BALL_AUTO);
+    m_auto.addOption("DriveToTag", DriveTowardAprilTag);
     m_auto.addOption("One Ball", ONE_BALL_AUTO);
     m_auto.addOption("Turn TO Cone", RotateToCone);
     m_auto.addOption("Four Ball", FOUR_BALL_AUTO);

@@ -2,6 +2,7 @@ package frc.robot.subsystems;
 
 import java.util.List;
 
+import org.opencv.core.Mat;
 import org.photonvision.PhotonCamera;
 import org.photonvision.targeting.PhotonTrackedTarget;
 
@@ -118,6 +119,23 @@ public class Photon extends SubsystemBase{
             yaw = target.getYaw();
         }
         return yaw;
+    }
+
+    public double getAngle(int pipline){
+        camera.setPipelineIndex(pipline);         
+        var result = camera.getLatestResult();
+        boolean hasTargets = result.hasTargets();
+        double angle = 0;
+        if(hasTargets){
+            PhotonTrackedTarget target = result.getBestTarget();
+            Transform3d targetToCamera = target.getBestCameraToTarget();
+            double x = targetToCamera.getX();
+            double y = targetToCamera.getY();
+            double tanTheta = y/x;
+            angle = Math.atan(tanTheta);
+        }
+
+        return angle;
     }
 
     public boolean apriltagHasTarget(){

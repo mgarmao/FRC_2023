@@ -12,13 +12,6 @@ import static frc.robot.RobotContainer.*;
 
 import frc.robot.subsystems.Photon;
 
-import java.time.Duration;
-import java.time.Instant;
-
-import org.opencv.photo.Photo;
-
-import frc.robot.subsystems.Limelight;
-
 public class RotateToCone extends CommandBase {
   Photon photon = new Photon();
 
@@ -49,6 +42,7 @@ public class RotateToCone extends CommandBase {
       PID = pid.calculate(photon.getConeYaw(), 0);
       m_drivetrain.tankDrive(PID, -PID);
       SmartDashboard.putNumber("Rotate PID",PID);
+      SmartDashboard.putNumber("Angle",photon.getAngle(0));
     }
   }
 

@@ -14,7 +14,9 @@ import frc.robot.commands.Drivetrain.*;
 public class DriveTowardTag extends SequentialCommandGroup {
     public DriveTowardTag() {
         addCommands(
-            new DriveKeepingY(-0.7)
+            new MoveDistance(5).alongWith(
+                new DriveKeepingY(-1)
+            )
         );  
     }
 }

@@ -15,8 +15,8 @@ import frc.robot.subsystems.Photon;
 public class DriveKeepingY extends CommandBase {
   Photon photon = new Photon();
 
-  double kP = 0.15;
-  double kI = 0.0;
+  double kP = 0.05;
+  double kI = 0.00;
   double kD = 0.15;
   double distancePID = 1; 
   double driveLeft = 0;
@@ -46,8 +46,18 @@ public class DriveKeepingY extends CommandBase {
         distancePID=-1;
       }
 
-      driveLeft = 0.35+distancePID;
-      driveRight = 0.35-distancePID;
+      if(photon.getApriltagYaw()>=18){
+        driveLeft = 0.5;
+        driveRight = 0.3;
+      }
+      else if (photon.getApriltagYaw()<=-18){
+        driveLeft = 0.3;
+        driveRight = 0.5;
+      }
+      else{
+        driveLeft = 0.5+distancePID;
+        driveRight = 0.5-distancePID;
+      }
 
       m_drivetrain.tankDrive(driveLeft, driveRight);
       

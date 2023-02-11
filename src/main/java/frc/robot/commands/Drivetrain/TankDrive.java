@@ -4,6 +4,8 @@
 
 package frc.robot.commands.Drivetrain;
 
+import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Drivetrain;
 
@@ -28,6 +30,8 @@ public class TankDrive extends CommandBase {
     /** This function is run any time that the command is executed. */
     @Override
     public void execute() {
+        SmartDashboard.putNumber("Left Speed", m_leftSpeed.getAsDouble());
+        SmartDashboard.putNumber("Right Speed", m_rightSpeed.getAsDouble());
         m_drivetrain.tankDrive(m_leftSpeed.getAsDouble(), m_rightSpeed.getAsDouble());
     }
 

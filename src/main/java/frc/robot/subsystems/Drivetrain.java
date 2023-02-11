@@ -8,8 +8,10 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
@@ -20,6 +22,9 @@ public class Drivetrain extends SubsystemBase {
     private CANSparkMax m_motorFrontLeft, m_motorRearLeft, m_motorFrontRight, m_motorRearRight;
     private MotorControllerGroup m_motorsLeft, m_motorsRight;
     private DifferentialDrive m_drivetrain;
+    private RelativeEncoder FL_encoder;
+    boolean movingDistance= false;
+    double distanceToMove;
 
     public Drivetrain() {
         /** Create new objects to control the SPARK MAX motor controllers. */
@@ -57,6 +62,8 @@ public class Drivetrain extends SubsystemBase {
         /** Invert the direction of the right-side speed controllers. */
         m_motorsRight.setInverted(true);
         m_motorsLeft.setInverted(false);
+
+        FL_encoder = m_motorFrontLeft.getEncoder();
     }
 
     /** This function makes use of the driver input to control the robot like a tank. */
@@ -64,6 +71,16 @@ public class Drivetrain extends SubsystemBase {
         /** Set the drivetrain to operate as tank drive. */
         m_drivetrain.tankDrive(leftSpeed, rightSpeed);
     }
+
+    public void moveDistance(double m_distanceToMove){
+        distanceToMove = m_distanceToMove;
+        double encoderStartPos = FL_encoder.getPosition();
+        while(FL_encoder.getPosition()-encoderStartPos<=distanceToMove){
+            tankDrive(0.5, 0.5);
+            SmartDashboard.putNumber("FL Position", FL_encoder.getPosition()); 
+            SmartDashboard.putNumber("FL Adjusted Pos", FL_encoder.getPosition()-encoderStartPos); 
+        }
+    }   
 
     /** This function is called once each time the the command ends or is interrupted. */
     public void stop() {
@@ -75,8 +92,8 @@ public class Drivetrain extends SubsystemBase {
     }
 
     @Override
-    public void periodic() {
-        // This method will be called once per scheduler run
+    public void periodic() {        
+        SmartDashboard.putNumber("FL Position", FL_encoder.getPosition()); 
     }
 
 }

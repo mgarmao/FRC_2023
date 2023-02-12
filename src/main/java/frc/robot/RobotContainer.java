@@ -6,6 +6,7 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
@@ -133,5 +134,9 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     return m_auto.getSelected();
+  }
+
+  public void configureAutoCommands(){
+    AUTO_EVENT_MAP.put("EVENT1", new PrintCommand("PASS MARKER 1"));
   }
 }

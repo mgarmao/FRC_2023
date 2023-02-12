@@ -135,8 +135,4 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     return m_auto.getSelected();
   }
-
-  public void configureAutoCommands(){
-    AUTO_EVENT_MAP.put("EVENT1", new PrintCommand("PASS MARKER 1"));
-  }
 }

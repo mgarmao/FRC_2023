@@ -57,8 +57,9 @@ public class RobotContainer {
     m_drivetrain.setDefaultCommand(
       new TankDrive(
         m_drivetrain,
-        () -> -1 * Math.pow(m_driverLeft.getY(),Constants.JOYSTICK_CURVE),
-        () -> -1 * Math.pow(m_driverRight.getY(),Constants.JOYSTICK_CURVE)
+        () -> -1 * Math.pow(m_driverRight.getY(),Constants.JOYSTICK_CURVE),
+        () -> -1 * Math.pow(m_driverLeft
+        .getY(),Constants.JOYSTICK_CURVE)
       )
     );
 

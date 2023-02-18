@@ -27,11 +27,11 @@ public class Drivetrain extends SubsystemBase {
     boolean movingDistance= false;
     double distanceToMove;
 
-    double kP0 = 0.025;
+    double kP0 = 0.02;
     double kI0 = 0.0;
     double kD0 = 0.04;
 
-    double kP1 = 0.05;
+    double kP1 = 0.025;
     double kI1 = 0.0;
     double kD1 = 0.01;
   

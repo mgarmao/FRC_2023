@@ -8,10 +8,13 @@ import frc.robot.commands.Drivetrain.*;
 public class DriveTowardTag extends SequentialCommandGroup {
     public DriveTowardTag() {
         addCommands(
-            new MoveDistance(24).alongWith(
-                new DriveKeepingY(-1)
-            )
+            new MoveDistance(24).withTimeout(0),
+            new Rotate(90).withTimeout(0),
+            new MoveDistance(24).withTimeout(0),
+            new Rotate(90).withTimeout(0),new MoveDistance(24).withTimeout(0),
+            new Rotate(90).withTimeout(0),new MoveDistance(24).withTimeout(0),
+            new Rotate(90).withTimeout(0)
         );  
     }
-    
+
 }

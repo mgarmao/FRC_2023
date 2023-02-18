@@ -34,6 +34,9 @@ public final class Constants {
     public static final int DRIVE_REAR_LEFT = 1;
     public static final int DRIVE_FRONT_RIGHT = 4;
     public static final int DRIVE_REAR_RIGHT = 2;
+
+    public static final int DRIVETRAIN_GEAR_RATIO = 9;
+    public static final double WHEEL_CIRCUMFRANCE = 12.57;
     
     /** Intake */
     public static final int INTAKE_MOTOR_LEFT = 5;

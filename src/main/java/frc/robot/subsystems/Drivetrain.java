@@ -5,8 +5,9 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import static frc.robot.RobotContainer.*;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -25,6 +26,17 @@ public class Drivetrain extends SubsystemBase {
     private RelativeEncoder FL_encoder;
     boolean movingDistance= false;
     double distanceToMove;
+
+    double kP0 = 0.025;
+    double kI0 = 0.0;
+    double kD0 = 0.04;
+
+    double kP1 = 0.05;
+    double kI1 = 0.0;
+    double kD1 = 0.01;
+  
+    PIDController driveToDistancePID = new PIDController(kP0, kI0, kD0);
+    PIDController keepAnglePID = new PIDController(kP1, kI1, kD1);
 
     public Drivetrain() {
         /** Create new objects to control the SPARK MAX motor controllers. */
@@ -72,13 +84,29 @@ public class Drivetrain extends SubsystemBase {
         m_drivetrain.tankDrive(leftSpeed, rightSpeed);
     }
 
-    public void moveDistance(double m_distanceToMove){
+    public void moveDistance(double m_distanceToMove, int gearRatio, double wheelCircumfrance){
         distanceToMove = m_distanceToMove;
         double encoderStartPos = FL_encoder.getPosition();
-        while(FL_encoder.getPosition()-encoderStartPos<=distanceToMove){
-            tankDrive(0.5, 0.5);
+        double initAngle = m_gyro.getAngle();
+
+        while(((FL_encoder.getPosition()-encoderStartPos)/gearRatio)*wheelCircumfrance<=distanceToMove){
+            double anglePID = keepAnglePID.calculate(initAngle,m_gyro.getAngle());
+            double distancePID = driveToDistancePID.calculate(((FL_encoder.getPosition()-encoderStartPos)/gearRatio), distanceToMove);
+
+            SmartDashboard.putNumber("Move FWRD PID", distancePID);
+            if(distancePID>0.5){
+                distancePID = 0.5;
+            }
+            if(distancePID<-0.5){
+                distancePID = -0.5;
+            }
+
+            double driveLeft = distancePID-anglePID;
+            double driveRight = distancePID+anglePID;
+
+            tankDrive(driveLeft, driveRight);
             SmartDashboard.putNumber("FL Position", FL_encoder.getPosition()); 
-            SmartDashboard.putNumber("FL Adjusted Pos", FL_encoder.getPosition()-encoderStartPos); 
+            SmartDashboard.putNumber("distance driven", ((FL_encoder.getPosition()-encoderStartPos)/gearRatio)*wheelCircumfrance); 
         }
     }   
 

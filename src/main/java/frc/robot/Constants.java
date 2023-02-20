@@ -27,4 +27,7 @@ public final class Constants {
     public static final int DRIVE_REAR_LEFT = 5;
     public static final int DRIVE_FRONT_RIGHT = 4;
     public static final int DRIVE_REAR_RIGHT = 2; 
+
+    /** Drive Train */
+    public static final int ELEVATOR = 10;
 }

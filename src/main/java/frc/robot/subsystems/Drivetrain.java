@@ -1,25 +1,37 @@
-// Copyright (c) FIRST and other WPILib contributors.
-// Open Source Software; you can modify and/or share it under the terms of
-// the WPILib BSD license file in the root directory of this project.
-
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import static frc.robot.RobotContainer.*;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import frc.robot.Constants;
 
 public class Drivetrain extends SubsystemBase {
-
     private CANSparkMax m_motorFrontLeft, m_motorRearLeft, m_motorFrontRight, m_motorRearRight;
     private MotorControllerGroup m_motorsLeft, m_motorsRight;
     private DifferentialDrive m_drivetrain;
+    private RelativeEncoder FL_encoder;
+    boolean movingDistance= false;
+    double distanceToMove;
+
+    double kP0 = 0.02;
+    double kI0 = 0.0;
+    double kD0 = 0.04;
+
+    double kP1 = 0.025;
+    double kI1 = 0.0;
+    double kD1 = 0.01;
+  
+    PIDController driveToDistancePID = new PIDController(kP0, kI0, kD0);
+    PIDController keepAnglePID = new PIDController(kP1, kI1, kD1);
 
     public Drivetrain() {
         /** Create new objects to control the SPARK MAX motor controllers. */
@@ -57,6 +69,9 @@ public class Drivetrain extends SubsystemBase {
         /** Invert the direction of the right-side speed controllers. */
         m_motorsRight.setInverted(false);
         m_motorsLeft.setInverted(true);
+        
+        // m_motorFrontLeft.getEncoder().setInverted(true);
+        FL_encoder = m_motorFrontLeft.getEncoder();
     }
 
     /** This function makes use of the driver input to control the robot like a tank. */
@@ -64,6 +79,32 @@ public class Drivetrain extends SubsystemBase {
         /** Set the drivetrain to operate as tank drive. */
         m_drivetrain.tankDrive(leftSpeed, rightSpeed);
     }
+
+    public void moveDistance(double m_distanceToMove, int gearRatio, double wheelCircumfrance){
+        distanceToMove = m_distanceToMove;
+        double encoderStartPos = FL_encoder.getPosition();
+        double initAngle = m_gyro.getAngle();
+
+        while(((-FL_encoder.getPosition()-encoderStartPos)/gearRatio)*wheelCircumfrance<=distanceToMove){
+            double anglePID = keepAnglePID.calculate(initAngle,m_gyro.getAngle());
+            double distancePID = driveToDistancePID.calculate(((FL_encoder.getPosition()-encoderStartPos)/gearRatio), distanceToMove);
+
+            SmartDashboard.putNumber("Move FWRD PID", distancePID);
+            if(distancePID>0.5){
+                distancePID = 0.5;
+            }
+            if(distancePID<-0.5){
+                distancePID = -0.5;
+            }
+
+            double driveLeft = distancePID+anglePID;
+            double driveRight = distancePID-anglePID;
+
+            tankDrive(driveLeft, driveRight);
+            SmartDashboard.putNumber("FL Position", FL_encoder.getPosition()); 
+            SmartDashboard.putNumber("distance driven", ((FL_encoder.getPosition()-encoderStartPos)/gearRatio)*wheelCircumfrance); 
+        }
+    }   
 
     /** This function is called once each time the the command ends or is interrupted. */
     public void stop() {
@@ -75,8 +116,8 @@ public class Drivetrain extends SubsystemBase {
     }
 
     @Override
-    public void periodic() {
-        // This method will be called once per scheduler run
+    public void periodic() {        
+        SmartDashboard.putNumber("FL Position", FL_encoder.getPosition()); 
     }
 
 }

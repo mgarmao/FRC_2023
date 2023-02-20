@@ -35,19 +35,20 @@ public class RobotContainer {
 
   /** Robot Components */
   public static final Drivetrain m_drivetrain = new Drivetrain();
-  
-
+  public static final Gyroscope m_gyro = new Gyroscope();
 
   private final Command WAIT_NONE = new WaitCommand(0);
+  private final Command Square = new Square();
   private SendableChooser<Command> m_auto = new SendableChooser<>();
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
 
     /** Autonomous Chooser */
-
+    m_auto.setDefaultOption("Square", Square);
     m_auto.addOption("Do Nothing", WAIT_NONE);
     SmartDashboard.putData("Autonomous Routine", m_auto);
+    
 
     /** Configure the button bindings */
     configureButtonBindings();
@@ -58,8 +59,7 @@ public class RobotContainer {
       new TankDrive(
         m_drivetrain,
         () -> -1 * Math.pow(m_driverRight.getY(),Constants.JOYSTICK_CURVE),
-        () -> -1 * Math.pow(m_driverLeft
-        .getY(),Constants.JOYSTICK_CURVE)
+        () -> -1 * Math.pow(m_driverLeft.getY(),Constants.JOYSTICK_CURVE)
       )
     );
 

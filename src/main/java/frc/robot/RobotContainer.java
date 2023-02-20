@@ -36,6 +36,7 @@ public class RobotContainer {
   /** Robot Components */
   public static final Drivetrain m_drivetrain = new Drivetrain();
   public static final Gyroscope m_gyro = new Gyroscope();
+  public static final TeleopIndicator TeleopIndicator = new TeleopIndicator();
 
   private final Command WAIT_NONE = new WaitCommand(0);
   private final Command Square = new Square();

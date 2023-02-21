@@ -28,6 +28,10 @@ public final class Constants {
     public static final int DRIVE_FRONT_RIGHT = 4;
     public static final int DRIVE_REAR_RIGHT = 2; 
 
+    //** Intake Motor */
+    public static final int INTAKE_WHEELS = 2;//xxxx 
+    public static final double INTAKE_SPEED = 0.3; //xxxx
+
     /** Drive Train */
-    public static final int ELEVATOR = 10;
+    public static final int ELEVATOR = 10;//xxxxx
 }

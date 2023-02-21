@@ -36,6 +36,7 @@ public class RobotContainer {
   /** Robot Components */
   public static final Drivetrain m_drivetrain = new Drivetrain();
   public static final Gyroscope m_gyro = new Gyroscope();
+  public static final IntakeWheels IntakeWheels = new IntakeWheels();
   public static final TeleopIndicator TeleopIndicator = new TeleopIndicator();
 
   private final Command WAIT_NONE = new WaitCommand(0);
@@ -76,7 +77,12 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    
+    new JoystickButton(m_driverLeft, 2)
+      .whenPressed(() -> IntakeWheels.eject())
+      .whenReleased(() -> IntakeWheels.stop());
+    new JoystickButton(m_driverRight, 2)
+      .whenPressed(() -> IntakeWheels.retrieve())
+      .whenReleased(() -> IntakeWheels.stop());
   }
 
   /**

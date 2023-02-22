@@ -36,7 +36,7 @@ public class RobotContainer {
   /** Robot Components */
   public static final Drivetrain m_drivetrain = new Drivetrain();
   public static final Gyroscope m_gyro = new Gyroscope();
-  public static final IntakeWheels IntakeWheels = new IntakeWheels();
+  public static final Intake Intake = new Intake();
   public static final TeleopIndicator TeleopIndicator = new TeleopIndicator();
 
   private final Command WAIT_NONE = new WaitCommand(0);
@@ -77,12 +77,17 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
+    //open/close the intake with Trigger on Driver Joystick
+    new JoystickButton(m_driverLeft, 1).whenPressed(() -> Intake.toggle());
+    new JoystickButton(m_driverRight, 1).whenPressed(() -> Intake.toggle());
+
+    //Sets intake to run depending on left or right driver thumb button
     new JoystickButton(m_driverLeft, 2)
-      .whenPressed(() -> IntakeWheels.eject())
-      .whenReleased(() -> IntakeWheels.stop());
+      .whenPressed(() -> Intake.eject())
+      .whenReleased(() -> Intake.stop());
     new JoystickButton(m_driverRight, 2)
-      .whenPressed(() -> IntakeWheels.retrieve())
-      .whenReleased(() -> IntakeWheels.stop());
+      .whenPressed(() -> Intake.retrieve())
+      .whenReleased(() -> Intake.stop());
   }
 
   /**

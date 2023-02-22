@@ -34,4 +34,6 @@ public final class Constants {
 
     /** Drive Train */
     public static final int ELEVATOR = 10;//xxxxx
+
+    public static final int [] INTAKE_SOLENOID = new int[] {2, 1};
 }

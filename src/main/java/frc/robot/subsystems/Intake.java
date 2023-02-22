@@ -5,10 +5,10 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
-import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
+import edu.wpi.first.wpilibj.Solenoid;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
@@ -16,10 +16,10 @@ import com.revrobotics.CANSparkMax.IdleMode;
 
 import frc.robot.Constants;
 
-public class IntakeWheels extends SubsystemBase {
+public class Intake extends SubsystemBase {
     private CANSparkMax motor;
-
-    public IntakeWheels() {
+    DoubleSolenoid intakeSolenoid;
+    public Intake() {
         /** Create a new object to control the SPARK MAX motor controllers. */
         motor = new CANSparkMax(Constants.INTAKE_WHEELS, MotorType.kBrushless);
         /**
@@ -34,8 +34,9 @@ public class IntakeWheels extends SubsystemBase {
          * its own rate. 
          */
         motor.setIdleMode(IdleMode.kCoast);
-
-
+        
+        intakeSolenoid = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, Constants.INTAKE_SOLENOID[0], Constants.INTAKE_SOLENOID[1]);
+        intakeSolenoid.set(Value.kReverse);
     }
 
     /** Retrieve cargo for transportation. */
@@ -51,6 +52,23 @@ public class IntakeWheels extends SubsystemBase {
     /** This function is called once each time the the command ends or is interrupted. */
     public void stop() {
         motor.stopMotor();
+    }
+
+    public void toggle() {
+        /**
+         * If the solenoid is set to forward, it'll be set to reverse. If the solenoid is set 
+         * to reverse, it'll be set to forward. If the solenoid is set to off, nothing happens.
+         */
+        intakeSolenoid.toggle();
+    }
+    
+    public void close() {
+        intakeSolenoid.set(Value.kReverse);
+    }
+
+    /** Set the state of the intake arms to extend. */
+    public void open() {
+        intakeSolenoid.set(Value.kForward);
     }
 
     /** This method will be called once per scheduler run. */

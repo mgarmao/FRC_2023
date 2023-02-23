@@ -83,10 +83,10 @@ public class Drivetrain extends SubsystemBase {
     public void moveDistance(double m_distanceToMove, int gearRatio, double wheelCircumfrance){
         distanceToMove = m_distanceToMove;
         double encoderStartPos = FL_encoder.getPosition();
-        double initAngle = m_gyro.getAngle();
+        double initAngle = gyro.getYaw();
 
         while(((-FL_encoder.getPosition()-encoderStartPos)/gearRatio)*wheelCircumfrance<=distanceToMove){
-            double anglePID = keepAnglePID.calculate(initAngle,m_gyro.getAngle());
+            double anglePID = keepAnglePID.calculate(initAngle,gyro.getYaw());
             double distancePID = driveToDistancePID.calculate(((FL_encoder.getPosition()-encoderStartPos)/gearRatio), distanceToMove);
 
             SmartDashboard.putNumber("Move FWRD PID", distancePID);

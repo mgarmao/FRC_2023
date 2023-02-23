@@ -28,14 +28,14 @@ public class Rotate extends CommandBase {
   @Override
   public void execute() {
     double drive = 1;
-    m_initAngle = m_gyro.getAngle();
-    while(m_gyro.getAngle()<(inputAngle+m_initAngle)){
-      drive = pid.calculate(m_gyro.getAngle(),inputAngle+m_initAngle);
+    m_initAngle = gyro.getYaw();
+    while(gyro.getYaw()<(inputAngle+m_initAngle)){
+      drive = pid.calculate(gyro.getYaw(),inputAngle+m_initAngle);
       if(drive>0.6){
         drive=0.6;
       }
       SmartDashboard.putNumber("ROTATE PID", drive);
-      SmartDashboard.putNumber("Gyroscope (Degrees)", m_gyro.getAngle());
+      SmartDashboard.putNumber("Gyroscope (Degrees)", gyro.getYaw());
       SmartDashboard.putNumber("Ending Angle", (inputAngle+m_initAngle)-2);
       m_drivetrain.tankDrive(drive, -drive);
     }

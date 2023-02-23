@@ -17,8 +17,8 @@ public class Gyroscope extends SubsystemBase {
   public Gyroscope() {
     SmartDashboard.putNumber("Gyroscope (Degrees)", 0);
     try {
-      SmartDashboard.putBoolean("Gyro", true);
       gyro = new AHRS(SPI.Port.kMXP); 
+      SmartDashboard.putBoolean("Gyro", true);
     } catch (RuntimeException ex ) {
       SmartDashboard.putBoolean("Gyro", false);
     }

@@ -36,7 +36,8 @@ public final class Constants {
     public static final int ELEVATOR_LEFT = 6;//xxxxx
     public static final int ELEVATOR_RIGHT = 7;//xxxxx
     public static final double ELEVATOR_POWER = 0.3;//xxxxx
-    
+    public static final float ELEVATOR_LOWER_LIMIT = -125;//xxxxx
+    public static final float ELEVATOR_UPPER_LIMIT = 0;//xxxxx
 
     public static final int [] INTAKE_SOLENOID = new int[] {2, 1};
 }

@@ -84,8 +84,12 @@ public class RobotContainer {
     new JoystickButton(m_driverRight, 1).whenPressed(() -> Intake.toggle());
 
     //Raise and lower 
-    new JoystickButton(m_operator, Button.kRightBumper.value).whenPressed(() -> Elevator.extend());
-    new JoystickButton(m_operator, Button.kLeftBumper.value).whenPressed(() -> Elevator.retract());
+    new JoystickButton(m_operator, Button.kRightBumper.value)
+    .whenPressed(() -> Elevator.extend())
+    .whenReleased(() -> Elevator.stop());
+    new JoystickButton(m_operator, Button.kLeftBumper.value)
+    .whenPressed(() -> Elevator.retract())
+    .whenReleased(() -> Elevator.stop());
   
     //Sets intake to run depending on left or right driver thumb button
     new JoystickButton(m_driverLeft, 2)

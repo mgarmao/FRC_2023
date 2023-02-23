@@ -38,6 +38,8 @@ public class RobotContainer {
   public static final Gyroscope m_gyro = new Gyroscope();
   public static final Intake Intake = new Intake();
   public static final TeleopIndicator TeleopIndicator = new TeleopIndicator();
+  public static final Elevator Elevator = new Elevator();
+
 
   private final Command WAIT_NONE = new WaitCommand(0);
   private final Command Square = new Square();
@@ -81,6 +83,10 @@ public class RobotContainer {
     new JoystickButton(m_driverLeft, 1).whenPressed(() -> Intake.toggle());
     new JoystickButton(m_driverRight, 1).whenPressed(() -> Intake.toggle());
 
+    //Raise and lower 
+    new JoystickButton(m_operator, Button.kRightBumper.value).whenPressed(() -> Elevator.extend());
+    new JoystickButton(m_operator, Button.kLeftBumper.value).whenPressed(() -> Elevator.retract());
+  
     //Sets intake to run depending on left or right driver thumb button
     new JoystickButton(m_driverLeft, 2)
       .whenPressed(() -> Intake.eject())

@@ -32,8 +32,11 @@ public final class Constants {
     public static final int INTAKE_WHEELS = 3; 
     public static final double INTAKE_SPEED = 1; //Subject to Josh
 
-    /** Drive Train */
-    public static final int ELEVATOR = 10;//xxxxx
+    /** Elevator */
+    public static final int ELEVATOR_LEFT = 6;//xxxxx
+    public static final int ELEVATOR_RIGHT = 7;//xxxxx
+    public static final double ELEVATOR_POWER = 0.3;//xxxxx
+    
 
     public static final int [] INTAKE_SOLENOID = new int[] {2, 1};
 }

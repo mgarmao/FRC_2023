@@ -17,8 +17,8 @@ import com.revrobotics.RelativeEncoder;
 import frc.robot.Constants;
 
 public class Elevator extends SubsystemBase {
-    private CANSparkMax elevator;
-    private RelativeEncoder encoder;
+    private CANSparkMax elevatorLeft,elevatorRight;
+    private RelativeEncoder encoderLeft;
 
     private double kP = 0.06;
     private double kI = 0.00;
@@ -28,35 +28,49 @@ public class Elevator extends SubsystemBase {
     PIDController pid = new PIDController(kP, kI, kD);
 
     public Elevator() {
-        elevator = new CANSparkMax(Constants.ELEVATOR, MotorType.kBrushless);
-        encoder = elevator.getEncoder();
-        elevator.setIdleMode(IdleMode.kBrake);
+        elevatorLeft = new CANSparkMax(Constants.ELEVATOR_LEFT, MotorType.kBrushless);
+        elevatorRight = new CANSparkMax(Constants.ELEVATOR_RIGHT, MotorType.kBrushless);
+        encoderLeft = elevatorLeft.getEncoder();
+        
+        
+        
+        elevatorLeft.restoreFactoryDefaults();
+        elevatorRight.restoreFactoryDefaults();
+
+        elevatorLeft.follow(elevatorRight, true);
         // elevator.setSoftLimit(SoftLimitDirection.kForward, -180);
         // elevator.setSoftLimit(SoftLimitDirection.kReverse, 0);
         // elevator.enableSoftLimit(SoftLimitDirection.kForward, false);
         // elevator.enableSoftLimit(SoftLimitDirection.kReverse, false);
-        encoder.setPosition(0);
+        
+        elevatorLeft.setIdleMode(IdleMode.kBrake);
+        elevatorRight.setIdleMode(IdleMode.kBrake);
+        
+        encoderLeft.setPosition(0);
     }
 
     public void retract(){
         elevatorCommanded = 0;
+        elevatorRight.set(-Constants.ELEVATOR_POWER);
     }
 
     public void extend(){
-        elevatorCommanded = 160;
+        // elevatorCommanded = 160;
+        elevatorRight.set(Constants.ELEVATOR_POWER); 
     }
 
     public void stop() {
-        elevator.stopMotor();
+        elevatorLeft.stopMotor();
+        elevatorRight.stopMotor();
     }
 
     @Override
     public void periodic() {
         
-        SmartDashboard.putNumber("CLimber Position", encoder.getPosition()); 
-        PID = pid.calculate(encoder.getPosition(), elevatorCommanded);
-        SmartDashboard.putNumber("Climber PID", PID);
+        // SmartDashboard.putNumber("CLimber Position", encoder.getPosition()); 
+        // PID = pid.calculate(encoder.getPosition(), elevatorCommanded);
+        // SmartDashboard.putNumber("Climber PID", PID);
 
-        elevator.set(PID); 
+        // elevator.set(PID); 
     }
 }

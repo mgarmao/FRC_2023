@@ -74,7 +74,7 @@ public class Drivetrain extends SubsystemBase {
         FL_encoder = m_motorFrontLeft.getEncoder();
     }
 
-    /** This function makes use of the driver input to control the robot like a tank. */
+    /** This function makes use of the driver input to control the robot like a tank. */ 
     public void tankDrive(double leftSpeed, double rightSpeed) {
         /** Set the drivetrain to operate as tank drive. */
         m_drivetrain.tankDrive(leftSpeed, rightSpeed);

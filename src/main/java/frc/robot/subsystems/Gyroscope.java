@@ -9,7 +9,6 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.SPI;
 
-import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Gyroscope extends SubsystemBase {
@@ -37,7 +36,7 @@ public class Gyroscope extends SubsystemBase {
   public double getRoll() {
     return gyro.getRoll();
   }
-  
+
   @Override
   public void periodic() {
     // This method will be called once per scheduler run

@@ -5,25 +5,42 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+
+import com.kauailabs.navx.frc.AHRS;
+import edu.wpi.first.wpilibj.SPI;
+
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Gyroscope extends SubsystemBase {
-  private ADXRS450_Gyro m_gyro;
+  AHRS gyro;
+
   public Gyroscope() {
-    m_gyro = new ADXRS450_Gyro();
-    m_gyro.reset();
-    m_gyro.calibrate();
     SmartDashboard.putNumber("Gyroscope (Degrees)", 0);
+    try {
+      SmartDashboard.putBoolean("Gyro", true);
+      gyro = new AHRS(SPI.Port.kMXP); 
+    } catch (RuntimeException ex ) {
+      SmartDashboard.putBoolean("Gyro", false);
+    }
+    gyro.reset();
+    gyro.calibrate();
   }
 
-  public double getAngle() {
-    return m_gyro.getAngle();
+  public double getYaw() {
+    return gyro.getAngle();
   }
 
+  public double getPitch() {
+    return gyro.getPitch();
+  }
+  public double getRoll() {
+    return gyro.getRoll();
+  }
+  
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    SmartDashboard.putNumber("Gyroscope (Degrees)", m_gyro.getAngle());
+    SmartDashboard.putNumber("Gyroscope (Degrees)", gyro.getAngle());
   }
 }

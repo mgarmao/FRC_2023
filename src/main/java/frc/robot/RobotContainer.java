@@ -36,6 +36,7 @@ public class RobotContainer {
   /** Robot Components */
   public static final Drivetrain m_drivetrain = new Drivetrain();
   public static final Gyroscope gyro = new Gyroscope();
+  public static final LEDs LEDs = new LEDs();
   public static final Intake Intake = new Intake();
   public static final TeleopIndicator TeleopIndicator = new TeleopIndicator();
   public static final Elevator Elevator = new Elevator();

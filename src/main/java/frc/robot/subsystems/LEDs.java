@@ -4,19 +4,33 @@ import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class LEDs extends SubsystemBase {
-    private final SerialPort arduino = new SerialPort(9600, SerialPort.Port.kUSB1); // initialize serial port for Arduino on USB1 port
 
-    public LEDs() {
-    }    
+  private SerialPort serial;
+  private String buffer;
 
-    /** This method will be called once per scheduler run. */
-    @Override
-    public void periodic() {
-        if (arduino.getBytesReceived() > 0) { // check if there is any data available on the serial port
-            String data = arduino.readString(); // read the data from the serial port
-            int value = Integer.parseInt(data.trim()); // convert the data to an integer
-            System.out.println("Received value from Arduino: " + value); // print the received value to the console
-        }
+  public LEDs() {
+    serial = new SerialPort(9600, SerialPort.Port.kUSB);
+    buffer = "";
+  }
+
+  public void sendData(String data) {
+    serial.writeString(data + "\n");
+  }
+
+  public String receiveData() {
+    String receivedData = buffer + serial.readString();
+    String[] messages = receivedData.split("\n");
+    if (messages.length > 1) {
+      buffer = messages[messages.length - 1];
+      return messages[0];
+    } else {
+      buffer = receivedData;
+      return null;
     }
+  }
+  
+  @Override
+  public void periodic() {
+    receiveData();
+  }
 }
-

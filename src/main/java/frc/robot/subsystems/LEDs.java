@@ -1,36 +1,35 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.SerialPort;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class LEDs extends SubsystemBase {
 
-  private SerialPort serial;
-  private String buffer;
+  private SerialPort serialPort;
 
   public LEDs() {
-    serial = new SerialPort(9600, SerialPort.Port.kUSB);
-    buffer = "";
+    serialPort = new SerialPort(9600, SerialPort.Port.kUSB); // Initialize serial communication at 9600 baud over USB
   }
 
-  public void sendData(String data) {
-    serial.writeString(data + "\n");
-  }
-
-  public String receiveData() {
-    String receivedData = buffer + serial.readString();
-    String[] messages = receivedData.split("\n");
-    if (messages.length > 1) {
-      buffer = messages[messages.length - 1];
-      return messages[0];
-    } else {
-      buffer = receivedData;
-      return null;
-    }
+  public void sendData() {
+    byte data = 1; // Define the integer value to send as a byte
+    byte[] buffer = new byte[] { data }; // Create a byte array with the data to send
+    serialPort.write(buffer, buffer.length); // Write the byte array to the serial port
+    SmartDashboard.putBoolean("Writing Data",true);
+    SmartDashboard.putString("Data From Arduino:",serialPort.readString());
   }
   
-  @Override
-  public void periodic() {
-    receiveData();
+  public void sendData2(){
+    byte data = 2; // Define the integer value to send as a byte
+    byte[] buffer = new byte[] { data }; // Create a byte array with the data to send
+    serialPort.write(buffer, buffer.length); // Write the byte array to the serial port
+    SmartDashboard.putBoolean("Writing Data",true);
+    SmartDashboard.putString("Data From Arduino:",serialPort.readString());
   }
+    @Override
+    public void periodic() {
+    
+    }
 }

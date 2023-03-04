@@ -99,6 +99,12 @@ public class RobotContainer {
     new JoystickButton(m_driverRight, 2)
       .whenPressed(() -> Intake.retrieve())
       .whenReleased(() -> Intake.stop());
+
+    new JoystickButton(m_operator, Button.kA.value)
+    .whenPressed(()->LEDs.sendData());
+
+    new JoystickButton(m_operator, Button.kB.value)
+    .whenPressed(()->LEDs.sendData2());
   }
 
   /**

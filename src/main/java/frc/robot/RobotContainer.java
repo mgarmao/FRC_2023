@@ -105,6 +105,13 @@ public class RobotContainer {
     new JoystickButton(m_operator, Button.kB.value)
     .whenPressed(()->LEDs.sendData2());
 
+    new JoystickButton(m_operator, Button.kY.value)
+    .whenPressed(()->arm.extend())
+    .whenReleased(()->arm.stop());
+    
+    new JoystickButton(m_operator, Button.kX.value)
+    .whenPressed(()->arm.retract())
+    .whenReleased(()->arm.stop());
   }
 
   /**

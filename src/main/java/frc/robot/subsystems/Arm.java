@@ -44,7 +44,7 @@ public class Arm extends SubsystemBase {
         armEncoder.setPosition(0);    
     }
 
-    public void armController(int direction){
+    public void armControl(double speed){
 
     }
 
@@ -72,7 +72,6 @@ public class Arm extends SubsystemBase {
         // if(XboxController.Button.kLeftStick.value<=0){
         //     retract();
         // }
-        // SmartDashboard.putNumber("Left Stick", XboxController.Button.kLeftStick.value); 
         
         // SmartDashboard.putNumber("CLimber Position", encoder.getPosition()); 
         // PID = pid.calculate(encoder.getPosition(), elevatorCommanded);

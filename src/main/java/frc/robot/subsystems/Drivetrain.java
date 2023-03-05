@@ -89,7 +89,7 @@ public class Drivetrain extends SubsystemBase {
             double anglePID = keepAnglePID.calculate(initAngle,gyro.getYaw());
             double distancePID = driveToDistancePID.calculate(((FL_encoder.getPosition()-encoderStartPos)/gearRatio), distanceToMove);
 
-            SmartDashboard.putNumber("Move FWRD PID", distancePID);
+            // SmartDashboard.putNumber("Move FWRD PID", distancePID);
             if(distancePID>0.5){
                 distancePID = 0.5;
             }
@@ -101,8 +101,8 @@ public class Drivetrain extends SubsystemBase {
             double driveRight = distancePID-anglePID;
 
             tankDrive(driveLeft, driveRight);
-            SmartDashboard.putNumber("FL Position", FL_encoder.getPosition()); 
-            SmartDashboard.putNumber("distance driven", ((FL_encoder.getPosition()-encoderStartPos)/gearRatio)*wheelCircumfrance); 
+            // SmartDashboard.putNumber("FL Position", FL_encoder.getPosition()); 
+            // SmartDashboard.putNumber("distance driven", ((FL_encoder.getPosition()-encoderStartPos)/gearRatio)*wheelCircumfrance); 
         }
     }   
 
@@ -121,7 +121,7 @@ public class Drivetrain extends SubsystemBase {
 
     @Override
     public void periodic() {        
-        SmartDashboard.putNumber("FL Position", FL_encoder.getPosition()); 
+        // SmartDashboard.putNumber("FL Position", FL_encoder.getPosition()); 
     }
 
 }

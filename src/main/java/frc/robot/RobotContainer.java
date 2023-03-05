@@ -7,7 +7,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
@@ -40,6 +40,7 @@ public class RobotContainer {
   public static final Intake Intake = new Intake();
   public static final TeleopIndicator TeleopIndicator = new TeleopIndicator();
   public static final Elevator Elevator = new Elevator();
+  public static final Arm arm = new Arm();
 
 
   private final Command WAIT_NONE = new WaitCommand(0);
@@ -68,10 +69,8 @@ public class RobotContainer {
       )
     );
 
-    /** Indexer Controls */
-    /** The Operator's left joystick controls the indexer belt. */
-    
-}
+    // arm.setDefaultCommand(new armController(arm, () -> m_operator.getLeftTriggerAxis()));
+  }
 
   /**
    * Use this method to define your button->command mappings. Buttons can be created by

@@ -106,6 +106,10 @@ public class Drivetrain extends SubsystemBase {
         }
     }   
 
+    public void balance (){
+        
+    }
+
     /** This function is called once each time the the command ends or is interrupted. */
     public void stop() {
         /**

@@ -104,10 +104,73 @@ public class Drivetrain extends SubsystemBase {
             // SmartDashboard.putNumber("FL Position", FL_encoder.getPosition()); 
             // SmartDashboard.putNumber("distance driven", ((FL_encoder.getPosition()-encoderStartPos)/gearRatio)*wheelCircumfrance); 
         }
-    }   
+    } 
+      
 
-    public void balance (){
-        
+    public void driveOntoCharger(double stopingDistance, int gearRatio, double wheelCircumfrance){
+        distanceToMove = stopingDistance;
+        double encoderStartPos = FL_encoder.getPosition();
+        double initAngle = gyro.getYaw();
+        while(gyro.getPitch()<=3&&!TeleopIndicator.getTeleopMode()){
+            double anglePID = keepAnglePID.calculate(initAngle,gyro.getYaw());
+            double distancePID = driveToDistancePID.calculate(((FL_encoder.getPosition()-encoderStartPos)/gearRatio), distanceToMove);
+
+            // SmartDashboard.putNumber("Move FWRD PID", distancePID);
+            if(distancePID>0.5){
+                distancePID = 0.5;
+            }
+            if(distancePID<-0.5){
+                distancePID = -0.5;
+            }
+
+            double driveLeft = distancePID+anglePID;
+            double driveRight = distancePID-anglePID;
+
+            tankDrive(driveLeft, driveRight);
+            if(((-FL_encoder.getPosition()-encoderStartPos)/gearRatio)*wheelCircumfrance<=distanceToMove){
+                break;
+            }
+        }
+
+        while(gyro.getPitch()>=3&&!TeleopIndicator.getTeleopMode()){
+            double anglePID = keepAnglePID.calculate(initAngle,gyro.getYaw());
+            double distancePID = driveToDistancePID.calculate(((FL_encoder.getPosition()-encoderStartPos)/gearRatio), distanceToMove);
+
+            // SmartDashboard.putNumber("Move FWRD PID", distancePID);
+            if(distancePID>0.7){
+                distancePID = 0.7;
+            }
+            if(distancePID<-0.7){
+                distancePID = -0.7;
+            }
+
+            double driveLeft = distancePID+anglePID;
+            double driveRight = distancePID-anglePID;
+
+            tankDrive(driveLeft, driveRight);
+            if(((-FL_encoder.getPosition()-encoderStartPos)/gearRatio)*wheelCircumfrance<=distanceToMove){
+                break;
+            }
+        }
+
+        while((((-FL_encoder.getPosition()-encoderStartPos)/gearRatio)*wheelCircumfrance<=distanceToMove)&&!TeleopIndicator.getTeleopMode()){
+            distanceToMove=0;
+            double anglePID = keepAnglePID.calculate(initAngle,gyro.getYaw());
+            double distancePID = driveToDistancePID.calculate(((FL_encoder.getPosition()-encoderStartPos)/gearRatio), distanceToMove);
+
+            // SmartDashboard.putNumber("Move FWRD PID", distancePID);
+            if(distancePID>0.4){
+                distancePID = 0.4;
+            }
+            if(distancePID<-0.4){
+                distancePID = -0.4;
+            }
+
+            double driveLeft = distancePID+anglePID;
+            double driveRight = distancePID-anglePID;
+
+            tankDrive(driveLeft, driveRight);
+        }
     }
 
     /** This function is called once each time the the command ends or is interrupted. */

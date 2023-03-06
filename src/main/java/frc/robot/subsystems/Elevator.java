@@ -1,7 +1,3 @@
-// Copyright (c) FIRST and other WPILib contributors.
-// Open Source Software; you can modify and/or share it under the terms of
-// the WPILib BSD license file in the root directory of this project.
-
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -59,11 +55,13 @@ public class Elevator extends SubsystemBase {
 
     public void retract(){
         elevatorCommanded = 0;
+        
         elevatorRight.set(-Constants.ELEVATOR_POWER);
     }
 
     public void extend(){
-        // elevatorCommanded = 160;
+        elevatorCommanded = -125;
+        
         elevatorRight.set(Constants.ELEVATOR_POWER); 
     }
 
@@ -74,6 +72,14 @@ public class Elevator extends SubsystemBase {
 
     @Override
     public void periodic() {
+        double elPID = pid.calculate(encoderRight.getPosition(), elevatorCommanded);
+        if(elPID>0.4){
+            elPID =0.4;
+        }
+        if(elPID<-0.4){
+            elPID =0.4;
+        }
+        elevatorRight.set(elPID); 
         // SmartDashboard.putNumber("Elevator Left Encoder", encoderLeft.getPosition()); 
         // SmartDashboard.putNumber("Elevator Right Encoder", encoderRight.getPosition()); 
         // SmartDashboard.putNumber("CLimber Position", encoder.getPosition()); 

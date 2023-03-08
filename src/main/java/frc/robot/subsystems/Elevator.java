@@ -11,6 +11,7 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.RelativeEncoder;
 
 import frc.robot.Constants;
+import frc.robot.subsystems.HallEffect;
 
 public class Elevator extends SubsystemBase {
     private CANSparkMax elevatorLeft,elevatorRight;
@@ -20,6 +21,9 @@ public class Elevator extends SubsystemBase {
     private double kI = 0.00;
     private double kD = 0.01;
     private double elevatorCommanded = 0;
+
+    HallEffect sensor0 = new HallEffect(0);
+    HallEffect sensor1 = new HallEffect(1);
     
     double PID = 0;
     PIDController pid = new PIDController(kP, kI, kD);
@@ -68,6 +72,12 @@ public class Elevator extends SubsystemBase {
     public void stop() {
         elevatorLeft.stopMotor();
         elevatorRight.stopMotor();
+    }
+
+    public void zero(){
+        while(sensor0.getData()||sensor1.getData()){
+            elevatorRight.set(-Constants.ELEVATOR_POWER);
+        }
     }
 
     @Override

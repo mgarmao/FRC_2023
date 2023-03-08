@@ -41,6 +41,8 @@ public class RobotContainer {
   public static final TeleopIndicator TeleopIndicator = new TeleopIndicator();
   public static final Elevator Elevator = new Elevator();
   public static final Arm arm = new Arm();
+  public static final Wrist wrist = new Wrist();
+
 
 
   private final Command WAIT_NONE = new WaitCommand(0);
@@ -68,6 +70,8 @@ public class RobotContainer {
         () -> -1 * Math.pow(m_driverLeft.getY(),Constants.JOYSTICK_CURVE)
       )
     );
+
+    wrist.wristController(m_operator.getLeftY());
 
     // arm.setDefaultCommand(new armController(arm, () -> m_operator.getLeftTriggerAxis()));
   }

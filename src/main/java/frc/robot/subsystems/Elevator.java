@@ -72,14 +72,14 @@ public class Elevator extends SubsystemBase {
 
     @Override
     public void periodic() {
-        double elPID = pid.calculate(encoderRight.getPosition(), elevatorCommanded);
-        if(elPID>0.4){
-            elPID =0.4;
-        }
-        if(elPID<-0.4){
-            elPID =0.4;
-        }
-        elevatorRight.set(elPID); 
+        // double elPID = pid.calculate(encoderRight.getPosition(), elevatorCommanded);
+        // if(elPID>0.4){
+        //     elPID =0.4;
+        // }
+        // if(elPID<-0.4){
+        //     elPID =0.4;
+        // }
+        // elevatorRight.set(elPID); 
         // SmartDashboard.putNumber("Elevator Left Encoder", encoderLeft.getPosition()); 
         // SmartDashboard.putNumber("Elevator Right Encoder", encoderRight.getPosition()); 
         // SmartDashboard.putNumber("CLimber Position", encoder.getPosition()); 

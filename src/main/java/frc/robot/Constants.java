@@ -41,9 +41,12 @@ public final class Constants {
 
     //arm
     public static int ARM = 8;
-    public static double ARM_POWER = 0.5;
+    public static double ARM_POWER = 0.8;
     // public static final float ARM_LOWER_LIMIT = -125;
     // public static final float ARM_UPPER_LIMIT = 0;
+
+    //wrist
+    public static int WRIST = 9;
 
     public static final int [] INTAKE_SOLENOID = new int[] {2, 1};
 }

@@ -44,9 +44,6 @@ public class Arm extends SubsystemBase {
         armEncoder.setPosition(0);    
     }
 
-    public void armControl(double speed){
-
-    }
 
     public void retract(){
         armCommanded = 0;

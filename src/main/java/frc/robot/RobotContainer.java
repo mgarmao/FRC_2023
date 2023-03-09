@@ -87,14 +87,14 @@ public class RobotContainer {
     m_drivetrain.setDefaultCommand(
       new TankDrive(
         m_drivetrain,
-        () -> -1 * Math.pow(m_driverLeft.getY(),Constants.JOYSTICK_CURVE),
-        () -> -1 * Math.pow(m_driverRight.getY(),Constants.JOYSTICK_CURVE)
+        () -> -1 * Math.pow(m_operator.getLeftY(),Constants.JOYSTICK_CURVE),
+        () -> -1 * Math.pow(m_operator.getRightY(),Constants.JOYSTICK_CURVE)
       )
     );
 
     /** Indexer Controls */
     /** The Operator's left joystick controls the indexer belt. */
-    m_indexer.setDefaultCommand(new IndexerController(m_indexer, () -> m_operator.getLeftY()));
+    // m_indexer.setDefaultCommand(new IndexerController(m_indexer, () -> m_operator.getLeftY()));
 
     /** Gatekeeper Controls */
     /** The Operator's right trigger unlocks the gatekeeper. */

@@ -41,7 +41,7 @@ public class Wrist extends SubsystemBase {
         wristEncoder.setPosition(0);    
     }
     
-    public void wristController(double input) {
+    public void controller(double input) {
         wrist.set(input);
         SmartDashboard.putNumber("Operator Left Y", input);
     }

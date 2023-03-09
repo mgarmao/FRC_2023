@@ -59,6 +59,10 @@ public class Arm extends SubsystemBase {
         arm.stopMotor();
     }
 
+    public void controller(double input){
+        arm.set(input); 
+    }
+
     @Override
     public void periodic() {
         // SmartDashboard.putNumber("Arm Encoder", armEncoder.getPosition()); 

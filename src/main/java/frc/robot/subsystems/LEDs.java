@@ -6,11 +6,16 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class LEDs extends SubsystemBase {
-
+  
   private SerialPort serialPort;
 
   public LEDs() {
-    serialPort = new SerialPort(9600, SerialPort.Port.kUSB); // Initialize serial communication at 9600 baud over USB
+    try{
+      serialPort = new SerialPort(9600, SerialPort.Port.kUSB); // Initialize serial communication at 9600 baud over USB
+    }
+    catch(Exception error){
+      SmartDashboard.putBoolean("LEDs", false);
+    }
   }
 
   public void sendData() {

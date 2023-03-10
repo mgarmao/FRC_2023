@@ -22,6 +22,8 @@ public class Elevator extends SubsystemBase {
     private double kD = 0.01;
     private double elevatorCommanded = 0;
 
+    boolean moving = false;
+
     HallEffect sensor0 = new HallEffect(0);
     HallEffect sensor1 = new HallEffect(1);
     
@@ -58,20 +60,21 @@ public class Elevator extends SubsystemBase {
     }
 
     public void retract(){
-        elevatorCommanded = 0;
-        
+        elevatorCommanded = encoderRight.getPosition();
+        moving=true;
         elevatorRight.set(-Constants.ELEVATOR_POWER);
     }
 
     public void extend(){
-        elevatorCommanded = -125;
-        
+        elevatorCommanded = encoderRight.getPosition();
+        moving = true;
         elevatorRight.set(Constants.ELEVATOR_POWER); 
     }
 
     public void stop() {
         elevatorLeft.stopMotor();
         elevatorRight.stopMotor();
+        moving = false;
     }
 
     public void zero(){
@@ -82,6 +85,17 @@ public class Elevator extends SubsystemBase {
 
     @Override
     public void periodic() {
+        if(!moving){
+            double elPID = pid.calculate(encoderRight.getPosition(), elevatorCommanded);
+            if(elPID>0.5){
+                elPID =0.5;
+            }
+            if(elPID<-0.5){
+                elPID =0.5;
+            }            
+            elevatorRight.set(elPID);
+        }
+
         // double elPID = pid.calculate(encoderRight.getPosition(), elevatorCommanded);
         // if(elPID>0.4){
         //     elPID =0.4;

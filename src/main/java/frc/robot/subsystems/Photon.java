@@ -1,5 +1,7 @@
 package frc.robot.subsystems;
 
+import java.util.List;
+
 import org.photonvision.PhotonCamera;
 import org.photonvision.targeting.PhotonTrackedTarget;
 
@@ -61,9 +63,17 @@ public class Photon extends SubsystemBase{
         var result = camera.getLatestResult();         
         boolean hasTargets = result.hasTargets();        
         if(hasTargets){
-            PhotonTrackedTarget target = result.getBestTarget();
-            Transform3d targetToCamera = target.getBestCameraToTarget();
-            yDistance = targetToCamera.getY();
+            
+            // PhotonTrackedTarget target = result.getBestTarget();
+            // Transform3d targetToCamera = target.getBestCameraToTarget();
+            // yDistance = targetToCamera.getY();
+
+            List<PhotonTrackedTarget> targets = result.getTargets();
+            for(PhotonTrackedTarget target:targets){
+                Transform3d thisTarget = target.getBestCameraToTarget();
+                SmartDashboard.putNumber("This ID", target.getFiducialId());
+                yDistance = thisTarget.getY();                
+            }
         }
         else{
             yDistance = 0;

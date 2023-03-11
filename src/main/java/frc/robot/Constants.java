@@ -47,6 +47,7 @@ public final class Constants {
 
     //wrist
     public static int WRIST = 9;
+    public static double WRIST_MAX_POWER = 0.15;
 
     public static final int [] INTAKE_SOLENOID = new int[] {2, 1};
 }

@@ -4,6 +4,8 @@
 
 package frc.robot.subsystems;
 
+import java.lang.ModuleLayer.Controller;
+
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
@@ -42,6 +44,13 @@ public class Wrist extends SubsystemBase {
     }
     
     public void controller(double input) {
+        if(input>=Constants.WRIST_MAX_POWER){
+            input = Constants.WRIST_MAX_POWER;
+        }
+        if(input<=-Constants.WRIST_MAX_POWER){
+            input=-Constants.WRIST_MAX_POWER;
+        }
+
         wrist.set(input);
         SmartDashboard.putNumber("Operator Left Y", input);
     }

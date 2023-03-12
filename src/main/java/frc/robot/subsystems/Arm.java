@@ -20,6 +20,7 @@ import frc.robot.Constants;
 public class Arm extends SubsystemBase {
     private CANSparkMax arm;
     private RelativeEncoder armEncoder;
+    private static final XboxController m_operator = new XboxController(Constants.CONTROLLER_OPERATOR);
 
     private double kP = 0.06;
     private double kI = 0.00;
@@ -65,6 +66,7 @@ public class Arm extends SubsystemBase {
 
     @Override
     public void periodic() {
+        controller(m_operator.getRightY());
         // SmartDashboard.putNumber("Arm Encoder", armEncoder.getPosition()); 
         
         // if(XboxController.Button.kLeftStick.value>=0){

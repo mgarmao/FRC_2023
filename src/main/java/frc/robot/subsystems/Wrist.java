@@ -12,6 +12,7 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.RelativeEncoder;
 
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -24,11 +25,13 @@ public class Wrist extends SubsystemBase {
     private double kI = 0.00;
     private double kD = 0.01;
     private double wristCommanded = 0;
+    private static final XboxController m_operator = new XboxController(Constants.CONTROLLER_OPERATOR);
     
     double PID = 0;
     PIDController pid = new PIDController(kP, kI, kD);
 
     public Wrist() {
+        
         wrist = new CANSparkMax(Constants.WRIST, MotorType.kBrushless);
         wristEncoder = wrist.getEncoder();
         wrist.restoreFactoryDefaults();
@@ -70,8 +73,16 @@ public class Wrist extends SubsystemBase {
     public void stop() {
         wrist.stopMotor();
     }
+
     @Override
     public void periodic() {
+        if(m_operator.getLeftY()!=0){
+            controller(m_operator.getLeftY());
+        }
+        else{
+            stop();
+        }
+        
         // SmartDashboard.putNumber("wrist Encoder", wristEncoder.getPosition()); 
         
         // if(XboxController.Button.kLeftStick.value>=0){

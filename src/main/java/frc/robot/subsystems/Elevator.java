@@ -87,13 +87,14 @@ public class Elevator extends SubsystemBase {
     public void periodic() {
         if(!moving){
             double elPID = pid.calculate(encoderRight.getPosition(), elevatorCommanded);
+            SmartDashboard.putNumber("Elevator COmmanded",elevatorCommanded);
             if(elPID>0.5){
                 elPID =0.5;
             }
             if(elPID<-0.5){
                 elPID =0.5;
             }            
-            elevatorRight.set(elPID);
+            elevatorRight.set(-elPID);
         }
 
         // double elPID = pid.calculate(encoderRight.getPosition(), elevatorCommanded);

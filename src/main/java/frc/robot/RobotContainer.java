@@ -71,8 +71,8 @@ public class RobotContainer {
       )
     );
 
-    wrist.controller(m_operator.getLeftY());
-    arm.controller(m_operator.getRightY());
+    // wrist.controller(m_operator.getLeftY());
+    // arm.controller(m_operator.getRightY());
 
     // arm.setDefaultCommand(new armController(arm, () -> m_operator.getLeftTriggerAxis()));
   }

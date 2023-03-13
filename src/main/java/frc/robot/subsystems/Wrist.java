@@ -8,6 +8,7 @@ import java.lang.ModuleLayer.Controller;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.IdleMode;
+import com.revrobotics.CANSparkMax.SoftLimitDirection;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.RelativeEncoder;
 
@@ -24,8 +25,11 @@ public class Wrist extends SubsystemBase {
     private double kP = 0.06;
     private double kI = 0.00;
     private double kD = 0.01;
-    private double wristCommanded = 0;
+    
+    private double desiredPosition = 0;
+    boolean goingToPosition = false;
     private static final XboxController m_operator = new XboxController(Constants.CONTROLLER_OPERATOR);
+
     
     double PID = 0;
     PIDController pid = new PIDController(kP, kI, kD);
@@ -36,11 +40,11 @@ public class Wrist extends SubsystemBase {
         wristEncoder = wrist.getEncoder();
         wrist.restoreFactoryDefaults();
 
-        // wrist.setSoftLimit(SoftLimitDirection.kForward, Constants.wrist_UPPER_LIMIT);
-        // wrist.setSoftLimit(SoftLimitDirection.kReverse, Constants.wrist_LOWER_LIMIT);
+        wrist.setSoftLimit(SoftLimitDirection.kForward, Constants.WRIST_UPPER_LIMIT);
+        wrist.setSoftLimit(SoftLimitDirection.kReverse, Constants.WRIST_LOWER_LIMIT);
         
-        // wrist.enableSoftLimit(SoftLimitDirection.kForward, true);
-        // wrist.enableSoftLimit(SoftLimitDirection.kReverse, true);
+        wrist.enableSoftLimit(SoftLimitDirection.kForward, true);
+        wrist.enableSoftLimit(SoftLimitDirection.kReverse, true);
         
         wrist.setIdleMode(IdleMode.kBrake);        
         wristEncoder.setPosition(0);    
@@ -56,6 +60,11 @@ public class Wrist extends SubsystemBase {
 
         wrist.set(input);
         SmartDashboard.putNumber("Operator Left Y", input);
+    }
+
+    public void setPosition(double m_desiredPosition){
+        desiredPosition = m_desiredPosition;
+        goingToPosition = true;
     }
 
     // public void down(){
@@ -79,11 +88,29 @@ public class Wrist extends SubsystemBase {
         if(m_operator.getLeftY()!=0){
             controller(m_operator.getLeftY());
         }
+        
         else{
             stop();
         }
         
-        // SmartDashboard.putNumber("wrist Encoder", wristEncoder.getPosition()); 
+        if(goingToPosition){
+            if(wristEncoder.getPosition()>desiredPosition){
+                double PID = pid.calculate(wristEncoder.getPosition(), desiredPosition);
+                if(PID>Constants.WRIST_MAX_POWER){
+                    PID=Constants.WRIST_MAX_POWER;
+                }
+                if(PID<-Constants.WRIST_MAX_POWER){
+                    PID=-Constants.WRIST_MAX_POWER;
+                }
+                wrist.set(PID);
+            }
+            
+            else{
+                goingToPosition = false;
+            }
+        }
+
+        SmartDashboard.putNumber("Wrist Position", wristEncoder.getPosition()); 
         
         // if(XboxController.Button.kLeftStick.value>=0){
         //     extend();

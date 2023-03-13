@@ -26,6 +26,8 @@ public class Arm extends SubsystemBase {
     private double kI = 0.00;
     private double kD = 0.01;
     private double armCommanded = 0;
+    double desiredPosition= 0;
+    boolean goingToPosition = false;
     
     double PID = 0;
     PIDController pid = new PIDController(kP, kI, kD);
@@ -34,6 +36,13 @@ public class Arm extends SubsystemBase {
         arm = new CANSparkMax(Constants.ARM, MotorType.kBrushless);
         armEncoder = arm.getEncoder();
         arm.restoreFactoryDefaults();
+
+        arm.setSoftLimit(SoftLimitDirection.kForward, Constants.ARM_UPPER_LIMIT);
+        arm.setSoftLimit(SoftLimitDirection.kReverse, Constants.ARM_LOWER_LIMIT);
+        
+        arm.enableSoftLimit(SoftLimitDirection.kForward, true);
+        arm.enableSoftLimit(SoftLimitDirection.kReverse, true);
+
 
         // arm.setSoftLimit(SoftLimitDirection.kForward, Constants.ARM_UPPER_LIMIT);
         // arm.setSoftLimit(SoftLimitDirection.kReverse, Constants.ARM_LOWER_LIMIT);
@@ -64,9 +73,34 @@ public class Arm extends SubsystemBase {
         arm.set(input); 
     }
 
+    public void setPosition(double m_desiredPosition){
+        desiredPosition = m_desiredPosition;
+        if(armEncoder.getPosition()>desiredPosition){
+            arm.set(Constants.ARM_POWER); 
+        }
+        if(armEncoder.getPosition()<desiredPosition){
+            arm.set(-Constants.ARM_POWER); 
+        }
+    }
+
     @Override
     public void periodic() {
         controller(m_operator.getRightY());
+        SmartDashboard.putNumber("Arm Position", armEncoder.getPosition());
+
+        // if(goingToPosition){
+        //     if(armEncoder.getPosition()>desiredPosition){
+        //         arm.set(Constants.ARM_POWER); 
+        //     }
+        //     else if(armEncoder.getPosition()<desiredPosition){
+        //         arm.set(-Constants.ARM_POWER); 
+        //     }
+        //     else{
+        //         stop();
+        //         goingToPosition = false;
+        //     }
+        // }
+        
         // SmartDashboard.putNumber("Arm Encoder", armEncoder.getPosition()); 
         
         // if(XboxController.Button.kLeftStick.value>=0){

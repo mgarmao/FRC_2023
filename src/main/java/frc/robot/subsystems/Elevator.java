@@ -17,10 +17,10 @@ public class Elevator extends SubsystemBase {
     private CANSparkMax elevatorLeft,elevatorRight;
     private RelativeEncoder encoderLeft,encoderRight;
 
-    private double kP = 0.06;
+    private double kP = 0.01;
     private double kI = 0.00;
-    private double kD = 0.01;
-    private double elevatorCommanded = 0;
+    private double kD = 0.00;
+    double elevatorCommanded = 0;
 
     boolean moving = false;
 
@@ -86,17 +86,17 @@ public class Elevator extends SubsystemBase {
     @Override
     public void periodic() {
         if(!moving){
-            double elPID = pid.calculate(encoderRight.getPosition(), elevatorCommanded);
+            double elPID = pid.calculate(-encoderRight.getPosition(), -elevatorCommanded-10);
             SmartDashboard.putNumber("Elevator COmmanded",elevatorCommanded);
-            if(elPID>0.5){
+            if(elPID>Constants.ELEVATOR_POWER){
                 elPID =0.5;
             }
-            if(elPID<-0.5){
+            if(elPID<-Constants.ELEVATOR_POWER){
                 elPID =0.5;
             }            
             elevatorRight.set(-elPID);
         }
-
+        SmartDashboard.putNumber("Elevator Position", encoderRight.getPosition());
         // double elPID = pid.calculate(encoderRight.getPosition(), elevatorCommanded);
         // if(elPID>0.4){
         //     elPID =0.4;

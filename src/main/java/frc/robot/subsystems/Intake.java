@@ -34,7 +34,7 @@ public class Intake extends SubsystemBase {
          */
         motor.setIdleMode(IdleMode.kCoast);
         
-        intakeSolenoid = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, Constants.INTAKE_SOLENOID[0], Constants.INTAKE_SOLENOID[1]);
+        intakeSolenoid = new DoubleSolenoid(PneumaticsModuleType.REVPH, 11, 10);
         intakeSolenoid.set(Value.kReverse);
     }
 

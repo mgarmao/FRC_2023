@@ -31,24 +31,29 @@ public final class Constants {
     //** Intake Motor */
     public static final int INTAKE_WHEELS = 3; 
     public static final double INTAKE_SPEED = 1; //Subject to Josh
+    
+    //Compressor
+    public static final int COMPRESSOR = 0;
 
     /** Elevator */
     public static final int ELEVATOR_LEFT = 6;
     public static final int ELEVATOR_RIGHT = 7;
     public static final double ELEVATOR_POWER = 0.3;//xxxxx
-    public static final float ELEVATOR_LOWER_LIMIT = -125;
+    public static final float ELEVATOR_LOWER_LIMIT = -73;
     public static final float ELEVATOR_UPPER_LIMIT = 0;
+    
 
     //arm
     public static int ARM = 8;
-    public static double ARM_POWER = 0.3
-    ;
-    // public static final float ARM_LOWER_LIMIT = -125;
-    // public static final float ARM_UPPER_LIMIT = 0;
+    public static double ARM_POWER = 0.3;
+    public static final int ARM_LOWER_LIMIT = -67;
+    public static final int ARM_UPPER_LIMIT = 100;
 
     //wrist
     public static int WRIST = 9;
     public static double WRIST_MAX_POWER = 0.15;
+    public static final float WRIST_LOWER_LIMIT = 0;
+    public static final float WRIST_UPPER_LIMIT = 58;
 
     public static final int [] INTAKE_SOLENOID = new int[] {2, 1};
 }

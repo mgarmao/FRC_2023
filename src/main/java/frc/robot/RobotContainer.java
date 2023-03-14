@@ -44,9 +44,10 @@ public class RobotContainer {
   public static final Elevator Elevator = new Elevator();
   public static final Arm arm = new Arm();
   public static final Wrist wrist = new Wrist();
-
+  // public static final  Shortcuts shortcuts = new Shortcuts();
 
   Compressor pcmCompressor = new Compressor(1, PneumaticsModuleType.REVPH);
+
   private final Command WAIT_NONE = new WaitCommand(0);
   private final Command Square = new Square();
   private SendableChooser<Command> m_auto = new SendableChooser<>();
@@ -94,6 +95,7 @@ public class RobotContainer {
     new JoystickButton(m_operator, Button.kRightBumper.value)
     .whenPressed(() -> Elevator.extend())
     .whenReleased(() -> Elevator.stop());
+
     new JoystickButton(m_operator, Button.kLeftBumper.value)
     .whenPressed(() -> Elevator.retract())
     .whenReleased(() -> Elevator.stop());

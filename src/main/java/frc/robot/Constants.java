@@ -32,16 +32,16 @@ public final class Constants {
     public static final int INTAKE_WHEELS = 3; 
     public static final double INTAKE_SPEED = 1; //Subject to Josh
     
-    //Compressor
+    //Pneumatics
     public static final int COMPRESSOR = 0;
+    public static final int [] INTAKE_SOLENOID = new int[] {2, 1};
 
     /** Elevator */
     public static final int ELEVATOR_LEFT = 6;
     public static final int ELEVATOR_RIGHT = 7;
     public static final double ELEVATOR_POWER = 0.3;//xxxxx
-    public static final float ELEVATOR_LOWER_LIMIT = -73;
+    public static final float ELEVATOR_LOWER_LIMIT = -80;
     public static final float ELEVATOR_UPPER_LIMIT = 0;
-    
 
     //arm
     public static int ARM = 8;
@@ -51,9 +51,29 @@ public final class Constants {
 
     //wrist
     public static int WRIST = 9;
-    public static double WRIST_MAX_POWER = 0.15;
+    public static double WRIST_MAX_POWER = 0.25;
     public static final float WRIST_LOWER_LIMIT = 0;
     public static final float WRIST_UPPER_LIMIT = 58;
 
-    public static final int [] INTAKE_SOLENOID = new int[] {2, 1};
+    //Preset Positions
+    public static double CONE_FRONT_PICKUP_POV = 270;
+    public static double CONE_FRONT_PICKUP_WRIST = 46.8;
+    public static double CONE_FRONT_PICKUP_ARM =  90;
+    public static double CONE_FRONT_PICKUP_EL = -48;
+
+    public static double RETRACT_POV = 0;
+    public static double RETRACT_WRIST = 46.8;
+    public static double RETRACT_ARM =  0;
+    public static double RETRACT_EL = 0;
+    
+    public static double CUBE_SCORE_HIGH_WRIST = 21.3; 
+    public static double CUBE_SCORE_HIGH_ARM = 26;
+    public static double CUBE_SCORE_HIGH_EL = -61.35;
+
+    public static double CONE_PICKUP_WRIST = 51;
+    public static double CONE_PICKUP_ARM = 101;
+    public static double CONE_PICKUP_EL = -40;
+
+
+    public static boolean elInPosition = false;
 }

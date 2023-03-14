@@ -4,8 +4,6 @@
 
 package frc.robot.subsystems;
 
-import java.lang.ModuleLayer.Controller;
-
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMax.SoftLimitDirection;
@@ -22,12 +20,12 @@ public class Wrist extends SubsystemBase {
     private CANSparkMax wrist;
     private RelativeEncoder wristEncoder;
 
-    private double kP = 0.06;
+    private double kP = 0.02;
     private double kI = 0.00;
-    private double kD = 0.01;
+    private double kD = 0.00;
     
     private double desiredPosition = 0;
-    boolean goingToPosition = false;
+    boolean opControl = false;
     private static final XboxController m_operator = new XboxController(Constants.CONTROLLER_OPERATOR);
 
     
@@ -57,14 +55,14 @@ public class Wrist extends SubsystemBase {
         if(input<=-Constants.WRIST_MAX_POWER){
             input=-Constants.WRIST_MAX_POWER;
         }
-
+        opControl = true;
         wrist.set(input);
         SmartDashboard.putNumber("Operator Left Y", input);
     }
 
     public void setPosition(double m_desiredPosition){
         desiredPosition = m_desiredPosition;
-        goingToPosition = true;
+        opControl = false;
     }
 
     // public void down(){
@@ -85,29 +83,33 @@ public class Wrist extends SubsystemBase {
 
     @Override
     public void periodic() {
-        if(m_operator.getLeftY()!=0){
+        
+        if(m_operator.getLeftY()>=0.05||m_operator.getLeftY()<=-0.05){
             controller(m_operator.getLeftY());
         }
-        
         else{
             stop();
         }
+
+        if(m_operator.getPOV()==Constants.CONE_FRONT_PICKUP_POV){
+            setPosition(Constants.CONE_FRONT_PICKUP_WRIST);
+        }
+
+        if(m_operator.getPOV()==Constants.RETRACT_POV){
+            setPosition(Constants.RETRACT_WRIST);
+        }
+
+        SmartDashboard.putBoolean("Going to Position", opControl);
         
-        if(goingToPosition){
-            if(wristEncoder.getPosition()>desiredPosition){
-                double PID = pid.calculate(wristEncoder.getPosition(), desiredPosition);
-                if(PID>Constants.WRIST_MAX_POWER){
-                    PID=Constants.WRIST_MAX_POWER;
-                }
-                if(PID<-Constants.WRIST_MAX_POWER){
-                    PID=-Constants.WRIST_MAX_POWER;
-                }
-                wrist.set(PID);
+        if(!opControl&&Constants.elInPosition){
+            double PID = pid.calculate(wristEncoder.getPosition(), desiredPosition);
+            if(PID>Constants.WRIST_MAX_POWER){
+                PID=Constants.WRIST_MAX_POWER;
             }
-            
-            else{
-                goingToPosition = false;
+            if(PID<-Constants.WRIST_MAX_POWER){
+                PID=-Constants.WRIST_MAX_POWER;
             }
+            wrist.set(PID);
         }
 
         SmartDashboard.putNumber("Wrist Position", wristEncoder.getPosition()); 

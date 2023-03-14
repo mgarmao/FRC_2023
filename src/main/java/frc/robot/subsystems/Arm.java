@@ -21,13 +21,12 @@ public class Arm extends SubsystemBase {
     private CANSparkMax arm;
     private RelativeEncoder armEncoder;
     private static final XboxController m_operator = new XboxController(Constants.CONTROLLER_OPERATOR);
-
     private double kP = 0.06;
     private double kI = 0.00;
     private double kD = 0.01;
     private double armCommanded = 0;
     double desiredPosition= 0;
-    boolean goingToPosition = false;
+    boolean opControl = false;
     
     double PID = 0;
     PIDController pid = new PIDController(kP, kI, kD);
@@ -71,10 +70,12 @@ public class Arm extends SubsystemBase {
 
     public void controller(double input){
         arm.set(input); 
+        opControl = true;
     }
 
     public void setPosition(double m_desiredPosition){
         desiredPosition = m_desiredPosition;
+        opControl = false;
         if(armEncoder.getPosition()>desiredPosition){
             arm.set(Constants.ARM_POWER); 
         }
@@ -85,8 +86,33 @@ public class Arm extends SubsystemBase {
 
     @Override
     public void periodic() {
-        controller(m_operator.getRightY());
+        if(m_operator.getRightY()!=0||opControl){
+            controller(m_operator.getRightY());
+        }
+
         SmartDashboard.putNumber("Arm Position", armEncoder.getPosition());
+        SmartDashboard.putBoolean("Arm OPCONTROL", opControl);
+
+        
+        if(m_operator.getPOV()==Constants.CONE_FRONT_PICKUP_POV){
+            setPosition(Constants.CONE_FRONT_PICKUP_ARM);
+        }
+
+        if(m_operator.getPOV()==Constants.RETRACT_POV){
+            setPosition(Constants.RETRACT_ARM);
+        }
+        
+        if(!opControl&&Constants.elInPosition){
+            if(armEncoder.getPosition()>desiredPosition){
+                arm.set(-Constants.ARM_POWER);
+            }
+            if(armEncoder.getPosition()<desiredPosition){
+                arm.set(Constants.ARM_POWER);
+            }
+            if((armEncoder.getPosition()-desiredPosition<5)&&(armEncoder.getPosition()-desiredPosition>-5)){
+                opControl = true;
+            }
+        }
 
         // if(goingToPosition){
         //     if(armEncoder.getPosition()>desiredPosition){

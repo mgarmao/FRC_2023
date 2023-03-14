@@ -2,6 +2,7 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import com.revrobotics.CANSparkMax;
@@ -16,10 +17,13 @@ import frc.robot.subsystems.HallEffect;
 public class Elevator extends SubsystemBase {
     private CANSparkMax elevatorLeft,elevatorRight;
     private RelativeEncoder encoderLeft,encoderRight;
+    private static final XboxController m_operator = new XboxController(Constants.CONTROLLER_OPERATOR);
 
     private double kP = 0.01;
     private double kI = 0.00;
     private double kD = 0.00;
+
+    boolean goingToPosition=false;
     double elevatorCommanded = 0;
 
     boolean moving = false;
@@ -47,10 +51,10 @@ public class Elevator extends SubsystemBase {
         elevatorLeft.setSoftLimit(SoftLimitDirection.kForward, Constants.ELEVATOR_UPPER_LIMIT);
         elevatorLeft.setSoftLimit(SoftLimitDirection.kReverse, Constants.ELEVATOR_LOWER_LIMIT);
 
-        elevatorRight.enableSoftLimit(SoftLimitDirection.kForward, true);
-        elevatorRight.enableSoftLimit(SoftLimitDirection.kReverse, true);
-        elevatorLeft.enableSoftLimit(SoftLimitDirection.kForward, true);
-        elevatorLeft.enableSoftLimit(SoftLimitDirection.kReverse, true);
+        elevatorRight.enableSoftLimit(SoftLimitDirection.kForward, false);
+        elevatorRight.enableSoftLimit(SoftLimitDirection.kReverse, false);
+        elevatorLeft.enableSoftLimit(SoftLimitDirection.kForward, false);
+        elevatorLeft.enableSoftLimit(SoftLimitDirection.kReverse, false);
         
         elevatorLeft.setIdleMode(IdleMode.kBrake);
         elevatorRight.setIdleMode(IdleMode.kBrake);
@@ -72,8 +76,7 @@ public class Elevator extends SubsystemBase {
     }
 
     public void stop() {
-        elevatorLeft.stopMotor();
-        elevatorRight.stopMotor();
+        elevatorRight.set(0);
         moving = false;
     }
 
@@ -93,9 +96,25 @@ public class Elevator extends SubsystemBase {
             }
             if(elPID<-Constants.ELEVATOR_POWER){
                 elPID =0.5;
-            }            
+            }       
+            if(elevatorCommanded-encoderRight.getPosition()<10){
+                Constants.elInPosition = true;
+            }     
             elevatorRight.set(-elPID);
         }
+
+        if(m_operator.getPOV()==Constants.CONE_FRONT_PICKUP_POV){
+            elevatorCommanded = Constants.CONE_FRONT_PICKUP_EL;
+            Constants.elInPosition = false;
+            moving = false;
+        }
+
+        if(m_operator.getPOV()==Constants.RETRACT_POV){
+            elevatorCommanded = Constants.RETRACT_EL;
+            Constants.elInPosition = false;
+            moving = false;
+        }
+
         SmartDashboard.putNumber("Elevator Position", encoderRight.getPosition());
         // double elPID = pid.calculate(encoderRight.getPosition(), elevatorCommanded);
         // if(elPID>0.4){

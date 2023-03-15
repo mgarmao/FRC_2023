@@ -65,6 +65,14 @@ public class Wrist extends SubsystemBase {
         opControl = false;
     }
 
+    public double getPosition(){
+        return wristEncoder.getPosition();
+    }
+
+    public void setPower(double power){
+        wrist.set(power);
+    }
+
     // public void down(){
     //     wristCommanded = 0;
         

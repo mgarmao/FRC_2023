@@ -13,8 +13,6 @@ import static frc.robot.RobotContainer.*;
 import frc.robot.subsystems.Photon;
 
 public class DriveKeepingY extends CommandBase {
-  Photon photon = new Photon();
-
   double kP = 0.05;
   double kI = 0.00;
   double kD = 0.15;
@@ -27,6 +25,8 @@ public class DriveKeepingY extends CommandBase {
 
   public DriveKeepingY(double setpoint) {
     m_setpoint = setpoint;
+    addRequirements(photon);
+    addRequirements(m_drivetrain);
   }
 
   @Override
@@ -35,39 +35,36 @@ public class DriveKeepingY extends CommandBase {
 
   @Override
   public void execute() {
-    while(photon.apriltagHasTarget()&&photon.apriltagHypot()>=0.5&&!TeleopIndicator.getTeleopMode()){
-      distancePID = pid.calculate(photon.apriltagDistanceY(), m_setpoint);
-      
-      if(distancePID>=1){
-        distancePID=1;
-      }
-
-      if(distancePID<=-1){
-        distancePID=-1;
-      }
-
-      if(photon.getApriltagYaw()>=18){
-        driveLeft = 0.5;
-        driveRight = 0.3;
-      }
-      else if (photon.getApriltagYaw()<=-18){
-        driveLeft = 0.3;
-        driveRight = 0.5;
-      }
-      else{
-        driveLeft = 0.5+distancePID;
-        driveRight = 0.5-distancePID;
-      }
-
-      m_drivetrain.tankDrive(driveLeft, driveRight);
-      
-      SmartDashboard.putBoolean("Drive Stage",true);
-      SmartDashboard.putNumber("DriveLeft",driveLeft);
-      SmartDashboard.putNumber("driveRight",driveRight);
-      SmartDashboard.putNumber("Distance Y",photon.apriltagDistanceY());
-      SmartDashboard.putNumber("Distance X",photon.apriltagDistanceX());
-      SmartDashboard.putBoolean("TELEOP",TeleopIndicator.getTeleopMode());
+    distancePID = pid.calculate(photon.apriltagDistanceY(), m_setpoint);
+    
+    if(distancePID>=1){
+      distancePID=1;
     }
+
+    if(distancePID<=-1){
+      distancePID=-1;
+    }
+
+    if(photon.getApriltagYaw()>=18){
+      driveLeft = 0.5;
+      driveRight = 0.3;
+    }
+    else if (photon.getApriltagYaw()<=-18){
+      driveLeft = 0.3;
+      driveRight = 0.5;
+    }
+    else{
+      driveLeft = 0.5+distancePID;
+      driveRight = 0.5-distancePID;
+    }
+
+    m_drivetrain.tankDrive(driveLeft, driveRight);
+    
+    SmartDashboard.putBoolean("Drive Stage",true);
+    SmartDashboard.putNumber("DriveLeft",driveLeft);
+    SmartDashboard.putNumber("driveRight",driveRight);
+    SmartDashboard.putNumber("Distance Y",photon.apriltagDistanceY());
+    SmartDashboard.putNumber("Distance X",photon.apriltagDistanceX());
   }
 
   @Override
@@ -77,8 +74,11 @@ public class DriveKeepingY extends CommandBase {
 
   @Override
   public boolean isFinished() {
-    SmartDashboard.putBoolean("PID AprilTag",false);
-
-    return false;
+    if(photon.apriltagHasTarget()&&photon.apriltagHypot()>=0.5){
+      return false;
+    }
+    else{
+      return true;
+    }
   }
 }

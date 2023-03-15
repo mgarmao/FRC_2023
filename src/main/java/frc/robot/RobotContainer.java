@@ -21,6 +21,7 @@ import frc.robot.subsystems.*;
 import frc.robot.commands.Drivetrain.*;
 
 import frc.robot.commands.Autonomous.*;
+import frc.robot.commands.Autonomous.Balance;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -43,6 +44,7 @@ public class RobotContainer {
   public static final TeleopIndicator TeleopIndicator = new TeleopIndicator();
   public static final Elevator Elevator = new Elevator();
   public static final Arm arm = new Arm();
+  public static final Photon photon = new Photon();
   public static final Wrist wrist = new Wrist();
   // public static final  Shortcuts shortcuts = new Shortcuts();
 
@@ -50,7 +52,8 @@ public class RobotContainer {
 
   private final Command WAIT_NONE = new WaitCommand(0);
   private final Command Taxi = new Taxi();
-  private final Command Square = new Square();
+  private final Command Balance = new Balance();
+  // private final Command Square = new Square();
   private SendableChooser<Command> m_auto = new SendableChooser<>();
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -58,6 +61,7 @@ public class RobotContainer {
 
     /** Autonomous Chooser */
     m_auto.setDefaultOption("Taxi", Taxi);
+    m_auto.addOption("Balamce", Balance);
     m_auto.addOption("Do Nothing", WAIT_NONE);
     SmartDashboard.putData("Autonomous Routine", m_auto);
     

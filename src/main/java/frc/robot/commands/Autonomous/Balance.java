@@ -12,14 +12,13 @@ import static frc.robot.RobotContainer.*;
 
 import frc.robot.commands.Drivetrain.*;
 import frc.robot.commands.Intake.*;
-import frc.robot.subsystems.Intake;
 
-public class Taxi extends SequentialCommandGroup {
-    public Taxi() {
+public class Balance extends SequentialCommandGroup {
+    public Balance() {
       addCommands(
         new Eject(0.4).withTimeout(4),
-        new IntakeStop().withTimeout(1),
-        new ReverseMoveDistance(78,0.45).withTimeout(4)
+        new ReverseMoveDistance(78,0.6),
+        new FowardBalance()
       );
   }
 }

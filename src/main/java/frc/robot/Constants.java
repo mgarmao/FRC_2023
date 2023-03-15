@@ -20,7 +20,7 @@ public final class Constants {
     public static final double JOYSTICK_CURVE   = 5/3;
     //public static final double DRIVER_INPUT_CURVE = 3;
     public static final int DRIVETRAIN_GEAR_RATIO = 9;
-    public static final double WHEEL_CIRCUMFRANCE = 5.75;
+    public static final double WHEEL_CIRCUMFRANCE = 18.06;
 
     /** Drive Train */
     public static final int DRIVE_FRONT_LEFT = 1;

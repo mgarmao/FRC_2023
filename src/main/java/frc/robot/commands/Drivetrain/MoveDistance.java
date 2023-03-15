@@ -29,9 +29,11 @@ public class MoveDistance extends CommandBase {
     PIDController keepAnglePID = new PIDController(kP1, kI1, kD1);
     PIDController driveToDistancePID = new PIDController(kP0, kI0, kD0);
 
+    double maxSpeed = 0.5;
 
-    public MoveDistance(double distanceToMoveInches) {
+    public MoveDistance(double distanceToMoveInches, double mMaxSpeed) {
         DISTANCE_TO_MOVE = distanceToMoveInches;
+        addRequirements(m_drivetrain);
     }
 
     // Called when the command is initially scheduled.
@@ -49,11 +51,11 @@ public class MoveDistance extends CommandBase {
         double distancePID = driveToDistancePID.calculate(((m_drivetrain.getFrontLeftEncoder()-encoderStartPos)/gearRatio), DISTANCE_TO_MOVE);
 
         // SmartDashboard.putNumber("Move FWRD PID", distancePID);
-        if(distancePID>0.5){
-            distancePID = 0.5;
+        if(distancePID>0.65){
+            distancePID = 0.65;
         }
-        if(distancePID<-0.5){
-            distancePID = -0.5;
+        if(distancePID<-0.65){
+            distancePID = -0.65;
         }
 
         double driveLeft = distancePID+anglePID;

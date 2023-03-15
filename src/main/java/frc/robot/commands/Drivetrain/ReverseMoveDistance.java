@@ -23,18 +23,19 @@ public class ReverseMoveDistance extends CommandBase {
     double kI0 = 0.0;
     double kD0 = 0.04;
 
-    double kP1 = 0.025;
+    double kP1 = 0.0012;
     double kI1 = 0.0;
-    double kD1 = 0.01;
-    private final Drivetrain m_drivetrain;
+    double kD1 = 0.001;
     PIDController keepAnglePID = new PIDController(kP1, kI1, kD1);
     PIDController driveToDistancePID = new PIDController(kP0, kI0, kD0);
 
+    double maxSpeed =0.5;
 
-    public ReverseMoveDistance(Drivetrain mdrivetrain, double distanceToMoveInches) {
-        m_drivetrain = mdrivetrain;
+    public ReverseMoveDistance(double distanceToMoveInches,double mMaxSpeed) {
         DISTANCE_TO_MOVE = distanceToMoveInches;
+        maxSpeed = mMaxSpeed;
         addRequirements(m_drivetrain);
+        addRequirements(gyro);
     }
 
     // Called when the command is initially scheduled.
@@ -52,18 +53,18 @@ public class ReverseMoveDistance extends CommandBase {
         double anglePID = keepAnglePID.calculate(initAngle,gyro.getYaw());
         double distancePID = driveToDistancePID.calculate(((m_drivetrain.getFrontLeftEncoder()-encoderStartPos)/gearRatio), DISTANCE_TO_MOVE);
 
-        if(distancePID>0.45){
-            distancePID = 0.45;
+        // SmartDashboard.putNumber("Move FWRD PID", distancePID);
+        if(distancePID>maxSpeed){
+            distancePID = maxSpeed;
         }
-        if(distancePID<-0.45){
-            distancePID = -0.45;
+        if(distancePID<-maxSpeed){
+            distancePID = -maxSpeed;
         }
 
         double driveLeft = distancePID-anglePID;
         double driveRight = distancePID+anglePID;
 
-        SmartDashboard.putNumber("driveLeft", -driveLeft);
-        m_drivetrain.tankDrive(-0.4, -0.4);
+        m_drivetrain.tankDrive(-driveLeft, -driveRight);
     }
 
     // Called once the command ends or is interrupted.

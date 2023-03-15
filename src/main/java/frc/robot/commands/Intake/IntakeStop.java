@@ -6,20 +6,22 @@ package frc.robot.commands.Intake;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
+import frc.robot.subsystems.Intake;
 
 import static frc.robot.RobotContainer.*;
 
-public class Eject extends CommandBase {
+public class IntakeStop extends CommandBase {
     double speed;
-    public Eject(double m_speed) {
-        speed = m_speed;
+    int gearRatio = Constants.DRIVETRAIN_GEAR_RATIO;
+    double wheelCircumfrance = Constants.WHEEL_CIRCUMFRANCE;
+    public IntakeStop() {
         addRequirements(Intake);
     }
 
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
-        Intake.eject(speed);
+        Intake.stop();
     }
 
     // Called every time the scheduler runs while the command is scheduled.
@@ -31,7 +33,6 @@ public class Eject extends CommandBase {
     // Called once the command ends or is interrupted.
     @Override
     public void end(boolean interrupted) {
-        m_drivetrain.stop();
     }
 
     // Returns true when the command should end.

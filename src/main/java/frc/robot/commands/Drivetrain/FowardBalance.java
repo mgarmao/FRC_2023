@@ -10,47 +10,47 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 
 import static frc.robot.RobotContainer.*;
 
-public class DriveTowardAprilTag extends CommandBase {
-  double kP = 0.03;
-  double kI = 0.0;
-  double kD = 0.01;
-  double yawPID = 1; 
-  double driveLeft = 0;
-  double driveRight = 0;
+import frc.robot.subsystems.Photon;
 
-  double m_setpoint;
+public class FowardBalance extends CommandBase {
+  Photon photon = new Photon();
+
+  double kP = 0.0012;
+  double kI = 0.0;
+  double kD = 0.001;
+
+  double balancePID = 1; 
+  double initAngle = 0;
+  double m_setpoint = 0;
   PIDController pid = new PIDController(kP, kI, kD);
 
-  public DriveTowardAprilTag(double setpoint) {
-    m_setpoint = setpoint;
-    addRequirements(photon);
+  public FowardBalance() {
+    addRequirements(gyro);
     addRequirements(m_drivetrain);
   }
 
   @Override
   public void initialize() {
+    initAngle = gyro.getYaw();
   }
 
   @Override
   public void execute() {
-    yawPID = pid.calculate(photon.getApriltagYaw(), m_setpoint);
-    
-    if(yawPID>=1){
-      yawPID=1;
+    double anglePID = pid.calculate(initAngle,gyro.getYaw());
+
+    if(anglePID>=0.25){
+      anglePID=0.25;
     }
 
-    if(yawPID<=-1){
-      yawPID=-1;
+    if(anglePID<=-0.25){
+      anglePID=-0.25;
     }
 
-    driveLeft = 0.5-yawPID;
-    driveRight = 0.5+yawPID;
+    double driveLeft = 0.3-anglePID;
+    double driveRight = 0.3+anglePID;
+    SmartDashboard.putNumber("gyro pitch", gyro.getPitch());
 
-    m_drivetrain.tankDrive(driveLeft, driveRight);
-    
-    SmartDashboard.putBoolean("Drive Stage",true);
-    SmartDashboard.putNumber("DriveLeft",driveLeft);
-    SmartDashboard.putNumber("driveRight",driveRight);    
+    m_drivetrain.tankDrive(-driveLeft, -driveRight);
   }
 
   @Override
@@ -60,10 +60,12 @@ public class DriveTowardAprilTag extends CommandBase {
 
   @Override
   public boolean isFinished() {
-    if(photon.apriltagHasTarget()&&photon.apriltagHypot()>=1.5){
+    if((gyro.getPitch()>-10)&&(gyro.getPitch()<10)){
+      SmartDashboard.putBoolean("balancing", true);
       return false;
     }
     else{
+      SmartDashboard.putBoolean("balancing", false);
       return true;
     }
   }

@@ -11,12 +11,14 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import static frc.robot.RobotContainer.*;
 
 import frc.robot.commands.Drivetrain.*;
+import frc.robot.commands.Intake.*;
 
 public class Taxi extends SequentialCommandGroup {
     public Taxi() {
       addCommands(
-        new TankDrive(m_drivetrain, () -> -0.65, () -> -0.65).alongWith(
-        ).withTimeout(1.5)
+        new Eject(0.4).withTimeout(4),
+        new ReverseMoveDistance(m_drivetrain,48).withTimeout(4)
+        
       );
   }
 }

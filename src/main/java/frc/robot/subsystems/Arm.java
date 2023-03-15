@@ -102,15 +102,20 @@ public class Arm extends SubsystemBase {
             setPosition(Constants.RETRACT_ARM);
         }
         
-        if(!opControl&&Constants.elInPosition){
-            if(armEncoder.getPosition()>desiredPosition){
-                arm.set(-Constants.ARM_POWER);
+        if(!opControl){
+            if(Constants.elInPosition){
+                if(armEncoder.getPosition()>desiredPosition){
+                    arm.set(-Constants.ARM_POWER);
+                }
+                if(armEncoder.getPosition()<desiredPosition){
+                    arm.set(Constants.ARM_POWER);
+                }
+                if((armEncoder.getPosition()-desiredPosition<5)&&(armEncoder.getPosition()-desiredPosition>-5)){
+                    opControl = true;
+                }
             }
-            if(armEncoder.getPosition()<desiredPosition){
-                arm.set(Constants.ARM_POWER);
-            }
-            if((armEncoder.getPosition()-desiredPosition<5)&&(armEncoder.getPosition()-desiredPosition>-5)){
-                opControl = true;
+            else{
+                stop();
             }
         }
 

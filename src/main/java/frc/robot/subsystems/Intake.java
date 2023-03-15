@@ -44,8 +44,8 @@ public class Intake extends SubsystemBase {
     }
 
     /** Eject cargo from the robot. */
-    public void eject() {
-        motor.set(-Constants.INTAKE_SPEED);
+    public void eject(double speed) {
+        motor.set(-speed);
     }
     
     /** This function is called once each time the the command ends or is interrupted. */

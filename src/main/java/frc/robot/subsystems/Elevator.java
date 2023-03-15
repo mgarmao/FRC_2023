@@ -51,10 +51,10 @@ public class Elevator extends SubsystemBase {
         elevatorLeft.setSoftLimit(SoftLimitDirection.kForward, Constants.ELEVATOR_UPPER_LIMIT);
         elevatorLeft.setSoftLimit(SoftLimitDirection.kReverse, Constants.ELEVATOR_LOWER_LIMIT);
 
-        elevatorRight.enableSoftLimit(SoftLimitDirection.kForward, false);
-        elevatorRight.enableSoftLimit(SoftLimitDirection.kReverse, false);
-        elevatorLeft.enableSoftLimit(SoftLimitDirection.kForward, false);
-        elevatorLeft.enableSoftLimit(SoftLimitDirection.kReverse, false);
+        elevatorRight.enableSoftLimit(SoftLimitDirection.kForward, true);
+        elevatorRight.enableSoftLimit(SoftLimitDirection.kReverse, true);
+        elevatorLeft.enableSoftLimit(SoftLimitDirection.kForward, true);
+        elevatorLeft.enableSoftLimit(SoftLimitDirection.kReverse, true);
         
         elevatorLeft.setIdleMode(IdleMode.kBrake);
         elevatorRight.setIdleMode(IdleMode.kBrake);
@@ -76,7 +76,7 @@ public class Elevator extends SubsystemBase {
     }
 
     public void stop() {
-        elevatorRight.set(0);
+        elevatorRight.stopMotor();
         moving = false;
     }
 
@@ -89,7 +89,7 @@ public class Elevator extends SubsystemBase {
     @Override
     public void periodic() {
         if(!moving){
-            double elPID = pid.calculate(-encoderRight.getPosition(), -elevatorCommanded-10);
+            double elPID = pid.calculate(-encoderRight.getPosition(), -elevatorCommanded);
             SmartDashboard.putNumber("Elevator COmmanded",elevatorCommanded);
             if(elPID>Constants.ELEVATOR_POWER){
                 elPID =0.5;

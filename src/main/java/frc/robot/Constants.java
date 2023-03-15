@@ -57,14 +57,14 @@ public final class Constants {
 
     //Preset Positions
     public static double CONE_FRONT_PICKUP_POV = 270;
-    public static double CONE_FRONT_PICKUP_WRIST = 46.8;
-    public static double CONE_FRONT_PICKUP_ARM =  90;
-    public static double CONE_FRONT_PICKUP_EL = -48;
+    public static double CONE_FRONT_PICKUP_WRIST = 48;
+    public static double CONE_FRONT_PICKUP_ARM =  100;
+    public static double CONE_FRONT_PICKUP_EL = -55;
 
     public static double RETRACT_POV = 0;
     public static double RETRACT_WRIST = 46.8;
-    public static double RETRACT_ARM =  0;
-    public static double RETRACT_EL = 0;
+    public static double RETRACT_ARM =  58;
+    public static double RETRACT_EL = -6;
     
     public static double CUBE_SCORE_HIGH_WRIST = 21.3; 
     public static double CUBE_SCORE_HIGH_ARM = 26;

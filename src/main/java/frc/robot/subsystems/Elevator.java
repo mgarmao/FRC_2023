@@ -64,18 +64,17 @@ public class Elevator extends SubsystemBase {
     }
 
     public void retract(){
-        elevatorCommanded = encoderRight.getPosition();
         moving=true;
         elevatorRight.set(-Constants.ELEVATOR_POWER);
     }
 
     public void extend(){
-        elevatorCommanded = encoderRight.getPosition();
         moving = true;
         elevatorRight.set(Constants.ELEVATOR_POWER); 
     }
 
     public void stop() {
+        elevatorCommanded = encoderRight.getPosition();
         elevatorRight.stopMotor();
         moving = false;
     }

@@ -18,7 +18,6 @@ public class Taxi extends SequentialCommandGroup {
       addCommands(
         new Eject(0.4).withTimeout(4),
         new ReverseMoveDistance(m_drivetrain,48).withTimeout(4)
-        
       );
   }
 }

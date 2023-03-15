@@ -26,21 +26,21 @@ public class ReverseMoveDistance extends CommandBase {
     double kP1 = 0.025;
     double kI1 = 0.0;
     double kD1 = 0.01;
-    private final Drivetrain drivetrain;
+    private final Drivetrain m_drivetrain;
     PIDController keepAnglePID = new PIDController(kP1, kI1, kD1);
     PIDController driveToDistancePID = new PIDController(kP0, kI0, kD0);
 
 
     public ReverseMoveDistance(Drivetrain mdrivetrain, double distanceToMoveInches) {
-        drivetrain = mdrivetrain;
+        m_drivetrain = mdrivetrain;
         DISTANCE_TO_MOVE = distanceToMoveInches;
-        addRequirements(drivetrain);
+        addRequirements(m_drivetrain);
     }
 
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
-        encoderStartPos = drivetrain.getFrontLeftEncoder();
+        encoderStartPos = m_drivetrain.getFrontLeftEncoder();
         initAngle = gyro.getYaw();
         keepAnglePID.reset();
         driveToDistancePID.reset();
@@ -50,9 +50,8 @@ public class ReverseMoveDistance extends CommandBase {
     @Override
     public void execute() {  
         double anglePID = keepAnglePID.calculate(initAngle,gyro.getYaw());
-        double distancePID = driveToDistancePID.calculate(((drivetrain.getFrontLeftEncoder()-encoderStartPos)/gearRatio), DISTANCE_TO_MOVE);
+        double distancePID = driveToDistancePID.calculate(((m_drivetrain.getFrontLeftEncoder()-encoderStartPos)/gearRatio), DISTANCE_TO_MOVE);
 
-        // SmartDashboard.putNumber("Move FWRD PID", distancePID);
         if(distancePID>0.45){
             distancePID = 0.45;
         }
@@ -76,6 +75,7 @@ public class ReverseMoveDistance extends CommandBase {
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
+        // return false
         if(((((m_drivetrain.getFrontLeftEncoder()-encoderStartPos)/gearRatio)*wheelCircumfrance)>=DISTANCE_TO_MOVE)){
             SmartDashboard.putBoolean("Reversing", true);
             return true;

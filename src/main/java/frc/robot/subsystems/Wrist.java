@@ -25,11 +25,9 @@ public class Wrist extends SubsystemBase {
     private double kD = 0.00;
     
     private double desiredPosition = 0;
-    boolean opControl = false;
-    private static final XboxController m_operator = new XboxController(Constants.CONTROLLER_OPERATOR);
 
-    boolean wantToGoToPosition = false;
-    
+    private static final XboxController m_operator = new XboxController(Constants.CONTROLLER_OPERATOR);
+    boolean setPoint = false;
     double PID = 0;
     PIDController pid = new PIDController(kP, kI, kD);
 
@@ -55,14 +53,12 @@ public class Wrist extends SubsystemBase {
         if(input<=-Constants.WRIST_MAX_POWER){
             input=-Constants.WRIST_MAX_POWER;
         }
-        opControl = true;
         wrist.set(input);
         SmartDashboard.putNumber("Operator Left Y", input);
     }
 
     public void setPosition(double m_desiredPosition){
         desiredPosition = m_desiredPosition;
-        opControl = false;
     }
 
     public double getPosition(){
@@ -86,17 +82,16 @@ public class Wrist extends SubsystemBase {
     // }
 
     public void stop() {
+        controller(0);
         wrist.setIdleMode(IdleMode.kBrake);        
         wrist.stopMotor();
-        wantToGoToPosition = false;
+        setPoint = false;
     }
 
     @Override
     public void periodic() {
-        
         if(m_operator.getLeftY()>=0.05||m_operator.getLeftY()<=-0.05){
             controller(m_operator.getLeftY());
-            wantToGoToPosition = false;
         }
         else{
             stop();
@@ -104,17 +99,15 @@ public class Wrist extends SubsystemBase {
 
         if(m_operator.getPOV()==Constants.CONE_FRONT_PICKUP_POV){
             setPosition(Constants.CONE_FRONT_PICKUP_WRIST);
-            wantToGoToPosition = true;
+            setPoint = true;
         }
 
         if(m_operator.getPOV()==Constants.RETRACT_POV){
             setPosition(Constants.RETRACT_WRIST);
-            wantToGoToPosition = true;
+            setPoint = true;
         }
-
-        SmartDashboard.putBoolean("Going to Position", opControl);
         
-        if(!opControl&&Constants.elInPosition&&wantToGoToPosition){
+        if(Constants.elInPosition&&setPoint){
             double PID = pid.calculate(wristEncoder.getPosition(), desiredPosition);
             if(PID>Constants.WRIST_MAX_POWER){
                 PID=Constants.WRIST_MAX_POWER;
@@ -125,6 +118,10 @@ public class Wrist extends SubsystemBase {
             wrist.set(PID);
         }
 
+        if((m_operator.getPOV()==Constants.CONE_FRONT_PICKUP_POV)&&m_operator.getXButton()){
+            Constants.CONE_FRONT_PICKUP_WRIST = getPosition();
+        }
+        
         SmartDashboard.putNumber("Wrist Position", wristEncoder.getPosition()); 
         
         // if(XboxController.Button.kLeftStick.value>=0){

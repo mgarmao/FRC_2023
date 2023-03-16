@@ -45,7 +45,7 @@ public final class Constants {
 
     //arm
     public static int ARM = 8;
-    public static double ARM_POWER = 0.3;
+    public static double ARM_POWER = 0.45;
     public static final int ARM_LOWER_LIMIT = -67;
     public static final int ARM_UPPER_LIMIT = 100;
 

@@ -14,11 +14,11 @@ import frc.robot.commands.Wrist.WristSetPosition;
 public class FifteenTaxi extends SequentialCommandGroup {
     public FifteenTaxi() {
       addCommands(
-        new IntakeClose(),
+        new IntakeClose().withTimeout(0.2),
         new WristSetPosition(14).withTimeout(2),
         new Eject(1).withTimeout(1.75),
         new IntakeStop().withTimeout(1),
-        new ReverseMoveDistance(192,0.45).withTimeout(4)
+        new ReverseMoveDistance(200,0.45).withTimeout(4)
       );
   }
 }

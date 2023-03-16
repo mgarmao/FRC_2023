@@ -85,16 +85,15 @@ public class Wrist extends SubsystemBase {
         controller(0);
         wrist.setIdleMode(IdleMode.kBrake);        
         wrist.stopMotor();
-        setPoint = false;
     }
 
     @Override
     public void periodic() {
-        if(m_operator.getLeftY()>=0.05||m_operator.getLeftY()<=-0.05){
+        if(m_operator.getLeftY()!=0){
             controller(m_operator.getLeftY());
         }
         else{
-            stop();
+            desiredPosition = wristEncoder.getPosition();
         }
 
         if(m_operator.getPOV()==Constants.CONE_FRONT_PICKUP_POV){
@@ -107,7 +106,7 @@ public class Wrist extends SubsystemBase {
             setPoint = true;
         }
         
-        if(Constants.elInPosition&&setPoint){
+        if(setPoint){
             double PID = pid.calculate(wristEncoder.getPosition(), desiredPosition);
             if(PID>Constants.WRIST_MAX_POWER){
                 PID=Constants.WRIST_MAX_POWER;
@@ -123,18 +122,5 @@ public class Wrist extends SubsystemBase {
         }
         
         SmartDashboard.putNumber("Wrist Position", wristEncoder.getPosition()); 
-        
-        // if(XboxController.Button.kLeftStick.value>=0){
-        //     extend();
-        // }
-        // if(XboxController.Button.kLeftStick.value<=0){
-        //     retract();
-        // }
-        
-        // SmartDashboard.putNumber("CLimber Position", encoder.getPosition()); 
-        // PID = pid.calculate(encoder.getPosition(), elevatorCommanded);
-        // SmartDashboard.putNumber("Climber PID", PID);
-
-        // elevator.set(PID); 
     }
 }

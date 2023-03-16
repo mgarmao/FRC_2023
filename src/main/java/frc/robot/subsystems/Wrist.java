@@ -21,7 +21,7 @@ public class Wrist extends SubsystemBase {
     private RelativeEncoder wristEncoder;
 
     private double kP = 0.02;
-    private double kI = 0.00;
+    private double kI = 0.012;
     private double kD = 0.00;
     
     private double desiredPosition = 0;
@@ -100,7 +100,8 @@ public class Wrist extends SubsystemBase {
             }       
             wrist.set(wristPID);
         }
-
+        
+        SmartDashboard.putNumber("m_operator.getLeftY()", m_operator.getLeftY());
         if((m_operator.getLeftY()>=0.1)||(m_operator.getLeftY()<=-0.1)){
             double power = m_operator.getLeftY();
             if(power>=Constants.WRIST_MAX_POWER){
@@ -114,7 +115,7 @@ public class Wrist extends SubsystemBase {
             desiredPosition = wristEncoder.getPosition();
         }
         
-        if(setPoint&&((m_operator.getLeftY()>=0.1)||(m_operator.getLeftY()<=-0.1))){
+        if(setPoint&&!((m_operator.getLeftY()>=0.1)||(m_operator.getLeftY()<=-0.1))){
             wrist.set(0);
             setPoint = false;
         }

@@ -7,21 +7,20 @@
 package frc.robot.commands.Autonomous;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.Constants;
 import frc.robot.commands.Drivetrain.*;
+import frc.robot.commands.GoingToSetpoints.ArmSetpoint;
 import frc.robot.commands.GoingToSetpoints.ElSetpoint;
 import frc.robot.commands.Intake.*;
 import frc.robot.commands.Wrist.WristSetPosition;
-import frc.robot.subsystems.Elevator;
 
-public class FifteenTaxi extends SequentialCommandGroup {
-    public FifteenTaxi() {
+public class PutCube extends SequentialCommandGroup {
+    public PutCube() {
       addCommands(
-        new IntakeClose().withTimeout(0.2),
-        new WristSetPosition(14).withTimeout(2),
-        new ElSetpoint(20).withTimeout(2),
-        new Eject(1).withTimeout(1.75),
-        new IntakeStop().withTimeout(1),
-        new ReverseMoveDistance(200,0.45).withTimeout(4)
+        new ElSetpoint(Constants.CUBE_SCORE_HIGH_EL).withTimeout(1.5),
+        new WristSetPosition(Constants.CUBE_SCORE_HIGH_WRIST).withTimeout(1),
+        new ArmSetpoint(Constants.CUBE_SCORE_HIGH_ARM).withTimeout(1)
+        
       );
   }
 }

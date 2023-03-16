@@ -16,7 +16,7 @@ import frc.robot.commands.Wrist.WristSetPosition;
 public class Balance extends SequentialCommandGroup {
     public Balance() {
       addCommands(
-        new IntakeClose(),
+        new IntakeClose().withTimeout(0.1),
         new WristSetPosition(14).withTimeout(2),
         new Eject(1).withTimeout(1.75),
         new IntakeStop(),

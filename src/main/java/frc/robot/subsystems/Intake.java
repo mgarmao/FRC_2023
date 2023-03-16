@@ -54,20 +54,16 @@ public class Intake extends SubsystemBase {
     }
 
     public void toggle() {
-        /**
-         * If the solenoid is set to forward, it'll be set to reverse. If the solenoid is set 
-         * to reverse, it'll be set to forward. If the solenoid is set to off, nothing happens.
-         */
         intakeSolenoid.toggle();
     }
     
-    public void close() {
-        intakeSolenoid.set(Value.kForward);
+    public void open() {
+        intakeSolenoid.set(Value.kReverse);
     }
 
     /** Set the state of the intake arms to extend. */
-    public void open() {
-        intakeSolenoid.set(Value.kReverse);
+    public void close() {
+        intakeSolenoid.set(Value.kForward);
     }
 
     /** This method will be called once per scheduler run. */

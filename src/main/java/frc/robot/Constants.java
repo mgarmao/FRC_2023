@@ -40,7 +40,7 @@ public final class Constants {
     public static final int ELEVATOR_LEFT = 6;
     public static final int ELEVATOR_RIGHT = 7;
     public static final double ELEVATOR_POWER = 0.3;//xxxxx
-    public static final float ELEVATOR_LOWER_LIMIT = -80;
+    public static final float ELEVATOR_LOWER_LIMIT = -87;
     public static final float ELEVATOR_UPPER_LIMIT = 0;
 
     //arm

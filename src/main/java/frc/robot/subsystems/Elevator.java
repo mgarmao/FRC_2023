@@ -85,6 +85,11 @@ public class Elevator extends SubsystemBase {
         }
     }
 
+    public void setPosition(double input){
+        elevatorCommanded = input;
+        moving = false;
+    }
+
     @Override
     public void periodic() {
         if(!moving){

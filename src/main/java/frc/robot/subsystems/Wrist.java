@@ -59,6 +59,7 @@ public class Wrist extends SubsystemBase {
 
     public void setPosition(double m_desiredPosition){
         desiredPosition = m_desiredPosition;
+        setPoint = true;
     }
 
     public double getPosition(){
@@ -89,38 +90,39 @@ public class Wrist extends SubsystemBase {
 
     @Override
     public void periodic() {
-        if(m_operator.getLeftY()!=0){
-            controller(m_operator.getLeftY());
+        if(!setPoint){
+            double wristPID = pid.calculate(wristEncoder.getPosition(), desiredPosition);
+            if(wristPID>Constants.WRIST_MAX_POWER){
+                wristPID = Constants.WRIST_MAX_POWER;
+            }
+            if(wristPID<-Constants.WRIST_MAX_POWER){
+                wristPID = -Constants.WRIST_MAX_POWER;
+            }       
+            wrist.set(wristPID);
         }
-        else{
+
+        if((m_operator.getLeftY()>=0.1)||(m_operator.getLeftY()<=-0.1)){
+            double power = m_operator.getLeftY();
+            if(power>=Constants.WRIST_MAX_POWER){
+                power = Constants.WRIST_MAX_POWER;
+            }
+            if(power<=-Constants.WRIST_MAX_POWER){
+                power = -Constants.WRIST_MAX_POWER;
+            }
+            wrist.set(power);
+            setPoint = true;
             desiredPosition = wristEncoder.getPosition();
+        }
+        
+        if(setPoint&&((m_operator.getLeftY()>=0.1)||(m_operator.getLeftY()<=-0.1))){
+            wrist.set(0);
+            setPoint = false;
         }
 
         if(m_operator.getPOV()==Constants.CONE_FRONT_PICKUP_POV){
-            setPosition(Constants.CONE_FRONT_PICKUP_WRIST);
-            setPoint = true;
+            desiredPosition = Constants.CONE_FRONT_PICKUP_WRIST;
+            Constants.elInPosition = false;
+            setPoint = false;
         }
-
-        if(m_operator.getPOV()==Constants.RETRACT_POV){
-            setPosition(Constants.RETRACT_WRIST);
-            setPoint = true;
-        }
-        
-        if(setPoint){
-            double PID = pid.calculate(wristEncoder.getPosition(), desiredPosition);
-            if(PID>Constants.WRIST_MAX_POWER){
-                PID=Constants.WRIST_MAX_POWER;
-            }
-            if(PID<-Constants.WRIST_MAX_POWER){
-                PID=-Constants.WRIST_MAX_POWER;
-            }
-            wrist.set(PID);
-        }
-
-        if((m_operator.getPOV()==Constants.CONE_FRONT_PICKUP_POV)&&m_operator.getXButton()){
-            Constants.CONE_FRONT_PICKUP_WRIST = getPosition();
-        }
-        
-        SmartDashboard.putNumber("Wrist Position", wristEncoder.getPosition()); 
     }
 }

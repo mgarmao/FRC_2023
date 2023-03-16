@@ -51,7 +51,8 @@ public class RobotContainer {
   Compressor pcmCompressor = new Compressor(1, PneumaticsModuleType.REVPH);
 
   private final Command WAIT_NONE = new WaitCommand(0);
-  private final Command Taxi = new Taxi();
+  private final Command FifteenTaxi = new FifteenTaxi();
+  private final Command FiveTaxi = new FiveTaxi();
   private final Command Balance = new Balance();
   // private final Command Square = new Square();
   private SendableChooser<Command> m_auto = new SendableChooser<>();
@@ -60,7 +61,8 @@ public class RobotContainer {
   public RobotContainer() {
 
     /** Autonomous Chooser */
-    m_auto.setDefaultOption("Taxi", Taxi);
+    m_auto.setDefaultOption("FifteenTaxi", FifteenTaxi);
+    m_auto.setDefaultOption("FiveTaxi", FiveTaxi);
     m_auto.addOption("Balamce", Balance);
     m_auto.addOption("Do Nothing", WAIT_NONE);
     SmartDashboard.putData("Autonomous Routine", m_auto);
@@ -107,7 +109,7 @@ public class RobotContainer {
   
     //Sets intake to run depending on left or right driver thumb button
     new JoystickButton(m_driverLeft, 2)
-      .whenPressed(() -> Intake.eject(-Constants.INTAKE_SPEED))
+      .whenPressed(() -> Intake.eject(Constants.INTAKE_SPEED))
       .whenReleased(() -> Intake.stop());
     new JoystickButton(m_driverRight, 2)
       .whenPressed(() -> Intake.retrieve())

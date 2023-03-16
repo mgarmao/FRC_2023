@@ -10,26 +10,21 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 
 import static frc.robot.RobotContainer.*;
 
-import frc.robot.subsystems.Drivetrain;
-import frc.robot.subsystems.Photon;
-
 public class ReverseBalance extends CommandBase {
-  Photon photon = new Photon();
 
   double kP = 0.0012;
   double kI = 0.0;
   double kD = 0.001;
 
+  boolean aparentLevel = false;
   double balancePID = 1; 
   double initAngle = 0;
   double m_setpoint = 0;
-  private final Drivetrain m_drivetrain;
   PIDController pid = new PIDController(kP, kI, kD);
 
-  public ReverseBalance(Drivetrain mdrivetrain) {
-    m_drivetrain = mdrivetrain;
-    addRequirements(m_drivetrain);
+  public ReverseBalance() {
     addRequirements(gyro);
+    addRequirements(m_drivetrain);
   }
 
   @Override
@@ -49,27 +44,41 @@ public class ReverseBalance extends CommandBase {
       anglePID=-0.25;
     }
 
-    double driveLeft = 0.3+anglePID;
-    double driveRight = 0.3-anglePID;
-    SmartDashboard.putNumber("gyro pitch", gyro.getPitch());
+    if((gyro.getPitch()<-10)){
+      double driveLeft = 0.35-anglePID;
+      double driveRight = 0.35+anglePID;
+      m_drivetrain.tankDrive(-driveLeft, -driveRight); 
+      SmartDashboard.putNumber("Motor",driveLeft);   
 
-    m_drivetrain.tankDrive(driveLeft, driveRight);
+    }
+    else if((gyro.getPitch()>10)){
+      double driveLeft = 0.35+anglePID;
+      double driveRight = 0.35-anglePID;
+      m_drivetrain.tankDrive(driveLeft, driveRight);
+      SmartDashboard.putNumber("Motor",driveLeft);  
+      aparentLevel = true; 
+    }
+    else{
+      m_drivetrain.tankDrive(0, 0);
+    }
   }
 
   @Override
   public void end(boolean interrupted) {
+    m_drivetrain.setBrakeMode();
     m_drivetrain.stop();
   }
 
   @Override
   public boolean isFinished() {
-    if((gyro.getPitch()>-10)&&(gyro.getPitch()<10)){
+    if((gyro.getPitch()>-13)&&(gyro.getPitch()<13)&&aparentLevel){
       SmartDashboard.putBoolean("balancing", true);
-      return false;
+      m_drivetrain.setBrakeMode();
+      m_drivetrain.stop();
     }
     else{
       SmartDashboard.putBoolean("balancing", false);
-      return true;
     }
+    return false;
   }
 }

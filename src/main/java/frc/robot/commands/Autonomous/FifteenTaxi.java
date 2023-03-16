@@ -7,19 +7,18 @@
 package frc.robot.commands.Autonomous;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-
-import static frc.robot.RobotContainer.*;
-
 import frc.robot.commands.Drivetrain.*;
 import frc.robot.commands.Intake.*;
-import frc.robot.subsystems.Intake;
+import frc.robot.commands.Wrist.WristSetPosition;
 
-public class Taxi extends SequentialCommandGroup {
-    public Taxi() {
+public class FifteenTaxi extends SequentialCommandGroup {
+    public FifteenTaxi() {
       addCommands(
-        new Eject(0.4).withTimeout(4),
+        new IntakeClose(),
+        new WristSetPosition(14).withTimeout(2),
+        new Eject(1).withTimeout(1.75),
         new IntakeStop().withTimeout(1),
-        new ReverseMoveDistance(78,0.45).withTimeout(4)
+        new ReverseMoveDistance(192,0.45).withTimeout(4)
       );
   }
 }

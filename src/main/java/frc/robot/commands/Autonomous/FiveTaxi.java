@@ -7,22 +7,14 @@
 package frc.robot.commands.Autonomous;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-
-
 import frc.robot.commands.Drivetrain.*;
 import frc.robot.commands.Intake.*;
 import frc.robot.commands.Wrist.WristSetPosition;
 
-public class Balance extends SequentialCommandGroup {
-    public Balance() {
+public class FiveTaxi extends SequentialCommandGroup {
+    public FiveTaxi() {
       addCommands(
-        new IntakeClose(),
-        new WristSetPosition(14).withTimeout(2),
-        new Eject(1).withTimeout(1.75),
-        new IntakeStop(),
-        new ReverseMoveDistance(60,0.55),
-        new ReverseBalance()
-        // new FowardBalance()
+        new ReverseMoveDistance(60,0.45).withTimeout(4)
       );
   }
 }

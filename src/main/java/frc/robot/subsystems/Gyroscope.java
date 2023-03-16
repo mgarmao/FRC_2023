@@ -31,15 +31,18 @@ public class Gyroscope extends SubsystemBase {
   }
 
   public double getPitch() {
-    return gyro.getPitch();
+    return gyro.getRoll();
   }
   public double getRoll() {
-    return gyro.getRoll();
+    return gyro.getPitch();
   }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    SmartDashboard.putNumber("Gyroscope YAW", gyro.getAngle());
+    SmartDashboard.putNumber("Gyroscope Pitch", getPitch());
+    SmartDashboard.putNumber("Gyroscope Roll", getRoll());
+    SmartDashboard.putNumber("Gyroscope Yaw", getYaw());
+
   }
 }

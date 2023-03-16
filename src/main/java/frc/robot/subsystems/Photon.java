@@ -58,7 +58,7 @@ public class Photon extends SubsystemBase{
         return xDistance;
     }
 
-    public double apriltagDistanceY(){
+    public double apriltagDistanceY(int id){
         camera.setPipelineIndex(0);
         var result = camera.getLatestResult();         
         boolean hasTargets = result.hasTargets();        
@@ -72,7 +72,9 @@ public class Photon extends SubsystemBase{
             for(PhotonTrackedTarget target:targets){
                 Transform3d thisTarget = target.getBestCameraToTarget();
                 SmartDashboard.putNumber("This ID", target.getFiducialId());
-                yDistance = thisTarget.getY();                
+                if(target.getFiducialId()==id){
+                    yDistance = thisTarget.getY();                
+                }
             }
         }
         else{

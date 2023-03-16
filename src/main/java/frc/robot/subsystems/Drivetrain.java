@@ -80,6 +80,13 @@ public class Drivetrain extends SubsystemBase {
         m_drivetrain.tankDrive(leftSpeed, rightSpeed);
     }
 
+    public void setBrakeMode(){
+        m_motorFrontLeft.setIdleMode(IdleMode.kBrake);
+        m_motorFrontRight.setIdleMode(IdleMode.kBrake);
+        m_motorRearLeft.setIdleMode(IdleMode.kBrake);
+        m_motorRearRight.setIdleMode(IdleMode.kBrake);
+    }
+
     public void moveDistance(double m_distanceToMove, int gearRatio, double wheelCircumfrance){
         distanceToMove = m_distanceToMove;
         double encoderStartPos = FL_encoder.getPosition();

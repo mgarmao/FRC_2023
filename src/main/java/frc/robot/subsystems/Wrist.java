@@ -28,12 +28,12 @@ public class Wrist extends SubsystemBase {
     boolean opControl = false;
     private static final XboxController m_operator = new XboxController(Constants.CONTROLLER_OPERATOR);
 
+    boolean wantToGoToPosition = false;
     
     double PID = 0;
     PIDController pid = new PIDController(kP, kI, kD);
 
     public Wrist() {
-        
         wrist = new CANSparkMax(Constants.WRIST, MotorType.kBrushless);
         wristEncoder = wrist.getEncoder();
         wrist.restoreFactoryDefaults();
@@ -86,7 +86,9 @@ public class Wrist extends SubsystemBase {
     // }
 
     public void stop() {
+        wrist.setIdleMode(IdleMode.kBrake);        
         wrist.stopMotor();
+        wantToGoToPosition = false;
     }
 
     @Override
@@ -94,6 +96,7 @@ public class Wrist extends SubsystemBase {
         
         if(m_operator.getLeftY()>=0.05||m_operator.getLeftY()<=-0.05){
             controller(m_operator.getLeftY());
+            wantToGoToPosition = false;
         }
         else{
             stop();
@@ -101,15 +104,17 @@ public class Wrist extends SubsystemBase {
 
         if(m_operator.getPOV()==Constants.CONE_FRONT_PICKUP_POV){
             setPosition(Constants.CONE_FRONT_PICKUP_WRIST);
+            wantToGoToPosition = true;
         }
 
         if(m_operator.getPOV()==Constants.RETRACT_POV){
             setPosition(Constants.RETRACT_WRIST);
+            wantToGoToPosition = true;
         }
 
         SmartDashboard.putBoolean("Going to Position", opControl);
         
-        if(!opControl&&Constants.elInPosition){
+        if(!opControl&&Constants.elInPosition&&wantToGoToPosition){
             double PID = pid.calculate(wristEncoder.getPosition(), desiredPosition);
             if(PID>Constants.WRIST_MAX_POWER){
                 PID=Constants.WRIST_MAX_POWER;

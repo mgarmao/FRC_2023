@@ -46,27 +46,28 @@ public class FowardBalance extends CommandBase {
       anglePID=-0.25;
     }
 
-    double driveLeft = 0.3-anglePID;
-    double driveRight = 0.3+anglePID;
+    double driveLeft = 0.7+anglePID;
+    double driveRight = 0.7-anglePID;
     SmartDashboard.putNumber("gyro pitch", gyro.getPitch());
 
-    m_drivetrain.tankDrive(-driveLeft, -driveRight);
+    m_drivetrain.tankDrive(driveLeft, driveRight);    
   }
 
   @Override
   public void end(boolean interrupted) {
+    m_drivetrain.setBrakeMode();
     m_drivetrain.stop();
   }
 
   @Override
   public boolean isFinished() {
-    if((gyro.getPitch()>-10)&&(gyro.getPitch()<10)){
-      SmartDashboard.putBoolean("balancing", true);
-      return false;
-    }
-    else{
+    if((gyro.getPitch()>-0.3)&&(gyro.getPitch()<0.3)){
       SmartDashboard.putBoolean("balancing", false);
       return true;
+    }
+    else{
+      SmartDashboard.putBoolean("balancing", true);
+      return false;
     }
   }
 }

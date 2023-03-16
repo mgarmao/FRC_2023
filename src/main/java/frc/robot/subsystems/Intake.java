@@ -62,12 +62,12 @@ public class Intake extends SubsystemBase {
     }
     
     public void close() {
-        intakeSolenoid.set(Value.kReverse);
+        intakeSolenoid.set(Value.kForward);
     }
 
     /** Set the state of the intake arms to extend. */
     public void open() {
-        intakeSolenoid.set(Value.kForward);
+        intakeSolenoid.set(Value.kReverse);
     }
 
     /** This method will be called once per scheduler run. */

@@ -8,17 +8,17 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 
 import static frc.robot.RobotContainer.*;
 
-public class IntakeStop extends CommandBase {
+public class IntakeClose extends CommandBase {
     double speed;
 
-    public IntakeStop() {
+    public IntakeClose() {
         addRequirements(Intake);
     }
 
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
-        Intake.stop();
+        Intake.close();
     }
 
     // Called every time the scheduler runs while the command is scheduled.

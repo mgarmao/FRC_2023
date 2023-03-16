@@ -108,11 +108,11 @@ public class Elevator extends SubsystemBase {
             moving = false;
         }
 
-        if(m_operator.getPOV()==Constants.RETRACT_POV){
-            elevatorCommanded = Constants.RETRACT_EL;
-            Constants.elInPosition = false;
-            moving = false;
-        }
+        // if(m_operator.getPOV()==Constants.RETRACT_POV){
+        //     elevatorCommanded = Constants.RETRACT_EL;
+        //     Constants.elInPosition = false;
+        //     moving = false;
+        // }
 
         SmartDashboard.putNumber("Elevator Position", encoderRight.getPosition());
         // double elPID = pid.calculate(encoderRight.getPosition(), elevatorCommanded);

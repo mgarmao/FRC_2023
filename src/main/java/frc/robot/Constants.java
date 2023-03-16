@@ -30,7 +30,7 @@ public final class Constants {
 
     //** Intake Motor */
     public static final int INTAKE_WHEELS = 3; 
-    public static final double INTAKE_SPEED = 1; //Subject to Josh
+    public static final double INTAKE_SPEED = 0.99; //Subject to Josh
     
     //Pneumatics
     public static final int COMPRESSOR = 0;
@@ -56,7 +56,7 @@ public final class Constants {
     public static final float WRIST_UPPER_LIMIT = 58;
 
     //Preset Positions
-    public static double CONE_FRONT_PICKUP_POV = 270;
+    public static double CONE_FRONT_PICKUP_POV = 90;
     public static double CONE_FRONT_PICKUP_WRIST = 48;
     public static double CONE_FRONT_PICKUP_ARM =  100;
     public static double CONE_FRONT_PICKUP_EL = -55;

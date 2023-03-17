@@ -122,7 +122,16 @@ public class Wrist extends SubsystemBase {
 
         if(m_operator.getPOV()==Constants.CONE_FRONT_PICKUP_POV){
             desiredPosition = Constants.CONE_FRONT_PICKUP_WRIST;
-            Constants.elInPosition = false;
+            setPoint = false;
+        }
+
+        if(m_operator.getPOV()==Constants.RETRACT_POV){
+            desiredPosition = Constants.RETRACT_WRIST;
+            setPoint = false;
+        }
+
+        if(m_operator.getPOV()==Constants.CUBE_SCORE_HIGH_POV){
+            desiredPosition = Constants.CUBE_SCORE_HIGH_WRIST;
             setPoint = false;
         }
     }

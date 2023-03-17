@@ -69,7 +69,8 @@ public class Arm extends SubsystemBase {
     }
 
     public void controller(double input){
-        arm.set(input); 
+        arm.set(input);
+        Constants.ARM_IN_POSITION = false;
         opControl = true;
     }
 
@@ -79,8 +80,11 @@ public class Arm extends SubsystemBase {
         if(armEncoder.getPosition()>desiredPosition){
             arm.set(Constants.ARM_POWER); 
         }
-        if(armEncoder.getPosition()<desiredPosition){
+        else if(armEncoder.getPosition()<desiredPosition){
             arm.set(-Constants.ARM_POWER); 
+        }
+        else{
+            Constants.ARM_IN_POSITION = true;
         }
     }
 
@@ -101,6 +105,12 @@ public class Arm extends SubsystemBase {
         if(m_operator.getPOV()==Constants.RETRACT_POV){
             setPosition(Constants.RETRACT_ARM);
         }
+
+        if((m_operator.getPOV()==Constants.CUBE_SCORE_HIGH_POV)&&Constants.elInPosition){
+            setPosition(Constants.CUBE_SCORE_HIGH_ARM);
+        }
+
+        
         
         if(!opControl){
             if(Constants.elInPosition){
@@ -111,6 +121,7 @@ public class Arm extends SubsystemBase {
                     arm.set(Constants.ARM_POWER);
                 }
                 if((armEncoder.getPosition()-desiredPosition<5)&&(armEncoder.getPosition()-desiredPosition>-5)){
+                    Constants.ARM_IN_POSITION = true;
                     opControl = true;
                 }
             }

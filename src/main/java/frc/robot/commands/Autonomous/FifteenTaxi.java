@@ -16,12 +16,13 @@ import frc.robot.subsystems.Elevator;
 public class FifteenTaxi extends SequentialCommandGroup {
     public FifteenTaxi() {
       addCommands(
-        new IntakeClose().withTimeout(0.2),
-        new WristSetPosition(14).withTimeout(2),
-        new ElSetpoint(20).withTimeout(2),
-        new Eject(1).withTimeout(1.75),
-        new IntakeStop().withTimeout(1),
-        new ReverseMoveDistance(200,0.45).withTimeout(4)
+        new IntakeClose().withTimeout(0.1),
+        new ElSetpoint(-70).withTimeout(2),
+        new WristSetPosition(12).withTimeout(1),
+        new Eject(1).withTimeout(0.5),
+        new ElSetpoint(-1).withTimeout(1.5),
+        new IntakeStop().withTimeout(0.1),
+        new ReverseMoveDistance(170,0.45)
       );
   }
 }

@@ -10,11 +10,11 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 
 import static frc.robot.RobotContainer.*;
 
-public class ReverseBalance extends CommandBase {
+public class DriveOffChargeStation extends CommandBase {
 
-  double kP = 0.01;
+  double kP = 0.0012;
   double kI = 0.0;
-  double kD = 0.01;
+  double kD = 0.001;
 
   boolean aparentLevel = false;
   double balancePID = 1; 
@@ -22,7 +22,7 @@ public class ReverseBalance extends CommandBase {
   double m_setpoint = 0;
   PIDController pid = new PIDController(kP, kI, kD);
 
-  public ReverseBalance() {
+  public DriveOffChargeStation() {
     addRequirements(gyro);
     addRequirements(m_drivetrain);
   }
@@ -44,17 +44,17 @@ public class ReverseBalance extends CommandBase {
       anglePID=-0.25;
     }
 
-    if((gyro.getPitch()<-12)){
-      double driveLeft = 0.35-anglePID;
-      double driveRight = 0.35+anglePID;
-      m_drivetrain.tankDrive(-driveLeft, -driveRight); 
+    if((gyro.getPitch()<-10)){
+      double driveLeft = 0.35+anglePID;
+      double driveRight = 0.35-anglePID;
+      m_drivetrain.tankDrive(driveLeft, driveRight); 
       SmartDashboard.putNumber("Motor",driveLeft);   
 
     }
-    else if((gyro.getPitch()>12)){
-      double driveLeft = 0.35+anglePID;
-      double driveRight = 0.35-anglePID;
-      m_drivetrain.tankDrive(driveLeft, driveRight);
+    else if((gyro.getPitch()>10)){
+      double driveLeft = 0.35-anglePID;
+      double driveRight = 0.35+anglePID;
+      m_drivetrain.tankDrive(-driveLeft, -driveRight);
       SmartDashboard.putNumber("Motor",driveLeft);  
       aparentLevel = true; 
     }
@@ -67,13 +67,11 @@ public class ReverseBalance extends CommandBase {
   public void end(boolean interrupted) {
     m_drivetrain.setBrakeMode();
     m_drivetrain.stop();
-    m_drivetrain.setCoast();
-    
   }
 
   @Override
   public boolean isFinished() {
-    if((gyro.getPitch()>-12)&&(gyro.getPitch()<12)&&aparentLevel){
+    if((gyro.getPitch()>-6)&&(gyro.getPitch()<6)&&aparentLevel){
       SmartDashboard.putBoolean("balancing", true);
       m_drivetrain.setBrakeMode();
       m_drivetrain.stop();

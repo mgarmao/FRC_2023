@@ -61,13 +61,14 @@ public final class Constants {
     public static double CONE_FRONT_PICKUP_ARM =  100;
     public static double CONE_FRONT_PICKUP_EL = -55;
 
-    public static double RETRACT_POV = 0;
+    public static double RETRACT_POV = 180;
     public static double RETRACT_WRIST = 46.8;
     public static double RETRACT_ARM =  58;
-    public static double RETRACT_EL = -6;
+    public static double RETRACT_EL = -2;
     
+    public static double CUBE_SCORE_HIGH_POV = 0;
     public static double CUBE_SCORE_HIGH_WRIST = 21.3; 
-    public static double CUBE_SCORE_HIGH_ARM = 26;
+    public static double CUBE_SCORE_HIGH_ARM = 20;
     public static double CUBE_SCORE_HIGH_EL = -61.35;
 
     public static double CONE_PICKUP_WRIST = 51;
@@ -76,4 +77,5 @@ public final class Constants {
 
 
     public static boolean elInPosition = false;
+    public static boolean ARM_IN_POSITION = false;
 }

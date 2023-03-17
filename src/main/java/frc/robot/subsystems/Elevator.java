@@ -65,11 +65,13 @@ public class Elevator extends SubsystemBase {
 
     public void retract(){
         moving=true;
+        Constants.elInPosition = false;
         elevatorRight.set(-Constants.ELEVATOR_POWER);
     }
 
     public void extend(){
         moving = true;
+        Constants.elInPosition = false;
         elevatorRight.set(Constants.ELEVATOR_POWER); 
     }
 
@@ -99,11 +101,14 @@ public class Elevator extends SubsystemBase {
                 elPID =0.5;
             }
             if(elPID<-Constants.ELEVATOR_POWER){
-                elPID =0.5;
+                elPID =-0.5;
             }       
             if(elevatorCommanded-encoderRight.getPosition()<10){
                 Constants.elInPosition = true;
-            }     
+            }
+            else{
+                Constants.elInPosition = false;
+            }
             elevatorRight.set(-elPID);
         }
 
@@ -113,6 +118,18 @@ public class Elevator extends SubsystemBase {
             moving = false;
         }
 
+        if((m_operator.getPOV()==Constants.RETRACT_POV)&&Constants.ARM_IN_POSITION){
+            elevatorCommanded = Constants.RETRACT_EL;
+            Constants.elInPosition = false;
+            moving = false;
+        }
+
+        if((m_operator.getPOV()==Constants.CUBE_SCORE_HIGH_POV)){
+            elevatorCommanded = Constants.CUBE_SCORE_HIGH_EL;
+            moving = false;
+        }
+
+        
         // if(m_operator.getPOV()==Constants.RETRACT_POV){
         //     elevatorCommanded = Constants.RETRACT_EL;
         //     Constants.elInPosition = false;

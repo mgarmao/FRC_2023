@@ -77,6 +77,8 @@ public class Drivetrain extends SubsystemBase {
     /** This function makes use of the driver input to control the robot like a tank. */ 
     public void tankDrive(double leftSpeed, double rightSpeed) {
         /** Set the drivetrain to operate as tank drive. */
+        SmartDashboard.putNumber("Left Speed", leftSpeed);
+        SmartDashboard.putNumber("Right Speed", rightSpeed);
         m_drivetrain.tankDrive(leftSpeed, rightSpeed);
     }
 
@@ -85,6 +87,12 @@ public class Drivetrain extends SubsystemBase {
         m_motorFrontRight.setIdleMode(IdleMode.kBrake);
         m_motorRearLeft.setIdleMode(IdleMode.kBrake);
         m_motorRearRight.setIdleMode(IdleMode.kBrake);
+    }
+    public void setCoast(){
+        m_motorFrontLeft.setIdleMode(IdleMode.kCoast);
+        m_motorFrontRight.setIdleMode(IdleMode.kCoast);
+        m_motorRearLeft.setIdleMode(IdleMode.kCoast);
+        m_motorRearRight.setIdleMode(IdleMode.kCoast);
     }
 
     public void moveDistance(double m_distanceToMove, int gearRatio, double wheelCircumfrance){

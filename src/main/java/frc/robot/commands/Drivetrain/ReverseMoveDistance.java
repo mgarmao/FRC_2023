@@ -69,7 +69,9 @@ public class ReverseMoveDistance extends CommandBase {
     // Called once the command ends or is interrupted.
     @Override
     public void end(boolean interrupted) {
+        m_drivetrain.setBrakeMode();
         m_drivetrain.stop();
+        m_drivetrain.setCoast();
     }
 
     // Returns true when the command should end.

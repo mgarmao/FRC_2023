@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 
 import frc.robot.commands.Drivetrain.*;
+import frc.robot.commands.GoingToSetpoints.ElSetpoint;
 import frc.robot.commands.Intake.*;
 import frc.robot.commands.Wrist.WristSetPosition;
 
@@ -17,11 +18,16 @@ public class Balance extends SequentialCommandGroup {
     public Balance() {
       addCommands(
         new IntakeClose().withTimeout(0.1),
-        new WristSetPosition(14).withTimeout(2),
-        new Eject(1).withTimeout(1.75),
-        new IntakeStop(),
-        new ReverseMoveDistance(60,0.55),
-        new ReverseBalance()
+        new ElSetpoint(-50).withTimeout(2),
+        new WristSetPosition(16).withTimeout(1),
+        new Eject(1).withTimeout(0.5),
+        new ElSetpoint(-1).withTimeout(2),
+        new IntakeStop().withTimeout(0.1),
+        new ReverseMoveDistance(68,0.65).andThen(
+          new ReverseBalance()
+        )
+        // new DriveOffChargeStation().withTimeout(0.1),
+        // new MoveDistance(20,0.55).withTimeout(0.1),
         // new FowardBalance()
       );
   }

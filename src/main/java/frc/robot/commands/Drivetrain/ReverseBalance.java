@@ -45,18 +45,17 @@ public class ReverseBalance extends CommandBase {
     }
 
     if((gyro.getPitch()<-12)){
-      double driveLeft = 0.35-anglePID;
-      double driveRight = 0.35+anglePID;
+      double driveLeft = 0.41-anglePID;
+      double driveRight = 0.41+anglePID;
       m_drivetrain.tankDrive(-driveLeft, -driveRight); 
       SmartDashboard.putNumber("Motor",driveLeft);   
 
     }
     else if((gyro.getPitch()>12)){
-      double driveLeft = 0.35+anglePID;
-      double driveRight = 0.35-anglePID;
+      double driveLeft = 0.41+anglePID;
+      double driveRight = 0.41-anglePID;
       m_drivetrain.tankDrive(driveLeft, driveRight);
       SmartDashboard.putNumber("Motor",driveLeft);  
-      aparentLevel = true; 
     }
     else{
       m_drivetrain.tankDrive(0, 0);
@@ -73,7 +72,7 @@ public class ReverseBalance extends CommandBase {
 
   @Override
   public boolean isFinished() {
-    if((gyro.getPitch()>-12)&&(gyro.getPitch()<12)&&aparentLevel){
+    if((gyro.getPitch()>-12)&&(gyro.getPitch()<12)){
       SmartDashboard.putBoolean("balancing", true);
       m_drivetrain.setBrakeMode();
       m_drivetrain.stop();

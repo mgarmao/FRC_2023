@@ -42,7 +42,7 @@ public class RobotContainer {
   public static final LEDs LEDs = new LEDs();
   public static final Intake Intake = new Intake();
   public static final TeleopIndicator TeleopIndicator = new TeleopIndicator();
-  public static final Elevator Elevator = new Elevator();
+  public static final Elevator elevator = new Elevator();
   public static final Arm arm = new Arm();
   public static final Photon photon = new Photon();
   public static final Wrist wrist = new Wrist();
@@ -100,16 +100,16 @@ public class RobotContainer {
 
     //Raise and lower 
     new JoystickButton(m_operator, Button.kRightBumper.value)
-    .whenPressed(() -> Elevator.extend())
-    .whenReleased(() -> Elevator.stop());
+    .whenPressed(() -> elevator.extend())
+    .whenReleased(() -> elevator.stop());
 
     new JoystickButton(m_operator, Button.kLeftBumper.value)
-    .whenPressed(() -> Elevator.retract())
-    .whenReleased(() -> Elevator.stop());
+    .whenPressed(() -> elevator.retract())
+    .whenReleased(() -> elevator.stop());
   
     //Sets intake to run depending on left or right driver thumb button
     new JoystickButton(m_driverLeft, 2)
-      .whenPressed(() -> Intake.eject(Constants.INTAKE_SPEED))
+      .whenPressed(() -> Intake.eject(Constants.EJECT_SPEED))
       .whenReleased(() -> Intake.stop());
     new JoystickButton(m_driverRight, 2)
       .whenPressed(() -> Intake.retrieve())
@@ -122,12 +122,12 @@ public class RobotContainer {
     .whenPressed(()->LEDs.sendData2());
 
     new JoystickButton(m_operator, Button.kY.value)
-    .whenPressed(()->arm.extend())
-    .whenReleased(()->arm.stop());
-    
+    .whenPressed(()->m_drivetrain.setCoast());
+
     new JoystickButton(m_operator, Button.kX.value)
-    .whenPressed(()->arm.retract())
-    .whenReleased(()->arm.stop());
+    .whenPressed(()->m_drivetrain.setBrakeMode());
+    //Brake Mode
+
   }
 
   /**

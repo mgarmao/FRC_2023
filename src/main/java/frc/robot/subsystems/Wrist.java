@@ -90,6 +90,7 @@ public class Wrist extends SubsystemBase {
 
     @Override
     public void periodic() {
+        SmartDashboard.putNumber("Wrist Position",wristEncoder.getPosition());
         if(!setPoint){
             double wristPID = pid.calculate(wristEncoder.getPosition(), desiredPosition);
             if(wristPID>Constants.WRIST_MAX_POWER){
@@ -132,6 +133,11 @@ public class Wrist extends SubsystemBase {
 
         if(m_operator.getPOV()==Constants.CUBE_SCORE_HIGH_POV){
             desiredPosition = Constants.CUBE_SCORE_HIGH_WRIST;
+            setPoint = false;
+        }
+
+        if(m_operator.getPOV()==Constants.CONE_SCORE_MID_POV){
+            desiredPosition = Constants.CONE_SCORE_MID_WRIST;
             setPoint = false;
         }
     }

@@ -50,7 +50,7 @@ public class Intake extends SubsystemBase {
     
     /** This function is called once each time the the command ends or is interrupted. */
     public void stop() {
-        motor.stopMotor();
+        motor.set(0.06);
     }
 
     public void toggle() {
@@ -68,6 +68,8 @@ public class Intake extends SubsystemBase {
 
     /** This method will be called once per scheduler run. */
     @Override
-    public void periodic() {}
+    public void periodic() {
+        
+    }
 
 }

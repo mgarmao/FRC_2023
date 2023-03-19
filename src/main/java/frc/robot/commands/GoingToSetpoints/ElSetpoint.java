@@ -11,7 +11,7 @@ public class ElSetpoint extends CommandBase {
     double setPoint=0; 
     public ElSetpoint(double m_setPoint) {
       setPoint = m_setPoint;
-      addRequirements(Elevator);
+      addRequirements(elevator);
     }
 
   // Called when the command is initially scheduled.
@@ -23,7 +23,7 @@ public class ElSetpoint extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    Elevator.setPosition(setPoint);
+    elevator.setPosition(setPoint);
   }
 
   // Called once the command ends or is interrupted.

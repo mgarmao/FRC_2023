@@ -19,7 +19,7 @@ public class Elevator extends SubsystemBase {
     private RelativeEncoder encoderLeft,encoderRight;
     private static final XboxController m_operator = new XboxController(Constants.CONTROLLER_OPERATOR);
 
-    private double kP = 0.01;
+    private double kP = 0.014;
     private double kI = 0.00;
     private double kD = 0.00;
 
@@ -63,6 +63,10 @@ public class Elevator extends SubsystemBase {
         encoderRight.setPosition(0);
     }
 
+    public double getPosition(){
+        return encoderRight.getPosition();
+    }
+
     public void retract(){
         moving=true;
         Constants.elInPosition = false;
@@ -103,7 +107,7 @@ public class Elevator extends SubsystemBase {
             if(elPID<-Constants.ELEVATOR_POWER){
                 elPID =-0.5;
             }       
-            if(elevatorCommanded-encoderRight.getPosition()<10){
+            if(elevatorCommanded-encoderRight.getPosition()>=-20){
                 Constants.elInPosition = true;
             }
             else{
@@ -111,7 +115,7 @@ public class Elevator extends SubsystemBase {
             }
             elevatorRight.set(-elPID);
         }
-
+//26
         if(m_operator.getPOV()==Constants.CONE_FRONT_PICKUP_POV){
             elevatorCommanded = Constants.CONE_FRONT_PICKUP_EL;
             Constants.elInPosition = false;
@@ -129,7 +133,19 @@ public class Elevator extends SubsystemBase {
             moving = false;
         }
 
+        if((m_operator.getPOV()==Constants.CONE_SCORE_MID_POV)){
+            elevatorCommanded = Constants.CONE_SCORE_MID_EL;
+            moving = false;
+        }
+
+        if(encoderRight.getPosition()>=-20){
+            SmartDashboard.putBoolean("READY", true);
+        }
+        else{
+            SmartDashboard.putBoolean("READY", false);
+        }
         
+        Constants.elPosition = encoderRight.getPosition();
         // if(m_operator.getPOV()==Constants.RETRACT_POV){
         //     elevatorCommanded = Constants.RETRACT_EL;
         //     Constants.elInPosition = false;

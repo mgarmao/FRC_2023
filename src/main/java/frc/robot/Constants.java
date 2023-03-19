@@ -30,7 +30,9 @@ public final class Constants {
 
     //** Intake Motor */
     public static final int INTAKE_WHEELS = 3; 
-    public static final double INTAKE_SPEED = 0.99; //Subject to Josh
+    public static final double INTAKE_SPEED = 0.6; //Subject to Josh
+    public static final double EJECT_SPEED = 0.99; //Subject to Josh
+
     
     //Pneumatics
     public static final int COMPRESSOR = 0;
@@ -39,7 +41,7 @@ public final class Constants {
     /** Elevator */
     public static final int ELEVATOR_LEFT = 6;
     public static final int ELEVATOR_RIGHT = 7;
-    public static final double ELEVATOR_POWER = 0.3;//xxxxx
+    public static final double ELEVATOR_POWER = 0.5;//xxxxx
     public static final float ELEVATOR_LOWER_LIMIT = -87;
     public static final float ELEVATOR_UPPER_LIMIT = 0;
 
@@ -55,11 +57,17 @@ public final class Constants {
     public static final float WRIST_LOWER_LIMIT = 0;
     public static final float WRIST_UPPER_LIMIT = 58;
 
+    //Arm Deadzone
+    public static double MIN_EL_EXTENTION_FOR_ARM = -18;
+    public static double elPosition = 0;
+    public static double UPPER_ARM_DEADZONE = 45;
+    public static double LOWER_ARM_DEADZONE = 26;
+
     //Preset Positions
     public static double CONE_FRONT_PICKUP_POV = 90;
-    public static double CONE_FRONT_PICKUP_WRIST = 48;
-    public static double CONE_FRONT_PICKUP_ARM =  100;
-    public static double CONE_FRONT_PICKUP_EL = -55;
+    public static double CONE_FRONT_PICKUP_WRIST = 45;
+    public static double CONE_FRONT_PICKUP_ARM =  98;
+    public static double CONE_FRONT_PICKUP_EL = -50;
 
     public static double RETRACT_POV = 180;
     public static double RETRACT_WRIST = 46.8;
@@ -71,10 +79,14 @@ public final class Constants {
     public static double CUBE_SCORE_HIGH_ARM = 20;
     public static double CUBE_SCORE_HIGH_EL = -61.35;
 
+    public static double CONE_SCORE_MID_POV = 270;
+    public static double CONE_SCORE_MID_WRIST = 21; 
+    public static double CONE_SCORE_MID_ARM = 22;
+    public static double CONE_SCORE_MID_EL = -65.5;
+
     public static double CONE_PICKUP_WRIST = 51;
     public static double CONE_PICKUP_ARM = 101;
     public static double CONE_PICKUP_EL = -40;
-
 
     public static boolean elInPosition = false;
     public static boolean ARM_IN_POSITION = false;

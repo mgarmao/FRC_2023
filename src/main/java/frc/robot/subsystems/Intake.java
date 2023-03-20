@@ -50,7 +50,7 @@ public class Intake extends SubsystemBase {
     
     /** This function is called once each time the the command ends or is interrupted. */
     public void stop() {
-        motor.set(0.06);
+        motor.set(0.1);
     }
 
     public void toggle() {
@@ -58,12 +58,12 @@ public class Intake extends SubsystemBase {
     }
     
     public void open() {
-        intakeSolenoid.set(Value.kReverse);
+        intakeSolenoid.set(Value.kForward);
     }
 
     /** Set the state of the intake arms to extend. */
     public void close() {
-        intakeSolenoid.set(Value.kForward);
+        intakeSolenoid.set(Value.kReverse);
     }
 
     /** This method will be called once per scheduler run. */

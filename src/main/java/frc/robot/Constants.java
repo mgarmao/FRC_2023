@@ -30,7 +30,7 @@ public final class Constants {
 
     //** Intake Motor */
     public static final int INTAKE_WHEELS = 3; 
-    public static final double INTAKE_SPEED = 0.6; //Subject to Josh
+    public static final double INTAKE_SPEED = 0.35; //Subject to Josh
     public static final double EJECT_SPEED = 0.99; //Subject to Josh
 
     

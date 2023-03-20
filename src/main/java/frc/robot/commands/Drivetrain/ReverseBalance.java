@@ -45,15 +45,15 @@ public class ReverseBalance extends CommandBase {
     }
 
     if((gyro.getPitch()<-12)){
-      double driveLeft = 0.41-anglePID;
-      double driveRight = 0.41+anglePID;
+      double driveLeft = 0.4-anglePID;
+      double driveRight = 0.4+anglePID;
       m_drivetrain.tankDrive(-driveLeft, -driveRight); 
       SmartDashboard.putNumber("Motor",driveLeft);   
 
     }
     else if((gyro.getPitch()>12)){
-      double driveLeft = 0.41+anglePID;
-      double driveRight = 0.41-anglePID;
+      double driveLeft = 0.42+anglePID;
+      double driveRight = 0.42-anglePID;
       m_drivetrain.tankDrive(driveLeft, driveRight);
       SmartDashboard.putNumber("Motor",driveLeft);  
     }

@@ -6,13 +6,14 @@ import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import static frc.robot.RobotContainer.*;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+import edu.wpi.first.wpilibj.PowerDistribution;
 
 import frc.robot.Constants;
+
 
 public class Drivetrain extends SubsystemBase {
     private CANSparkMax m_motorFrontLeft, m_motorRearLeft, m_motorFrontRight, m_motorRearRight;
@@ -29,7 +30,10 @@ public class Drivetrain extends SubsystemBase {
     double kP1 = 0.025;
     double kI1 = 0.0;
     double kD1 = 0.01;
-  
+    
+    PowerDistribution pdh = new PowerDistribution();
+    double voltage = pdh.getVoltage();
+    
     PIDController driveToDistancePID = new PIDController(kP0, kI0, kD0);
     PIDController keepAnglePID = new PIDController(kP1, kI1, kD1);
 

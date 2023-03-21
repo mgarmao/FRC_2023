@@ -1,17 +1,16 @@
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.wpilibj.drive.DifferentialDrive;
-import static frc.robot.RobotContainer.*;
-import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-import edu.wpi.first.wpilibj.PowerDistribution;
+import com.revrobotics.RelativeEncoder;
 
+import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.wpilibj.PowerDistribution;
+import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 
@@ -33,7 +32,9 @@ public class Drivetrain extends SubsystemBase {
     
     PowerDistribution pdh = new PowerDistribution();
     double voltage = pdh.getVoltage();
-    
+
+    double lowVoltageSpeed = 0.6;
+
     PIDController driveToDistancePID = new PIDController(kP0, kI0, kD0);
     PIDController keepAnglePID = new PIDController(kP1, kI1, kD1);
 
@@ -83,6 +84,12 @@ public class Drivetrain extends SubsystemBase {
         /** Set the drivetrain to operate as tank drive. */
         SmartDashboard.putNumber("Left Speed", leftSpeed);
         SmartDashboard.putNumber("Right Speed", rightSpeed);
+
+        if(pdh.getVoltage()<=11){
+            leftSpeed = Math.max(-lowVoltageSpeed, Math.min(leftSpeed, lowVoltageSpeed));
+            rightSpeed = Math.max(-lowVoltageSpeed, Math.min(rightSpeed, lowVoltageSpeed));
+        }
+
         m_drivetrain.tankDrive(leftSpeed, rightSpeed);
     }
 
@@ -92,6 +99,7 @@ public class Drivetrain extends SubsystemBase {
         m_motorRearLeft.setIdleMode(IdleMode.kBrake);
         m_motorRearRight.setIdleMode(IdleMode.kBrake);
     }
+
     public void setCoast(){
         m_motorFrontLeft.setIdleMode(IdleMode.kCoast);
         m_motorFrontRight.setIdleMode(IdleMode.kCoast);
@@ -99,127 +107,8 @@ public class Drivetrain extends SubsystemBase {
         m_motorRearRight.setIdleMode(IdleMode.kCoast);
     }
 
-    public void moveDistance(double m_distanceToMove, int gearRatio, double wheelCircumfrance){
-        distanceToMove = m_distanceToMove;
-        double encoderStartPos = FL_encoder.getPosition();
-        double initAngle = gyro.getYaw();
-
-        while(((-FL_encoder.getPosition()-encoderStartPos)/gearRatio)*wheelCircumfrance<=distanceToMove){
-            double anglePID = keepAnglePID.calculate(initAngle,gyro.getYaw());
-            double distancePID = driveToDistancePID.calculate(((FL_encoder.getPosition()-encoderStartPos)/gearRatio), distanceToMove);
-
-            // SmartDashboard.putNumber("Move FWRD PID", distancePID);
-            if(distancePID>0.5){
-                distancePID = 0.5;
-            }
-            if(distancePID<-0.5){
-                distancePID = -0.5;
-            }
-
-            double driveLeft = distancePID+anglePID;
-            double driveRight = distancePID-anglePID;
-
-            tankDrive(driveLeft, driveRight);
-            // SmartDashboard.putNumber("FL Position", FL_encoder.getPosition()); 
-            // SmartDashboard.putNumber("distance driven", ((FL_encoder.getPosition()-encoderStartPos)/gearRatio)*wheelCircumfrance); 
-        }
-    } 
-
     public double getFrontLeftEncoder(){
         return FL_encoder.getPosition();
-    }
-
-    public void reverseMoveDistance(double m_distanceToMove, int gearRatio, double wheelCircumfrance){
-        distanceToMove = m_distanceToMove;
-        double encoderStartPos = FL_encoder.getPosition();
-        double initAngle = gyro.getYaw();
-
-        while((((FL_encoder.getPosition()-encoderStartPos)/gearRatio)*wheelCircumfrance<=distanceToMove)){
-            double anglePID = keepAnglePID.calculate(initAngle,gyro.getYaw());
-            double distancePID = driveToDistancePID.calculate(((FL_encoder.getPosition()-encoderStartPos)/gearRatio), distanceToMove);
-
-            // SmartDashboard.putNumber("Move FWRD PID", distancePID);
-            if(distancePID>0.45){
-                distancePID = 0.45;
-            }
-            if(distancePID<-0.45){
-                distancePID = -0.45;
-            }
-
-            double driveLeft = distancePID-anglePID;
-            double driveRight = distancePID+anglePID;
-
-            tankDrive(-driveLeft, -driveRight);
-            // SmartDashboard.putNumber("FL Position", FL_encoder.getPosition()); 
-            // SmartDashboard.putNumber("distance driven", ((FL_encoder.getPosition()-encoderStartPos)/gearRatio)*wheelCircumfrance); 
-        }
-    } 
-      
-
-    public void driveOntoCharger(double stopingDistance, int gearRatio, double wheelCircumfrance){
-        distanceToMove = stopingDistance;
-        double encoderStartPos = FL_encoder.getPosition();
-        double initAngle = gyro.getYaw();
-        while(gyro.getPitch()<=3&&!TeleopIndicator.getTeleopMode()){
-            double anglePID = keepAnglePID.calculate(initAngle,gyro.getYaw());
-            double distancePID = driveToDistancePID.calculate(((FL_encoder.getPosition()-encoderStartPos)/gearRatio), distanceToMove);
-
-            // SmartDashboard.putNumber("Move FWRD PID", distancePID);
-            if(distancePID>0.5){
-                distancePID = 0.5;
-            }
-            if(distancePID<-0.5){
-                distancePID = -0.5;
-            }
-
-            double driveLeft = distancePID+anglePID;
-            double driveRight = distancePID-anglePID;
-
-            tankDrive(driveLeft, driveRight);
-            if(((-FL_encoder.getPosition()-encoderStartPos)/gearRatio)*wheelCircumfrance<=distanceToMove){
-                break;
-            }
-        }
-
-        while(gyro.getPitch()>=3&&!TeleopIndicator.getTeleopMode()){
-            double anglePID = keepAnglePID.calculate(initAngle,gyro.getYaw());
-            double distancePID = driveToDistancePID.calculate(((FL_encoder.getPosition()-encoderStartPos)/gearRatio), distanceToMove);
-
-            // SmartDashboard.putNumber("Move FWRD PID", distancePID);
-            if(distancePID>0.7){
-                distancePID = 0.7;
-            }
-            if(distancePID<-0.7){
-                distancePID = -0.7;
-            }
-
-            double driveLeft = distancePID+anglePID;
-            double driveRight = distancePID-anglePID;
-
-            tankDrive(driveLeft, driveRight);
-            if(((-FL_encoder.getPosition()-encoderStartPos)/gearRatio)*wheelCircumfrance<=distanceToMove){
-                break;
-            }
-        }
-
-        while((((-FL_encoder.getPosition()-encoderStartPos)/gearRatio)*wheelCircumfrance<=distanceToMove)&&!TeleopIndicator.getTeleopMode()){
-            distanceToMove=0;
-            double anglePID = keepAnglePID.calculate(initAngle,gyro.getYaw());
-            double distancePID = driveToDistancePID.calculate(((FL_encoder.getPosition()-encoderStartPos)/gearRatio), distanceToMove);
-
-            // SmartDashboard.putNumber("Move FWRD PID", distancePID);
-            if(distancePID>0.4){
-                distancePID = 0.4;
-            }
-            if(distancePID<-0.4){
-                distancePID = -0.4;
-            }
-
-            double driveLeft = distancePID+anglePID;
-            double driveRight = distancePID-anglePID;
-
-            tankDrive(driveLeft, driveRight);
-        }
     }
 
     /** This function is called once each time the the command ends or is interrupted. */

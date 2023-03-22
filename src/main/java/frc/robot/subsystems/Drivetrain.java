@@ -85,7 +85,7 @@ public class Drivetrain extends SubsystemBase {
         SmartDashboard.putNumber("Left Speed", leftSpeed);
         SmartDashboard.putNumber("Right Speed", rightSpeed);
 
-        if(pdh.getVoltage()<=11){
+        if(pdh.getVoltage()<=9.5){
             leftSpeed = Math.max(-lowVoltageSpeed, Math.min(leftSpeed, lowVoltageSpeed));
             rightSpeed = Math.max(-lowVoltageSpeed, Math.min(rightSpeed, lowVoltageSpeed));
         }
@@ -126,26 +126,6 @@ public class Drivetrain extends SubsystemBase {
         SmartDashboard.putNumber("Back Left Temp (C)", m_motorRearLeft.getMotorTemperature());
         SmartDashboard.putNumber("Front Right Temp (C)", m_motorFrontRight.getMotorTemperature());
         SmartDashboard.putNumber("Back Right Temp (C)", m_motorRearRight.getMotorTemperature());
-
-        // if(((FL_encoder.getPosition()-encoderStartPos)/gearRatio)*wheelCircumfrance<=distanceToMove){
-        //     double anglePID = keepAnglePID.calculate(initAngle,gyro.getYaw());
-        //     double distancePID = driveToDistancePID.calculate(((FL_encoder.getPosition()-encoderStartPos)/gearRatio), distanceToMove);
-
-        //     // SmartDashboard.putNumber("Move FWRD PID", distancePID);
-        //     if(distancePID>0.5){
-        //         distancePID = 0.5;
-        //     }
-        //     if(distancePID<-0.5){
-        //         distancePID = -0.5;
-        //     }
-
-        //     double driveLeft = distancePID+anglePID;
-        //     double driveRight = distancePID-anglePID;
-
-        //     tankDrive(-driveLeft, -driveRight);
-        //     // SmartDashboard.putNumber("FL Position", FL_encoder.getPosition()); 
-        //     // SmartDashboard.putNumber("distance driven", ((FL_encoder.getPosition()-encoderStartPos)/gearRatio)*wheelCircumfrance); 
-        // }
     }
 
 }

@@ -43,7 +43,7 @@ public class Wrist extends SubsystemBase {
         wrist.enableSoftLimit(SoftLimitDirection.kReverse, true);
         
         wrist.setIdleMode(IdleMode.kBrake);        
-        wristEncoder.setPosition(0);    
+        wristEncoder.setPosition(0);        
     }
     
     public void controller(double input) {

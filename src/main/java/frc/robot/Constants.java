@@ -44,12 +44,16 @@ public final class Constants {
     public static final double ELEVATOR_POWER = 0.5;//xxxxx
     public static final float ELEVATOR_LOWER_LIMIT = -87;
     public static final float ELEVATOR_UPPER_LIMIT = 0;
+    public static final double EL_GEAR_RATIO = 9;
+    public static final double EL_GEAR_CIRCUMFRANCE = 9;
+
 
     //arm
     public static int ARM = 8;
     public static double ARM_POWER = 0.45;
     public static final int ARM_LOWER_LIMIT = -67;
     public static final int ARM_UPPER_LIMIT = 100;
+    public static final double ARM_LENGTH = 36;
 
     //wrist
     public static int WRIST = 9;

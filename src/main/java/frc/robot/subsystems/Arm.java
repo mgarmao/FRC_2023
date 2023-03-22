@@ -88,6 +88,14 @@ public class Arm extends SubsystemBase {
         }
     }
 
+    public double armDistance(){
+        double elDistanceUp = (Constants.elPosition/Constants.EL_GEAR_RATIO)*Constants.EL_GEAR_CIRCUMFRANCE;
+        double bumperToEl = elDistanceUp*Math.sin(33.5);
+        // 460/42 = how many degrees per tick; *ticks -90 to get to horizontal = degrees 
+        double armPivotToEndOfArm = Constants.ARM_LENGTH*Math.sin((460/42)*armEncoder.getPosition()-90);
+        return bumperToEl+armPivotToEndOfArm;
+    }
+
     @Override
     public void periodic() {
         if(m_operator.getRightY()!=0||opControl){

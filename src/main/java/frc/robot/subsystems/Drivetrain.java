@@ -121,7 +121,12 @@ public class Drivetrain extends SubsystemBase {
     }
 
     @Override
-    public void periodic() {        
+    public void periodic() {       
+        SmartDashboard.putNumber("Front Left Temp (C)", m_motorFrontLeft.getMotorTemperature());
+        SmartDashboard.putNumber("Back Left Temp (C)", m_motorRearLeft.getMotorTemperature());
+        SmartDashboard.putNumber("Front Right Temp (C)", m_motorFrontRight.getMotorTemperature());
+        SmartDashboard.putNumber("Back Right Temp (C)", m_motorRearRight.getMotorTemperature());
+
         // if(((FL_encoder.getPosition()-encoderStartPos)/gearRatio)*wheelCircumfrance<=distanceToMove){
         //     double anglePID = keepAnglePID.calculate(initAngle,gyro.getYaw());
         //     double distancePID = driveToDistancePID.calculate(((FL_encoder.getPosition()-encoderStartPos)/gearRatio), distanceToMove);

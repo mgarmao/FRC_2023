@@ -29,12 +29,12 @@ public class AlignWithApriltag extends CommandBase {
 
   @Override
   public void initialize() {
-    
+
   }
 
   @Override
   public void execute() {
-    yawPID = pid.calculate(photon.getApriltagYaw(), m_setpoint);
+    yawPID = pid.calculate(photon.apriltagDistanceX(), m_setpoint);
     
     if(yawPID>=1){
       yawPID=1;

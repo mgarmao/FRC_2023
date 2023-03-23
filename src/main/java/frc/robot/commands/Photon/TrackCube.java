@@ -26,7 +26,7 @@ public class TrackCube extends CommandBase {
 
     double wheelCircumfrance = Constants.WHEEL_CIRCUMFRANCE;
 
-    public void TrackCube(double distanceToMoveInches) {
+    public TrackCube(double distanceToMoveInches) {
         DISTANCE_TO_MOVE = distanceToMoveInches;
         addRequirements(m_drivetrain);
         addRequirements(photon);

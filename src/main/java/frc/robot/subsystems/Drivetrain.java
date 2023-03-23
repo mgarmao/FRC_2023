@@ -84,31 +84,31 @@ public class Drivetrain extends SubsystemBase {
         m_drivetrain.tankDrive(leftSpeed, rightSpeed);
     }
 
-    public void moveDistance(double m_distanceToMove, int gearRatio, double wheelCircumfrance){
-        distanceToMove = m_distanceToMove;
-        double encoderStartPos = FL_encoder.getPosition();
-        double initAngle = m_gyro.getAngle();
+    // public void moveDistance(double m_distanceToMove, int gearRatio, double wheelCircumfrance){
+    //     distanceToMove = m_distanceToMove;
+    //     double encoderStartPos = FL_encoder.getPosition();
+    //     double initAngle = m_gyro.getAngle();
 
-        while(((FL_encoder.getPosition()-encoderStartPos)/gearRatio)*wheelCircumfrance<=distanceToMove){
-            double anglePID = keepAnglePID.calculate(initAngle,m_gyro.getAngle());
-            double distancePID = driveToDistancePID.calculate(((FL_encoder.getPosition()-encoderStartPos)/gearRatio), distanceToMove);
+    //     while(((FL_encoder.getPosition()-encoderStartPos)/gearRatio)*wheelCircumfrance<=distanceToMove){
+    //         double anglePID = keepAnglePID.calculate(initAngle,m_gyro.getAngle());
+    //         double distancePID = driveToDistancePID.calculate(((FL_encoder.getPosition()-encoderStartPos)/gearRatio), distanceToMove);
 
-            SmartDashboard.putNumber("Move FWRD PID", distancePID);
-            if(distancePID>0.5){
-                distancePID = 0.5;
-            }
-            if(distancePID<-0.5){
-                distancePID = -0.5;
-            }
+    //         SmartDashboard.putNumber("Move FWRD PID", distancePID);
+    //         if(distancePID>0.5){
+    //             distancePID = 0.5;
+    //         }
+    //         if(distancePID<-0.5){
+    //             distancePID = -0.5;
+    //         }
 
-            double driveLeft = distancePID-anglePID;
-            double driveRight = distancePID+anglePID;
+    //         double driveLeft = distancePID-anglePID;
+    //         double driveRight = distancePID+anglePID;
 
-            tankDrive(driveLeft, driveRight);
-            SmartDashboard.putNumber("FL Position", FL_encoder.getPosition()); 
-            SmartDashboard.putNumber("distance driven", ((FL_encoder.getPosition()-encoderStartPos)/gearRatio)*wheelCircumfrance); 
-        }
-    }   
+    //         tankDrive(driveLeft, driveRight);
+    //         SmartDashboard.putNumber("FL Position", FL_encoder.getPosition()); 
+    //         SmartDashboard.putNumber("distance driven", ((FL_encoder.getPosition()-encoderStartPos)/gearRatio)*wheelCircumfrance); 
+    //     }
+    // }   
 
     /** This function is called once each time the the command ends or is interrupted. */
     public void stop() {

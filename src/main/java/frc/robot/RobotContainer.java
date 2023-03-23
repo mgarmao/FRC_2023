@@ -29,7 +29,7 @@ import frc.robot.commands.Drivetrain.*;
 import frc.robot.commands.Gatekeeper.*;
 import frc.robot.commands.Indexer.*;
 import frc.robot.commands.Shooter.*;
-import frc.robot.commands.Autonomous.*;
+// import frc.robot.commands.Autonomous.*;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a

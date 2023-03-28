@@ -30,10 +30,12 @@ public class ReverseMoveDistance extends CommandBase {
     boolean keepStartingAngle;
 
     double maxSpeed =0.5;
+    double minSpeed = 0;
 
-    public ReverseMoveDistance(double distanceToMoveInches,double mMaxSpeed, boolean m_keepStartingAngle) {
+    public ReverseMoveDistance(double distanceToMoveInches,double mMaxSpeed, double mMinSpeed, boolean m_keepStartingAngle) {
         DISTANCE_TO_MOVE = distanceToMoveInches;
         maxSpeed = mMaxSpeed;
+        minSpeed = mMinSpeed;
         keepStartingAngle = m_keepStartingAngle;
         addRequirements(m_drivetrain);
         addRequirements(gyro);
@@ -69,6 +71,18 @@ public class ReverseMoveDistance extends CommandBase {
             distancePID = maxSpeed;
         }
         if(distancePID<-maxSpeed){
+            distancePID = -maxSpeed;
+        }
+
+        if((distancePID<minSpeed)&&(distancePID>-minSpeed)){
+            if(distancePID<0){
+                distancePID = -minSpeed;
+            }
+            else{
+                distancePID = minSpeed;
+            }
+        }
+        if(distancePID>-minSpeed){
             distancePID = -maxSpeed;
         }
 

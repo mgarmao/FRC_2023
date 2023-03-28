@@ -23,10 +23,10 @@ public class Balance extends SequentialCommandGroup {
         new Eject(1).withTimeout(0.5),
         new ElSetpoint(-1).withTimeout(2),
         new IntakeStop().withTimeout(0.1),
-        new ReverseMoveDistance(68,0.65,false).andThen(
+        new ReverseMoveDistance(68,0.65,0,false).andThen(
           new DriveOffChargeStation().withTimeout(3),
-          new ReverseMoveDistance(18, 0.5,true).withTimeout(2),
-          new ReverseMoveDistance(12, 0, true).withTimeout(2),
+          new ReverseMoveDistance(18, 0.5,0,true).withTimeout(2),
+          new ReverseMoveDistance(12, 0,0, true).withTimeout(2),
           new MoveDistance(20,0.65).withTimeout(2).andThen(
             new ReverseBalance(true)
           )

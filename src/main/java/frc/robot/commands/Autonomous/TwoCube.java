@@ -26,7 +26,7 @@ public class TwoCube extends SequentialCommandGroup {
         new ElSetpoint(-1).withTimeout(2),
         new ArmSetpoint(-10),
         new WristSetPosition(0),
-        new ReverseMoveDistance(60,0.65,false).andThen(
+        new ReverseMoveDistance(60,0.65,0,false).andThen(
           new TrackCube(10,0.4).withTimeout(3)
         ),
         new ArmSetpoint(0),

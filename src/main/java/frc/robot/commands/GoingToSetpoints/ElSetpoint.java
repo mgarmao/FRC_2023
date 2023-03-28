@@ -3,7 +3,6 @@ package frc.robot.commands.GoingToSetpoints;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.Wrist;
 
 import static frc.robot.RobotContainer.*;
 
@@ -29,7 +28,7 @@ public class ElSetpoint extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    wrist.stop();
+    elevator.stop();
   }
 
   // Returns true when the command should end.

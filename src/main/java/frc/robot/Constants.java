@@ -99,4 +99,6 @@ public final class Constants {
     public static double startYaw = 0;
     public static boolean startingConfig = false;
     public static int startingApriltag = 100;
+    public static int requestedPipeline = 0;
+    public static double currentAngle = 0;
 }

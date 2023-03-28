@@ -1,17 +1,13 @@
 package frc.robot.commands.GoingToSetpoints;
 
-import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.Wrist;
-
 import static frc.robot.RobotContainer.*;
 
 public class ArmSetpoint extends CommandBase {
     double setPoint=0; 
     public ArmSetpoint(double m_setPoint) {
-        setPoint = m_setPoint;
-        addRequirements(arm);
+      setPoint = m_setPoint;
+      addRequirements(arm);
     }
 
   // Called when the command is initially scheduled.
@@ -29,7 +25,7 @@ public class ArmSetpoint extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    wrist.stop();
+    arm.stop();
   }
 
   // Returns true when the command should end.

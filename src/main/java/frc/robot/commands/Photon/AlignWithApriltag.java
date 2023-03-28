@@ -13,7 +13,7 @@ import static frc.robot.RobotContainer.*;
 
 public class AlignWithApriltag extends CommandBase {
   double kP = 0.06;
-  double kI = 0.0;
+  double kI = 0.01;
   double kD = 0.03;
   double yawPID = 1; 
   double driveLeft = 0;
@@ -24,7 +24,6 @@ public class AlignWithApriltag extends CommandBase {
   int targetID;
 
   public AlignWithApriltag(double setpoint) {
-    photon.setPipline(0);
     m_setpoint = setpoint;
     addRequirements(photon);
     addRequirements(m_drivetrain);

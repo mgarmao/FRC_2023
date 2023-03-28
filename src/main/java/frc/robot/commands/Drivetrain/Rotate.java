@@ -31,20 +31,20 @@ public class Rotate extends CommandBase {
     m_initAngle = gyro.getYaw();
     drive = pid.calculate(gyro.getYaw(),inputAngle+m_initAngle);
     
-    if(gyro.getYaw()>(-inputAngle+initalAngle+40)){
-      if(drive>0.6){
-        drive=0.6;
+    if(gyro.getYaw()>(-inputAngle+initalAngle+50)){
+      if(drive>0.55){
+        drive=0.55;
       }
-      if(drive<-0.6){
-        drive=-0.6;
+      if(drive<-0.55){
+        drive=-0.55;
       }
     }
     else{
-      if(drive>0.4){
-        drive=0.4;
+      if(drive>0.3){
+        drive=0.3;
       }
-      if(drive<-0.4){
-        drive=-0.4;
+      if(drive<-0.3){
+        drive=-0.3;
       }
     }
 

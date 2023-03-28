@@ -16,6 +16,7 @@ public class GetStartingApriltagID extends CommandBase {
 
     @Override
     public void initialize() {
+        photon.setPipline(0);
     }
 
     @Override

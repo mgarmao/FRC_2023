@@ -2,8 +2,6 @@ package frc.robot.subsystems;
 
 import java.util.List;
 
-import javax.print.attribute.standard.MediaSize.NA;
-
 import org.photonvision.PhotonCamera;
 import org.photonvision.targeting.PhotonTrackedTarget;
 
@@ -11,9 +9,10 @@ import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 
 public class Photon extends SubsystemBase{
-    public PhotonCamera camera = new PhotonCamera("OV5647");
+    public PhotonCamera camera = new PhotonCamera("F-Camera");
     // Angle between horizontal and the camera.
     final double CAMERA_PITCH_RADIANS = Units.degreesToRadians(0);    
     double CAMERA_HEIGHT_METERS = 1;
@@ -29,7 +28,6 @@ public class Photon extends SubsystemBase{
     double zDistance;
     double h;
     
-    int requestedPipeline = 0;
 
     int apriltagPipeline = 0;
     int conePipeline = 1;
@@ -39,11 +37,10 @@ public class Photon extends SubsystemBase{
 
     public Photon() {
         SmartDashboard.putBoolean("Photon",true);
-        camera.setPipelineIndex(0);
     }
     
     public void setPipline(int m_pipline){
-        requestedPipeline = m_pipline;
+        Constants.requestedPipeline = m_pipline;
     }
 
     public double getApriltagYaw(){
@@ -205,6 +202,6 @@ public class Photon extends SubsystemBase{
 
     @Override
     public void periodic() {
-        camera.setPipelineIndex(requestedPipeline);
+        camera.setPipelineIndex(Constants.requestedPipeline);
     }
 }

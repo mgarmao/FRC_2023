@@ -5,6 +5,7 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 
 import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.SPI;
@@ -39,6 +40,7 @@ public class Gyroscope extends SubsystemBase {
 
   @Override
   public void periodic() {
+    Constants.currentAngle = getYaw();
     // This method will be called once per scheduler run
     SmartDashboard.putNumber("Gyroscope Pitch", getPitch());
     SmartDashboard.putNumber("Gyroscope Roll", getRoll());

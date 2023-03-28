@@ -15,9 +15,9 @@ import frc.robot.subsystems.Photon;
 public class TrackCube extends CommandBase {
     Photon photon = new Photon();
     int gearRatio = Constants.DRIVETRAIN_GEAR_RATIO;
-    double kP = 0.02;
+    double kP = 0.005;
     double kI = 0.0;
-    double kD = 0.005;
+    double kD = 0.002;
 
     double PID =1;
 
@@ -29,7 +29,6 @@ public class TrackCube extends CommandBase {
     public TrackCube(double distanceToMoveInches, double m_speedLimit) {
         speedLimit = m_speedLimit;
         DISTANCE_TO_MOVE = distanceToMoveInches;
-        photon.setPipline(2);
         addRequirements(photon);
         addRequirements(m_drivetrain);
     }
@@ -44,7 +43,6 @@ public class TrackCube extends CommandBase {
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute(){
-        photon.setPipline(2);
         SmartDashboard.putNumber("Cone Yaw",photon.getCubeYaw(2));
         PID = pid.calculate(photon.getCubeYaw(2), 0);
         double driveLeft = -0.4-PID;

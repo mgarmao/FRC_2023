@@ -28,6 +28,8 @@ public class Photon extends SubsystemBase{
     double yDistance;
     double zDistance;
     double h;
+    
+    int requestedPipeline = 0;
 
     int apriltagPipeline = 0;
     int conePipeline = 1;
@@ -40,8 +42,8 @@ public class Photon extends SubsystemBase{
         camera.setPipelineIndex(0);
     }
     
-    public void setPipline(int pipline){
-        camera.setPipelineIndex(pipline);
+    public void setPipline(int m_pipline){
+        requestedPipeline = m_pipline;
     }
 
     public double getApriltagYaw(){
@@ -162,7 +164,7 @@ public class Photon extends SubsystemBase{
     }
 
     public double getCubeYaw(int pipline){
-        camera.setPipelineIndex(pipline);
+        // camera.setPipelineIndex(pipline);
         double yaw = 0;
         var result = camera.getLatestResult();
         boolean hasTargets = result.hasTargets(); 
@@ -203,13 +205,6 @@ public class Photon extends SubsystemBase{
 
     @Override
     public void periodic() {
-        // var result = camera.getLatestResult();         
-        // boolean hasTargets = result.hasTargets();
-        // SmartDashboard.putBoolean("Has Target",hasTargets);
-        // SmartDashboard.putNumber("Pipline", camera.getPipelineIndex());
-        // if(hasTargets){
-        //     // SmartDashboard.putNumber("AprilTag Yaw",getApriltagYaw());
-        //     // SmartDashboard.putNumber("Cone Yaw",getConeYaw());
-        // }
+        camera.setPipelineIndex(requestedPipeline);
     }
 }

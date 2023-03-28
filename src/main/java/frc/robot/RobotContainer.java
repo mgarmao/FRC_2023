@@ -54,6 +54,9 @@ public class RobotContainer {
   private final Command FifteenTaxi = new FifteenTaxi();
   private final Command FiveTaxi = new FiveTaxi();
   private final Command Balance = new Balance();
+  private final Command TwoCubeOneSide = new TwoCubeOneSide();
+  private final Command TwoCube = new TwoCube();
+
   // private final Command Square = new Square();
   private SendableChooser<Command> m_auto = new SendableChooser<>();
 
@@ -61,9 +64,12 @@ public class RobotContainer {
   public RobotContainer() {
 
     /** Autonomous Chooser */
-    m_auto.setDefaultOption("FifteenTaxi", FifteenTaxi);
-    m_auto.setDefaultOption("FiveTaxi", FiveTaxi);
+    m_auto.addOption("FifteenTaxi", FifteenTaxi);
+    m_auto.addOption("FiveTaxi", FiveTaxi);
     m_auto.addOption("Balamce", Balance);
+    m_auto.setDefaultOption("TwoCube1Side", TwoCubeOneSide);
+    m_auto.addOption("TwoCube", TwoCube);
+
     m_auto.addOption("Do Nothing", WAIT_NONE);
     SmartDashboard.putData("Autonomous Routine", m_auto);
     

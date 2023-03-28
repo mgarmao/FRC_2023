@@ -56,10 +56,10 @@ public class Drivetrain extends SubsystemBase {
          * Restore motor controller parameters to factory default until the next controller 
          * reboot.
          */
-        m_motorFrontLeft.restoreFactoryDefaults();
-        m_motorRearLeft.restoreFactoryDefaults();
-        m_motorFrontRight.restoreFactoryDefaults();
-        m_motorRearRight.restoreFactoryDefaults();
+        // m_motorFrontLeft.restoreFactoryDefaults();
+        // m_motorRearLeft.restoreFactoryDefaults();
+        // m_motorFrontRight.restoreFactoryDefaults();
+        // m_motorRearRight.restoreFactoryDefaults();
 
         /**
          * When the SPARK MAX is receiving a neutral command, the idle behavior of the motor 
@@ -70,6 +70,11 @@ public class Drivetrain extends SubsystemBase {
         m_motorFrontRight.setIdleMode(IdleMode.kCoast);
         m_motorRearLeft.setIdleMode(IdleMode.kCoast);
         m_motorRearRight.setIdleMode(IdleMode.kCoast);
+
+        m_motorFrontLeft.setSmartCurrentLimit(50);
+        m_motorFrontRight.setSmartCurrentLimit(50);
+        m_motorRearLeft.setSmartCurrentLimit(50);
+        m_motorRearRight.setSmartCurrentLimit(50);
 
         /** Invert the direction of the right-side speed controllers. */
         m_motorsRight.setInverted(false);
@@ -85,10 +90,10 @@ public class Drivetrain extends SubsystemBase {
         SmartDashboard.putNumber("Left Speed", leftSpeed);
         SmartDashboard.putNumber("Right Speed", rightSpeed);
 
-        if(pdh.getVoltage()<=9.5){
-            leftSpeed = Math.max(-lowVoltageSpeed, Math.min(leftSpeed, lowVoltageSpeed));
-            rightSpeed = Math.max(-lowVoltageSpeed, Math.min(rightSpeed, lowVoltageSpeed));
-        }
+        // if(pdh.getVoltage()<=9.5){
+        //     leftSpeed = Math.max(-lowVoltageSpeed, Math.min(leftSpeed, lowVoltageSpeed));
+        //     rightSpeed = Math.max(-lowVoltageSpeed, Math.min(rightSpeed, lowVoltageSpeed));
+        // }
 
         m_drivetrain.tankDrive(leftSpeed, rightSpeed);
     }

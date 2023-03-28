@@ -7,21 +7,24 @@ package frc.robot.commands.Photon;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants;
 
 import static frc.robot.RobotContainer.*;
 
 public class AlignWithApriltag extends CommandBase {
-  double kP = 0.03;
+  double kP = 0.06;
   double kI = 0.0;
-  double kD = 0.01;
+  double kD = 0.03;
   double yawPID = 1; 
   double driveLeft = 0;
   double driveRight = 0;
 
   double m_setpoint;
   PIDController pid = new PIDController(kP, kI, kD);
+  int targetID;
 
   public AlignWithApriltag(double setpoint) {
+    photon.setPipline(0);
     m_setpoint = setpoint;
     addRequirements(photon);
     addRequirements(m_drivetrain);
@@ -29,12 +32,18 @@ public class AlignWithApriltag extends CommandBase {
 
   @Override
   public void initialize() {
-
+    photon.setPipline(0);
+    targetID = Constants.startingApriltag;
   }
 
   @Override
   public void execute() {
-    yawPID = pid.calculate(photon.apriltagDistanceX(), m_setpoint);
+    if(targetID!=100){
+      yawPID = pid.calculate(photon.apriltagDistanceY(targetID), m_setpoint);
+    }
+    else{
+      yawPID = pid.calculate(photon.apriltagDistanceYBest(), m_setpoint);
+    }
     
     if(yawPID>=1){
       yawPID=1;
@@ -46,8 +55,12 @@ public class AlignWithApriltag extends CommandBase {
 
     driveLeft = 0.5-yawPID;
     driveRight = 0.5+yawPID;
-
-    m_drivetrain.tankDrive(driveLeft, driveRight);
+    if(photon.apriltagDistanceY(4)!=0){
+      m_drivetrain.tankDrive(driveLeft, driveRight);
+    }
+    else{
+      m_drivetrain.tankDrive(0.4, 0.4);
+    }
     
     SmartDashboard.putBoolean("Drive Stage",true);
     SmartDashboard.putNumber("DriveLeft",driveLeft);
@@ -61,7 +74,7 @@ public class AlignWithApriltag extends CommandBase {
 
   @Override
   public boolean isFinished() {
-    if(photon.apriltagHasTarget()&&photon.apriltagHypot()>=1.5){
+    if((photon.apriltagDistanceX()>=0.5)||(photon.apriltagDistanceX()==0)){
       return false;
     }
     else{

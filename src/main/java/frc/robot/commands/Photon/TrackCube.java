@@ -15,42 +15,45 @@ import frc.robot.subsystems.Photon;
 public class TrackCube extends CommandBase {
     Photon photon = new Photon();
     int gearRatio = Constants.DRIVETRAIN_GEAR_RATIO;
-    double kP = 0.05;
+    double kP = 0.02;
     double kI = 0.0;
-    double kD = 0.01;
+    double kD = 0.005;
 
     double PID =1;
 
-    double DISTANCE_TO_MOVE,encoderStartPos,loopTime=0;
+    double DISTANCE_TO_MOVE,encoderStartPos,loopTime,speedLimit=0;
     PIDController pid = new PIDController(kP, kI, kD);
 
     double wheelCircumfrance = Constants.WHEEL_CIRCUMFRANCE;
 
-    public TrackCube(double distanceToMoveInches) {
+    public TrackCube(double distanceToMoveInches, double m_speedLimit) {
+        speedLimit = m_speedLimit;
         DISTANCE_TO_MOVE = distanceToMoveInches;
-        addRequirements(m_drivetrain);
+        photon.setPipline(2);
         addRequirements(photon);
+        addRequirements(m_drivetrain);
     }
 
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
         encoderStartPos = m_drivetrain.getFrontLeftEncoder();
+        photon.setPipline(2);
     }
 
     // Called every time the scheduler runs while the command is scheduled.
     @Override
-    public void execute() {
-        SmartDashboard.putNumber("Cone Yaw",photon.getCubeYaw());
-        PID = pid.calculate(photon.getCubeYaw(), 0);
-        double speedLimit = 0.5;
-        double driveLeft = 0.4+PID;
-        double driveRight = 0.4-PID;
+    public void execute(){
+        photon.setPipline(2);
+        SmartDashboard.putNumber("Cone Yaw",photon.getCubeYaw(2));
+        PID = pid.calculate(photon.getCubeYaw(2), 0);
+        double driveLeft = -0.4-PID;
+        double driveRight = -0.4+PID;
 
         driveLeft = Math.max(-speedLimit, Math.min(driveLeft, speedLimit));
         driveRight = Math.max(-speedLimit, Math.min(driveRight, speedLimit));
 
-        m_drivetrain.tankDrive(driveLeft, driveRight);
+        m_drivetrain.tankDrive(-driveLeft, -driveRight);
     }
 
     // Called once the command ends or is interrupted.

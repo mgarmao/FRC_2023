@@ -22,7 +22,7 @@ public class FifteenTaxi extends SequentialCommandGroup {
         new Eject(1).withTimeout(0.5),
         new ElSetpoint(-1).withTimeout(1.5),
         new IntakeStop().withTimeout(0.1),
-        new ReverseMoveDistance(170,0.45)
+        new ReverseMoveDistance(170,0.45,false)
       );
   }
 }

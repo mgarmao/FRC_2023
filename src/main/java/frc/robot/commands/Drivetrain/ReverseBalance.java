@@ -7,6 +7,7 @@ package frc.robot.commands.Drivetrain;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants;
 
 import static frc.robot.RobotContainer.*;
 
@@ -22,7 +23,10 @@ public class ReverseBalance extends CommandBase {
   double m_setpoint = 0;
   PIDController pid = new PIDController(kP, kI, kD);
 
-  public ReverseBalance() {
+  boolean keepStartingYaw;
+
+  public ReverseBalance(boolean m_keepStartingYaw) {
+    keepStartingYaw = m_keepStartingYaw;
     addRequirements(gyro);
     addRequirements(m_drivetrain);
   }
@@ -34,7 +38,13 @@ public class ReverseBalance extends CommandBase {
 
   @Override
   public void execute() {
-    double anglePID = pid.calculate(initAngle,gyro.getYaw());
+    double anglePID;
+    if(keepStartingYaw){
+      anglePID = pid.calculate(Constants.startYaw,gyro.getYaw());
+    }
+    else{
+      anglePID = pid.calculate(initAngle,gyro.getYaw());
+    }
 
     if(anglePID>=0.25){
       anglePID=0.25;
@@ -44,16 +54,16 @@ public class ReverseBalance extends CommandBase {
       anglePID=-0.25;
     }
 
-    if((gyro.getPitch()<-12)){
-      double driveLeft = 0.4-anglePID;
-      double driveRight = 0.4+anglePID;
+    if((gyro.getPitch()<-10)){
+      double driveLeft = 0.25-anglePID;
+      double driveRight = 0.25+anglePID;
       m_drivetrain.tankDrive(-driveLeft, -driveRight); 
       SmartDashboard.putNumber("Motor",driveLeft);   
 
     }
-    else if((gyro.getPitch()>12)){
-      double driveLeft = 0.42+anglePID;
-      double driveRight = 0.42-anglePID;
+    else if((gyro.getPitch()>10)){
+      double driveLeft = 0.25+anglePID;
+      double driveRight = 0.25-anglePID;
       m_drivetrain.tankDrive(driveLeft, driveRight);
       SmartDashboard.putNumber("Motor",driveLeft);  
     }
@@ -72,7 +82,7 @@ public class ReverseBalance extends CommandBase {
 
   @Override
   public boolean isFinished() {
-    if((gyro.getPitch()>-12)&&(gyro.getPitch()<12)){
+    if((gyro.getPitch()>-10)&&(gyro.getPitch()<10)){
       SmartDashboard.putBoolean("balancing", true);
       m_drivetrain.setBrakeMode();
       m_drivetrain.stop();

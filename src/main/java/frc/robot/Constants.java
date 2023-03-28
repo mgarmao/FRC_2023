@@ -94,4 +94,9 @@ public final class Constants {
 
     public static boolean elInPosition = false;
     public static boolean ARM_IN_POSITION = false;
+
+    //changing each match
+    public static double startYaw = 0;
+    public static boolean startingConfig = false;
+    public static int startingApriltag = 100;
 }

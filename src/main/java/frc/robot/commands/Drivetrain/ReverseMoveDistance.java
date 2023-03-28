@@ -27,12 +27,14 @@ public class ReverseMoveDistance extends CommandBase {
     double kD1 = 0.001;
     PIDController keepAnglePID = new PIDController(kP1, kI1, kD1);
     PIDController driveToDistancePID = new PIDController(kP0, kI0, kD0);
+    boolean keepStartingAngle;
 
     double maxSpeed =0.5;
 
-    public ReverseMoveDistance(double distanceToMoveInches,double mMaxSpeed) {
+    public ReverseMoveDistance(double distanceToMoveInches,double mMaxSpeed, boolean m_keepStartingAngle) {
         DISTANCE_TO_MOVE = distanceToMoveInches;
         maxSpeed = mMaxSpeed;
+        keepStartingAngle = m_keepStartingAngle;
         addRequirements(m_drivetrain);
         addRequirements(gyro);
     }
@@ -44,12 +46,22 @@ public class ReverseMoveDistance extends CommandBase {
         initAngle = gyro.getYaw();
         keepAnglePID.reset();
         driveToDistancePID.reset();
+        if(!Constants.startingConfig){
+            Constants.startYaw = gyro.getYaw();
+            Constants.startingConfig = true;
+        }
     }
 
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {  
-        double anglePID = keepAnglePID.calculate(initAngle,gyro.getYaw());
+        double anglePID;
+        if(keepStartingAngle){
+            anglePID = keepAnglePID.calculate(Constants.startYaw,gyro.getYaw());
+        }
+        else{
+            anglePID = keepAnglePID.calculate(initAngle,gyro.getYaw());
+        }
         double distancePID = driveToDistancePID.calculate(((m_drivetrain.getFrontLeftEncoder()-encoderStartPos)/gearRatio), DISTANCE_TO_MOVE);
 
         // SmartDashboard.putNumber("Move FWRD PID", distancePID);

@@ -21,18 +21,20 @@ public class MoveDistance extends CommandBase {
     double kI0 = 0.0;
     double kD0 = 0.04;
 
-    double kP1 = 0.025;
+    double kP1 = 0.0012;
     double kI1 = 0.0;
-    double kD1 = 0.01;
+    double kD1 = 0.001;
 
     PIDController keepAnglePID = new PIDController(kP1, kI1, kD1);
     PIDController driveToDistancePID = new PIDController(kP0, kI0, kD0);
 
-    double maxSpeed = 0.5;
+    double maxSpeed = 0;
 
     public MoveDistance(double distanceToMoveInches, double mMaxSpeed) {
+        maxSpeed = mMaxSpeed;
         DISTANCE_TO_MOVE = distanceToMoveInches;
         addRequirements(m_drivetrain);
+        addRequirements(gyro);
     }
 
     // Called when the command is initially scheduled.
@@ -50,11 +52,11 @@ public class MoveDistance extends CommandBase {
         double distancePID = driveToDistancePID.calculate(((m_drivetrain.getFrontLeftEncoder()-encoderStartPos)/gearRatio), DISTANCE_TO_MOVE);
 
         // SmartDashboard.putNumber("Move FWRD PID", distancePID);
-        if(distancePID>0.65){
-            distancePID = 0.65;
+        if(distancePID>maxSpeed){
+            distancePID = maxSpeed;
         }
-        if(distancePID<-0.65){
-            distancePID = -0.65;
+        if(distancePID<-maxSpeed){
+            distancePID = -maxSpeed;
         }
 
         double driveLeft = distancePID+anglePID;
@@ -72,7 +74,7 @@ public class MoveDistance extends CommandBase {
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-        if(((-m_drivetrain.getFrontLeftEncoder()-encoderStartPos)/gearRatio)*wheelCircumfrance<=DISTANCE_TO_MOVE){
+        if(((((m_drivetrain.getFrontLeftEncoder()-encoderStartPos)/gearRatio)*wheelCircumfrance)<=DISTANCE_TO_MOVE)){
             return false;
         }
         else{

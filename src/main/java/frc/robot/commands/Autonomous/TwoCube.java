@@ -14,6 +14,7 @@ import frc.robot.commands.GoingToSetpoints.*;
 import frc.robot.commands.Intake.*;
 import frc.robot.commands.Photon.*;
 import frc.robot.commands.Wrist.*;
+import frc.robot.subsystems.Wrist;
 
 public class TwoCube extends SequentialCommandGroup {
     public TwoCube() {
@@ -23,12 +24,17 @@ public class TwoCube extends SequentialCommandGroup {
         new WristSetPosition(16).withTimeout(1),
         new Eject(1).withTimeout(0.5),
         new ElSetpoint(-1).withTimeout(2),
-        new IntakeStop().withTimeout(0.1),
-        new ReverseMoveDistance(60,0.65).andThen(
-          new TrackCube(10).withTimeout(3)
+        new ArmSetpoint(-10),
+        new WristSetPosition(0),
+        new ReverseMoveDistance(60,0.65,false).andThen(
+          new TrackCube(10,0.4).withTimeout(3)
         ),
-        new MoveDistance(60, 0.5).withTimeout(3),
-        new AlignWithApriltag(0).withTimeout(10)
+        new ArmSetpoint(0),
+        new MoveDistance(60, 0.5).withTimeout(3), 
+        new AlignWithApriltag(0).withTimeout(3),
+        new ElSetpoint(-50).withTimeout(2),
+        new WristSetPosition(16).withTimeout(1),
+        new Eject(1).withTimeout(0.5)
       );
   }
 }

@@ -12,15 +12,17 @@ import static frc.robot.RobotContainer.*;
 
 public class DriveOffChargeStation extends CommandBase {
 
-  double kP = 0.0012;
+  double kP = 0.01;
   double kI = 0.0;
-  double kD = 0.001;
+  double kD = 0.01;
 
   boolean aparentLevel = false;
   double balancePID = 1; 
   double initAngle = 0;
   double m_setpoint = 0;
   PIDController pid = new PIDController(kP, kI, kD);
+
+  boolean drivingUp, drivingDown, level = false;
 
   public DriveOffChargeStation() {
     addRequirements(gyro);
@@ -44,22 +46,29 @@ public class DriveOffChargeStation extends CommandBase {
       anglePID=-0.25;
     }
 
-    if((gyro.getPitch()<-10)){
-      double driveLeft = 0.35+anglePID;
-      double driveRight = 0.35-anglePID;
-      m_drivetrain.tankDrive(driveLeft, driveRight); 
+    if((gyro.getPitch()<-5)){
+      double driveLeft = 0.45-anglePID;
+      double driveRight = 0.45+anglePID;
+      m_drivetrain.tankDrive(-driveLeft, -driveRight); 
       SmartDashboard.putNumber("Motor",driveLeft);   
-
+      drivingUp=true;
     }
-    else if((gyro.getPitch()>10)){
-      double driveLeft = 0.35-anglePID;
-      double driveRight = 0.35+anglePID;
+    else if((gyro.getPitch()>5&&drivingUp)){
+      double driveLeft = 0.45-anglePID;
+      double driveRight = 0.45+anglePID;
       m_drivetrain.tankDrive(-driveLeft, -driveRight);
       SmartDashboard.putNumber("Motor",driveLeft);  
-      aparentLevel = true; 
+      drivingDown=true;
+    }
+    else if(drivingUp&&drivingDown){
+      level=true;
+      m_drivetrain.tankDrive(0, 0);
     }
     else{
-      m_drivetrain.tankDrive(0, 0);
+      double driveLeft = 0.45-anglePID;
+      double driveRight = 0.45+anglePID;
+      m_drivetrain.tankDrive(-driveLeft, -driveRight); 
+      SmartDashboard.putNumber("Motor",driveLeft);   
     }
   }
 
@@ -71,14 +80,11 @@ public class DriveOffChargeStation extends CommandBase {
 
   @Override
   public boolean isFinished() {
-    if((gyro.getPitch()>-6)&&(gyro.getPitch()<6)&&aparentLevel){
-      SmartDashboard.putBoolean("balancing", true);
-      m_drivetrain.setBrakeMode();
-      m_drivetrain.stop();
+    if(level){
+      return true;
     }
     else{
-      SmartDashboard.putBoolean("balancing", false);
+      return false;
     }
-    return false;
   }
 }

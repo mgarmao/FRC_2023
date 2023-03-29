@@ -75,15 +75,12 @@ public class ReverseMoveDistance extends CommandBase {
         }
 
         if((distancePID<minSpeed)&&(distancePID>-minSpeed)){
-            if(distancePID<0){
-                distancePID = -minSpeed;
-            }
-            else{
+            if(distancePID>0){
                 distancePID = minSpeed;
             }
-        }
-        if(distancePID>-minSpeed){
-            distancePID = -maxSpeed;
+            else{
+                distancePID = -minSpeed;
+            }
         }
 
         double driveLeft = distancePID-anglePID;

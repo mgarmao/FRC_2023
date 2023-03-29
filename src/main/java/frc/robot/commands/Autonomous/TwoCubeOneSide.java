@@ -24,17 +24,17 @@ public class TwoCubeOneSide extends SequentialCommandGroup {
         // new Eject(1).withTimeout(0.5),
         // new ElSetpoint(-1).withTimeout(2),
             new ChangePipline(2).withTimeout(1),
-            new ReverseMoveDistance(12,0.45,0.3,false).withTimeout(3),
-            new GetStartingApriltagID(0).withTimeout(0.3),
+            new ReverseMoveDistance(16,0.45,0.4,false).withTimeout(3),
+            new GetStartingApriltagID(0).withTimeout(0.2),
             new Rotate(180).withTimeout(2),
         // new ArmSetpoint(Constants.CONE_PICKUP_ARM),
         // new WristSetPosition(0),
-            new MoveDistance(15,0.65).withTimeout(3).andThen(
-                new TrackCube(10,0.5).withTimeout(4)
+            new MoveDistance(12,0.65,0.5).withTimeout(3).andThen(
+                new TrackCube(9,0.5).withTimeout(4)
             ),
         // new ArmSetpoint(0),
             new Rotate(180).withTimeout(2),
-            new MoveDistance(12, 0.65).withTimeout(3).andThen(
+            new MoveDistance(12,0.65, 0.55).withTimeout(3).andThen(
                 new AlignWithApriltag(0).withTimeout(4)
             )
         

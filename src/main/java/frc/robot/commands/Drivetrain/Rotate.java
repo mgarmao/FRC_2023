@@ -40,11 +40,11 @@ public class Rotate extends CommandBase {
       }
     }
     else{
-      if(drive>0.3){
-        drive=0.3;
+      if(drive>0.35){
+        drive=0.35;
       }
-      if(drive<-0.3){
-        drive=-0.3;
+      if(drive<-0.35){
+        drive=-0.35;
       }
     }
 

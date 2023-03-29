@@ -29,9 +29,11 @@ public class MoveDistance extends CommandBase {
     PIDController driveToDistancePID = new PIDController(kP0, kI0, kD0);
 
     double maxSpeed = 0;
+    double minSpeed = 0;
 
-    public MoveDistance(double distanceToMoveInches, double mMaxSpeed) {
+    public MoveDistance(double distanceToMoveInches, double mMaxSpeed,double MminSpeed) {
         maxSpeed = mMaxSpeed;
+        minSpeed = MminSpeed;
         DISTANCE_TO_MOVE = distanceToMoveInches;
         addRequirements(m_drivetrain);
         addRequirements(gyro);
@@ -57,6 +59,15 @@ public class MoveDistance extends CommandBase {
         }
         if(distancePID<-maxSpeed){
             distancePID = -maxSpeed;
+        }
+
+        if((distancePID<minSpeed)&&(distancePID>-minSpeed)){
+            if(distancePID>0){
+                distancePID = minSpeed;
+            }
+            else{
+                distancePID = -minSpeed;
+            }
         }
 
         double driveLeft = distancePID+anglePID;

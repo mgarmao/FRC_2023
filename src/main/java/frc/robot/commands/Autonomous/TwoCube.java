@@ -30,7 +30,7 @@ public class TwoCube extends SequentialCommandGroup {
           new TrackCube(10,0.4).withTimeout(3)
         ),
         new ArmSetpoint(0),
-        new MoveDistance(60, 0.5).withTimeout(3), 
+        new MoveDistance(60,0.5, 0).withTimeout(3), 
         new AlignWithApriltag(0).withTimeout(3),
         new ElSetpoint(-50).withTimeout(2),
         new WristSetPosition(16).withTimeout(1),

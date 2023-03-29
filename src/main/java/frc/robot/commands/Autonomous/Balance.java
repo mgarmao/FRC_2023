@@ -27,7 +27,7 @@ public class Balance extends SequentialCommandGroup {
           new DriveOffChargeStation().withTimeout(3),
           new ReverseMoveDistance(18, 0.5,0,true).withTimeout(2),
           new ReverseMoveDistance(12, 0,0, true).withTimeout(2),
-          new MoveDistance(20,0.65).withTimeout(2).andThen(
+          new MoveDistance(20,0.65,0).withTimeout(2).andThen(
             new ReverseBalance(true)
           )
         )

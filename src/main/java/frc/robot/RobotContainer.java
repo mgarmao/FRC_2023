@@ -1,7 +1,3 @@
-// Copyright (c) FIRST and other WPILib contributors.
-// Open Source Software; you can modify and/or share it under the terms of
-// the WPILib BSD license file in the root directory of this project.
-
 package frc.robot;
 
 import edu.wpi.first.wpilibj2.command.Command;
@@ -68,10 +64,10 @@ public class RobotContainer {
     m_auto.addOption("FifteenTaxi", FifteenTaxi);
     m_auto.addOption("FiveTaxi", FiveTaxi);
     m_auto.addOption("Balamce", Balance);
-    m_auto.setDefaultOption("TwoCube1Side", TwoCubeOneSide);
+    m_auto.setDefaultOption("1SideTwoCube", TwoCubeOneSide);
     m_auto.addOption("TwoCube", TwoCube);
-
     m_auto.addOption("Do Nothing", WAIT_NONE);
+
     SmartDashboard.putData("Autonomous Routine", m_auto);
     
 

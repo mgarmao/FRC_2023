@@ -43,7 +43,7 @@ public class AlignWithApriltag extends CommandBase {
     else{
       yawPID = pid.calculate(photon.apriltagDistanceYBest(), m_setpoint);
     }
-    
+  
     if(yawPID>=1){
       yawPID=1;
     }

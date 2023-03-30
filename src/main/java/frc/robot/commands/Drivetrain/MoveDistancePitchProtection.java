@@ -1,7 +1,3 @@
-// Copyright (c) FIRST and other WPILib contributors.
-// Open Source Software; you can modify and/or share it under the terms of
-// the WPILib BSD license file in the root directory of this project.
-
 package frc.robot.commands.Drivetrain;
 
 import edu.wpi.first.math.controller.PIDController;
@@ -31,12 +27,14 @@ public class MoveDistancePitchProtection extends CommandBase {
     double maxSpeed = 0;
     double minSpeed = 0;
 
+    boolean keepStartingAngle;
     boolean reversing = false;
 
-    public MoveDistancePitchProtection(double distanceToMoveInches, double mMaxSpeed,double MminSpeed) {
+    public MoveDistancePitchProtection(double distanceToMoveInches, double mMaxSpeed,double MminSpeed, boolean m_keepStartingAngle) {
         maxSpeed = mMaxSpeed;
         minSpeed = MminSpeed;
         DISTANCE_TO_MOVE = distanceToMoveInches;
+        keepStartingAngle = m_keepStartingAngle;
         addRequirements(m_drivetrain);
         addRequirements(gyro);
     }
@@ -52,10 +50,15 @@ public class MoveDistancePitchProtection extends CommandBase {
     @Override
     public void execute() {  
         if(!reversing){
-            double anglePID = keepAnglePID.calculate(initAngle,gyro.getYaw());
+            double anglePID = 0;
+            if(keepStartingAngle){
+                anglePID = keepAnglePID.calculate(Constants.startYaw,gyro.getYaw());
+            }
+            else{
+                anglePID = keepAnglePID.calculate(initAngle,gyro.getYaw());
+            }            
             double distancePID = driveToDistancePID.calculate(((m_drivetrain.getFrontLeftEncoder()-encoderStartPos)/gearRatio), DISTANCE_TO_MOVE);
 
-            // SmartDashboard.putNumber("Move FWRD PID", distancePID);
             if(distancePID>maxSpeed){
                 distancePID = maxSpeed;
             }

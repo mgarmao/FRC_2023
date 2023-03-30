@@ -15,6 +15,8 @@ public class Rotate extends CommandBase {
   double initalAngle = 0;
   public Rotate(double m_inputAngle) {
     inputAngle = -m_inputAngle;
+    addRequirements(m_drivetrain);
+    addRequirements(gyro);
   }
 
   // Called when the command is initially scheduled.

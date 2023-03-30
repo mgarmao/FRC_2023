@@ -23,7 +23,6 @@ public class Arm extends SubsystemBase {
     private double kP = 0.06;
     private double kI = 0.00;
     private double kD = 0.01;
-    private double armCommanded = 0;
     double desiredPosition= 0;
     boolean opControl = false;
     
@@ -34,33 +33,16 @@ public class Arm extends SubsystemBase {
         arm = new CANSparkMax(Constants.ARM, MotorType.kBrushless);
         armEncoder = arm.getEncoder();
         arm.restoreFactoryDefaults();
+
         arm.setSmartCurrentLimit(50);
         arm.setSoftLimit(SoftLimitDirection.kForward, Constants.ARM_UPPER_LIMIT);
         arm.setSoftLimit(SoftLimitDirection.kReverse, Constants.ARM_LOWER_LIMIT);
         
         arm.enableSoftLimit(SoftLimitDirection.kForward, true);
         arm.enableSoftLimit(SoftLimitDirection.kReverse, true);
-
-
-        // arm.setSoftLimit(SoftLimitDirection.kForward, Constants.ARM_UPPER_LIMIT);
-        // arm.setSoftLimit(SoftLimitDirection.kReverse, Constants.ARM_LOWER_LIMIT);
-        
-        // arm.enableSoftLimit(SoftLimitDirection.kForward, true);
-        // arm.enableSoftLimit(SoftLimitDirection.kReverse, true);
         
         arm.setIdleMode(IdleMode.kBrake);        
         armEncoder.setPosition(0);    
-    }
-
-
-    public void retract(){
-        armCommanded = 0;
-        arm.set(-Constants.ARM_POWER);
-    }
-
-    public void extend(){
-        // elevatorCommanded = 160;
-        arm.set(Constants.ARM_POWER); 
     }
 
     public void stop() {
@@ -104,7 +86,7 @@ public class Arm extends SubsystemBase {
         SmartDashboard.putNumber("Arm Position", armEncoder.getPosition());
         SmartDashboard.putBoolean("Arm OPCONTROL", opControl);
 
-        
+        //Setpoints
         if(m_operator.getPOV()==Constants.CONE_FRONT_PICKUP_POV){
             setPosition(Constants.CONE_FRONT_PICKUP_ARM);
         }
@@ -121,6 +103,7 @@ public class Arm extends SubsystemBase {
             setPosition(Constants.CONE_SCORE_MID_ARM);
         }
 
+        //Not Hitting El limit
         // if((Constants.elPosition>=Constants.MIN_EL_EXTENTION_FOR_ARM)&&((armEncoder.getPosition()>=Constants.LOWER_ARM_DEADZONE)&&(armEncoder.getPosition()<=Constants.UPPER_ARM_DEADZONE))&&opControl){
         //     arm.set(0);
         // }
@@ -143,33 +126,5 @@ public class Arm extends SubsystemBase {
                 stop();
             }
         }
-
-        // if(goingToPosition){
-        //     if(armEncoder.getPosition()>desiredPosition){
-        //         arm.set(Constants.ARM_POWER); 
-        //     }
-        //     else if(armEncoder.getPosition()<desiredPosition){
-        //         arm.set(-Constants.ARM_POWER); 
-        //     }
-        //     else{
-        //         stop();
-        //         goingToPosition = false;
-        //     }
-        // }
-        
-        // SmartDashboard.putNumber("Arm Encoder", armEncoder.getPosition()); 
-        
-        // if(XboxController.Button.kLeftStick.value>=0){
-        //     extend();
-        // }
-        // if(XboxController.Button.kLeftStick.value<=0){
-        //     retract();
-        // }
-        
-        // SmartDashboard.putNumber("CLimber Position", encoder.getPosition()); 
-        // PID = pid.calculate(encoder.getPosition(), elevatorCommanded);
-        // SmartDashboard.putNumber("Climber PID", PID);
-
-        // elevator.set(PID); 
     }
 }

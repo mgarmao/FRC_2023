@@ -12,7 +12,6 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.RelativeEncoder;
 
 import frc.robot.Constants;
-import frc.robot.subsystems.HallEffect;
 
 public class Elevator extends SubsystemBase {
     private CANSparkMax elevatorLeft,elevatorRight;
@@ -46,8 +45,8 @@ public class Elevator extends SubsystemBase {
 
         elevatorLeft.follow(elevatorRight, true);
         
-        elevatorLeft.setSmartCurrentLimit(30);
-        elevatorRight.setSmartCurrentLimit(30);
+        elevatorLeft.setSmartCurrentLimit(20);
+        elevatorRight.setSmartCurrentLimit(20);
 
         elevatorRight.setSoftLimit(SoftLimitDirection.kForward, Constants.ELEVATOR_UPPER_LIMIT);
         elevatorRight.setSoftLimit(SoftLimitDirection.kReverse, Constants.ELEVATOR_LOWER_LIMIT);

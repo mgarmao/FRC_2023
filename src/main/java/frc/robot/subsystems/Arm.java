@@ -14,7 +14,6 @@ import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMax.SoftLimitDirection;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.RelativeEncoder;
-import frc.robot.Main;
 import frc.robot.Constants;
 
 public class Arm extends SubsystemBase {
@@ -35,7 +34,7 @@ public class Arm extends SubsystemBase {
         arm = new CANSparkMax(Constants.ARM, MotorType.kBrushless);
         armEncoder = arm.getEncoder();
         arm.restoreFactoryDefaults();
-
+        arm.setSmartCurrentLimit(50);
         arm.setSoftLimit(SoftLimitDirection.kForward, Constants.ARM_UPPER_LIMIT);
         arm.setSoftLimit(SoftLimitDirection.kReverse, Constants.ARM_LOWER_LIMIT);
         

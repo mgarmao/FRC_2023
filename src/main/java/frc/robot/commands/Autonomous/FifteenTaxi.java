@@ -16,7 +16,7 @@ import frc.robot.subsystems.Elevator;
 public class FifteenTaxi extends SequentialCommandGroup {
     public FifteenTaxi() {
       addCommands(
-        new IntakeClose().withTimeout(0.1),
+        // new IntakeClose().withTimeout(0.1),
         new ElSetpoint(-70).withTimeout(2),
         new WristSetPosition(12).withTimeout(1),
         new Eject(1).withTimeout(0.5),

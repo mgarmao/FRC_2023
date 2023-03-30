@@ -14,8 +14,7 @@ public class Rotate extends CommandBase {
   PIDController pid = new PIDController(kP, kI, kD);
   double initalAngle = 0;
   public Rotate(double m_inputAngle) {
-    m_initAngle = 0;
-    inputAngle = m_inputAngle;
+    inputAngle = -m_inputAngle;
   }
 
   // Called when the command is initially scheduled.
@@ -28,10 +27,9 @@ public class Rotate extends CommandBase {
   @Override
   public void execute() {
     double drive = 1;
-    m_initAngle = gyro.getYaw();
-    drive = pid.calculate(gyro.getYaw(),inputAngle+m_initAngle);
+    drive = pid.calculate(gyro.getYaw(),inputAngle+initalAngle);
     
-    if(gyro.getYaw()>(-inputAngle+initalAngle+50)){
+    if(gyro.getYaw()>(inputAngle+initalAngle+40)){
       if(drive>0.55){
         drive=0.55;
       }
@@ -40,11 +38,11 @@ public class Rotate extends CommandBase {
       }
     }
     else{
-      if(drive>0.35){
-        drive=0.35;
+      if(drive>0.37){
+        drive=0.37;
       }
-      if(drive<-0.35){
-        drive=-0.35;
+      if(drive<-0.37){
+        drive=-0.37;
       }
     }
 
@@ -64,7 +62,7 @@ public class Rotate extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if(gyro.getYaw()>(-inputAngle+initalAngle)){
+    if(gyro.getYaw()>(inputAngle+initalAngle)){
       return false;
     }
     else{

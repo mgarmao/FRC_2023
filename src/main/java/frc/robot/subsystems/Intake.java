@@ -26,7 +26,7 @@ public class Intake extends SubsystemBase {
          * reboot.
          */
         motor.restoreFactoryDefaults();
-        motor.setSmartCurrentLimit(30);
+        motor.setSmartCurrentLimit(20);
 
         /**
          * When the SPARK MAX is receiving a neutral command, the idle behavior of the motor 

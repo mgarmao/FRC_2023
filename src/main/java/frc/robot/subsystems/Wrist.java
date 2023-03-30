@@ -35,7 +35,7 @@ public class Wrist extends SubsystemBase {
         wrist = new CANSparkMax(Constants.WRIST, MotorType.kBrushless);
         wristEncoder = wrist.getEncoder();
         wrist.restoreFactoryDefaults();
-        wrist.setSmartCurrentLimit(30);
+        wrist.setSmartCurrentLimit(20);
 
         wrist.setSoftLimit(SoftLimitDirection.kForward, Constants.WRIST_UPPER_LIMIT);
         wrist.setSoftLimit(SoftLimitDirection.kReverse, Constants.WRIST_LOWER_LIMIT);

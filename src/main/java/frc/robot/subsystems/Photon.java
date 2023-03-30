@@ -70,8 +70,7 @@ public class Photon extends SubsystemBase{
     public double apriltagDistanceY(int id){
         var result = camera.getLatestResult();         
         boolean hasTargets = result.hasTargets();        
-        if(hasTargets){
-            
+        if(hasTargets){            
             // PhotonTrackedTarget target = result.getBestTarget();
             // Transform3d targetToCamera = target.getBestCameraToTarget();
             // yDistance = targetToCamera.getY();
@@ -129,6 +128,31 @@ public class Photon extends SubsystemBase{
     
         return zDistance;
     }
+    
+    public boolean hasApriltag(int inputID){
+        var result = camera.getLatestResult();         
+        boolean hasTargets = result.hasTargets(); 
+        boolean hasTargetWithID = false;       
+        if(hasTargets){            
+            // PhotonTrackedTarget target = result.getBestTarget();
+            // Transform3d targetToCamera = target.getBestCameraToTarget();
+            // yDistance = targetToCamera.getY();
+
+            List<PhotonTrackedTarget> targets = result.getTargets();
+            for(PhotonTrackedTarget target:targets){
+                SmartDashboard.putNumber("This ID", target.getFiducialId());
+                if(target.getFiducialId()==inputID){
+                    hasTargetWithID = true;           
+                }
+            }
+        }
+        if(hasTargetWithID){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
 
     public double apriltagHypot(){
         var result = camera.getLatestResult();         
@@ -160,7 +184,7 @@ public class Photon extends SubsystemBase{
         return yaw;
     }
 
-    public double getCubeYaw(int pipline){
+    public double getCubeYaw(){
         // camera.setPipelineIndex(pipline);
         double yaw = 0;
         var result = camera.getLatestResult();
@@ -172,7 +196,7 @@ public class Photon extends SubsystemBase{
         return yaw;
     }
 
-    public double getAngle(int pipline){
+    public double getAngle(){
         var result = camera.getLatestResult();
         boolean hasTargets = result.hasTargets();
         double angle = 0;

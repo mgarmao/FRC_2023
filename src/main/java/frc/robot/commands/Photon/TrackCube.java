@@ -43,8 +43,8 @@ public class TrackCube extends CommandBase {
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute(){
-        SmartDashboard.putNumber("Cone Yaw",photon.getCubeYaw(2));
-        PID = pid.calculate(photon.getCubeYaw(2), 0);
+        SmartDashboard.putNumber("Cone Yaw",photon.getCubeYaw());
+        PID = pid.calculate(photon.getCubeYaw(), 0);
         double driveLeft = -0.4-PID;
         double driveRight = -0.4+PID;
 

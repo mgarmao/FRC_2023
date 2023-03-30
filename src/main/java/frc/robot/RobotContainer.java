@@ -45,6 +45,7 @@ public class RobotContainer {
   public static final Elevator elevator = new Elevator();
   public static final Arm arm = new Arm();
   public static final Photon photon = new Photon();
+  // public static final ArmCam armCam = new ArmCam();
   public static final Wrist wrist = new Wrist();
   // public static final  Shortcuts shortcuts = new Shortcuts();
 
@@ -101,8 +102,8 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     //open/close the intake with Trigger on Driver Joystick
-    new JoystickButton(m_driverLeft, 1).whenPressed(() -> Intake.toggle());
-    new JoystickButton(m_driverRight, 1).whenPressed(() -> Intake.toggle());
+    new JoystickButton(m_driverLeft, 1).whenPressed(() -> Intake.eject(0.99)).whenReleased(()->Intake.stop());
+    new JoystickButton(m_driverRight, 1).whenPressed(() -> Intake.eject(0.99)).whenReleased(()->Intake.stop());
 
     //Raise and lower 
     new JoystickButton(m_operator, Button.kRightBumper.value)

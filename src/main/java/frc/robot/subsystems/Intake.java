@@ -26,6 +26,7 @@ public class Intake extends SubsystemBase {
          * reboot.
          */
         motor.restoreFactoryDefaults();
+        motor.setSmartCurrentLimit(30);
 
         /**
          * When the SPARK MAX is receiving a neutral command, the idle behavior of the motor 
@@ -40,17 +41,17 @@ public class Intake extends SubsystemBase {
 
     /** Retrieve cargo for transportation. */
     public void retrieve() {
-        motor.set(Constants.INTAKE_SPEED);
+        motor.set(-Constants.INTAKE_SPEED);
     }
 
     /** Eject cargo from the robot. */
     public void eject(double speed) {
-        motor.set(-speed);
+        motor.set(speed);
     }
     
     /** This function is called once each time the the command ends or is interrupted. */
     public void stop() {
-        motor.set(0.1);
+        motor.set(-0.1);
     }
 
     public void toggle() {

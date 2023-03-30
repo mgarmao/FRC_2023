@@ -12,10 +12,16 @@ import frc.robot.Constants;
 import static frc.robot.RobotContainer.*;
 
 public class ReverseBalance extends CommandBase {
-
+/////
   double kP = 0.01;
   double kI = 0.0;
   double kD = 0.01;
+
+  double addedSpeed = 0.35;
+  double detectAngle = 10;
+  double anglePIDLimit = 0.25;
+/////
+
 
   boolean aparentLevel = false;
   double balancePID = 1; 
@@ -46,24 +52,24 @@ public class ReverseBalance extends CommandBase {
       anglePID = pid.calculate(initAngle,gyro.getYaw());
     }
 
-    if(anglePID>=0.25){
-      anglePID=0.25;
+    if(anglePID>=anglePIDLimit){
+      anglePID=anglePIDLimit;
     }
 
-    if(anglePID<=-0.25){
-      anglePID=-0.25;
+    if(anglePID<=-anglePIDLimit){
+      anglePID=-anglePIDLimit;
     }
 
-    if((gyro.getPitch()<-10)){
-      double driveLeft = 0.25-anglePID;
-      double driveRight = 0.25+anglePID;
+    if((gyro.getPitch()<-detectAngle)){
+      double driveLeft = addedSpeed-anglePID;
+      double driveRight = addedSpeed+anglePID;
       m_drivetrain.tankDrive(-driveLeft, -driveRight); 
       SmartDashboard.putNumber("Motor",driveLeft);   
 
     }
-    else if((gyro.getPitch()>10)){
-      double driveLeft = 0.25+anglePID;
-      double driveRight = 0.25-anglePID;
+    else if((gyro.getPitch()>detectAngle)){
+      double driveLeft = addedSpeed+anglePID;
+      double driveRight = addedSpeed-anglePID;
       m_drivetrain.tankDrive(driveLeft, driveRight);
       SmartDashboard.putNumber("Motor",driveLeft);  
     }
@@ -82,7 +88,7 @@ public class ReverseBalance extends CommandBase {
 
   @Override
   public boolean isFinished() {
-    if((gyro.getPitch()>-10)&&(gyro.getPitch()<10)){
+    if((gyro.getPitch()>-detectAngle)&&(gyro.getPitch()<detectAngle)){
       SmartDashboard.putBoolean("balancing", true);
       m_drivetrain.setBrakeMode();
       m_drivetrain.stop();

@@ -30,7 +30,7 @@ public final class Constants {
 
     //** Intake Motor */
     public static final int INTAKE_WHEELS = 3; 
-    public static final double INTAKE_SPEED = 0.35; //Subject to Josh
+    public static final double INTAKE_SPEED = 0.99; //Subject to Josh
     public static final double EJECT_SPEED = 0.99; //Subject to Josh
 
     
@@ -41,8 +41,8 @@ public final class Constants {
     /** Elevator */
     public static final int ELEVATOR_LEFT = 6;
     public static final int ELEVATOR_RIGHT = 7;
-    public static final double ELEVATOR_POWER = 0.5;//xxxxx
-    public static final float ELEVATOR_LOWER_LIMIT = -87;
+    public static final double ELEVATOR_POWER = 0.75;//xxxxx
+    public static final float ELEVATOR_LOWER_LIMIT = -77;
     public static final float ELEVATOR_UPPER_LIMIT = 0;
     public static final double EL_GEAR_RATIO = 9;
     public static final double EL_GEAR_CIRCUMFRANCE = 9;

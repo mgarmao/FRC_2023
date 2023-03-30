@@ -122,9 +122,9 @@ public class Arm extends SubsystemBase {
             setPosition(Constants.CONE_SCORE_MID_ARM);
         }
 
-        if((Constants.elPosition>=Constants.MIN_EL_EXTENTION_FOR_ARM)&&((armEncoder.getPosition()>=Constants.LOWER_ARM_DEADZONE)&&(armEncoder.getPosition()<=Constants.UPPER_ARM_DEADZONE))&&opControl){
-            arm.set(0);
-        }
+        // if((Constants.elPosition>=Constants.MIN_EL_EXTENTION_FOR_ARM)&&((armEncoder.getPosition()>=Constants.LOWER_ARM_DEADZONE)&&(armEncoder.getPosition()<=Constants.UPPER_ARM_DEADZONE))&&opControl){
+        //     arm.set(0);
+        // }
         
         
         if(!opControl){

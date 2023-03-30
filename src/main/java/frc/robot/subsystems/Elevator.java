@@ -45,6 +45,9 @@ public class Elevator extends SubsystemBase {
         elevatorRight.restoreFactoryDefaults();
 
         elevatorLeft.follow(elevatorRight, true);
+        
+        elevatorLeft.setSmartCurrentLimit(30);
+        elevatorRight.setSmartCurrentLimit(30);
 
         elevatorRight.setSoftLimit(SoftLimitDirection.kForward, Constants.ELEVATOR_UPPER_LIMIT);
         elevatorRight.setSoftLimit(SoftLimitDirection.kReverse, Constants.ELEVATOR_LOWER_LIMIT);
@@ -82,6 +85,7 @@ public class Elevator extends SubsystemBase {
     public void stop() {
         elevatorCommanded = encoderRight.getPosition();
         elevatorRight.stopMotor();
+        
         moving = false;
     }
 

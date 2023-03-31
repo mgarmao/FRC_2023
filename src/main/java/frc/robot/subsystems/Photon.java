@@ -15,18 +15,8 @@ public class Photon extends SubsystemBase{
     public PhotonCamera camera = new PhotonCamera("F-Camera");
     // Angle between horizontal and the camera.
     final double CAMERA_PITCH_RADIANS = Units.degreesToRadians(0);    
-    double CAMERA_HEIGHT_METERS = 1;
-    double TARGET_HEIGHT_METERS =1;
-    double yaw = 0;
-    double kCameraHeight = 1;
-    double kTargetHeight = 1;
-    double kCameraPitch = 1;
-    double kTargetPitch = 1;
 
-    double xDistance;
-    double yDistance;
-    double zDistance;
-    double h;
+    
     
 
     int apriltagPipeline = 0;
@@ -43,31 +33,45 @@ public class Photon extends SubsystemBase{
         Constants.requestedPipeline = m_pipline;
     }
 
-    public double getApriltagYaw(){
+    public double getApriltagYaw(int ID){
+        double yaw = 0;
         var result = camera.getLatestResult();         
-        boolean hasTargets = result.hasTargets();        
+        boolean hasTargets = result.hasTargets();    
         if(hasTargets){
-            PhotonTrackedTarget target = result.getBestTarget();
-            yaw = target.getYaw();
-        }   
+            List<PhotonTrackedTarget> targets = result.getTargets();
+            for(PhotonTrackedTarget target:targets){
+                SmartDashboard.putNumber("This ID", target.getFiducialId());
+                if(target.getFiducialId()==ID){
+                    yaw = target.getYaw();                
+                }
+            }
+        }    
         return yaw;
     }
 
-    public double apriltagDistanceX(){
+    public double getApriltagDistanceX(int ID){
+        double xDistance = 0;
         var result = camera.getLatestResult();         
         boolean hasTargets = result.hasTargets();        
-        if(hasTargets){
-            PhotonTrackedTarget target = result.getBestTarget();
-            Transform3d targetToCamera = target.getBestCameraToTarget();
-            xDistance = targetToCamera.getX();
-        }
-        else{
-            xDistance = 0;
+        if(hasTargets){            
+            // PhotonTrackedTarget target = result.getBestTarget();
+            // Transform3d targetToCamera = target.getBestCameraToTarget();
+            // yDistance = targetToCamera.getY();
+
+            List<PhotonTrackedTarget> targets = result.getTargets();
+            for(PhotonTrackedTarget target:targets){
+                Transform3d thisTarget = target.getBestCameraToTarget();
+                SmartDashboard.putNumber("This ID", target.getFiducialId());
+                if(target.getFiducialId()==ID){
+                    xDistance = thisTarget.getY();                
+                }
+            }
         }
         return xDistance;
     }
 
-    public double apriltagDistanceY(int id){
+    public double getApriltagDistanceY(int id){
+        double yDistance = 0;
         var result = camera.getLatestResult();         
         boolean hasTargets = result.hasTargets();        
         if(hasTargets){            
@@ -84,13 +88,11 @@ public class Photon extends SubsystemBase{
                 }
             }
         }
-        else{
-            yDistance = 0;
-        }
         return yDistance;
     }
 
-    public double apriltagDistanceYBest(){
+    public double getApriltagDistanceYBest(){
+        double yDistance = 0;
         var result = camera.getLatestResult();         
         boolean hasTargets = result.hasTargets();        
         if(hasTargets){
@@ -98,13 +100,10 @@ public class Photon extends SubsystemBase{
             Transform3d thisTarget = target.getBestCameraToTarget();
             yDistance = thisTarget.getY();                
         }
-        else{
-            yDistance = 0;
-        }
         return yDistance;
     }
 
-    public int apriltagID(){
+    public int getApriltagID(){
         int id;
         var result = camera.getLatestResult();         
         boolean hasTargets = result.hasTargets();        
@@ -118,16 +117,15 @@ public class Photon extends SubsystemBase{
         return id;
     }
 
-    public double apriltagZDistance(){
-        var result = camera.getLatestResult();
-        boolean hasTargets = result.hasTargets();        
-        PhotonTrackedTarget target = result.getBestTarget();
-        Transform3d targetToCamera = target.getBestCameraToTarget();
-        zDistance = targetToCamera.getY();
+    // public double apriltagZDistance(){
+    //     var result = camera.getLatestResult();
+    //     boolean hasTargets = result.hasTargets();        
+    //     PhotonTrackedTarget target = result.getBestTarget();
+    //     Transform3d targetToCamera = target.getBestCameraToTarget();
+    //     zDistance = targetToCamera.getY();
         
-    
-        return zDistance;
-    }
+    //     return zDistance;
+    // }
     
     public boolean hasApriltag(int inputID){
         var result = camera.getLatestResult();         
@@ -154,7 +152,8 @@ public class Photon extends SubsystemBase{
         }
     }
 
-    public double apriltagHypot(){
+    public double getApriltagHypot(){
+        double h = 0;
         var result = camera.getLatestResult();         
         boolean hasTargets = result.hasTargets();        
         if(hasTargets){
@@ -166,9 +165,6 @@ public class Photon extends SubsystemBase{
             double ySqr = Math.pow(y,2);
             double hSqr = xSqr + ySqr;
             h = Math.sqrt(hSqr);
-        }
-        else{
-            h = 0;
         }
         return h;
     }

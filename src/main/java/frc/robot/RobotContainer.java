@@ -41,7 +41,7 @@ public class RobotContainer {
   public static final Elevator elevator = new Elevator();
   public static final Arm arm = new Arm();
   public static final Photon photon = new Photon();
-  // public static final ArmCam armCam = new ArmCam();
+  public static final ArmCam armCam = new ArmCam();
   public static final Wrist wrist = new Wrist();
   // public static final  Shortcuts shortcuts = new Shortcuts();
 

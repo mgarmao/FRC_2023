@@ -21,8 +21,8 @@ public class GetStartingApriltagID extends CommandBase {
 
     @Override
     public void execute() {
-        if(photon.apriltagID()!=100){
-            Constants.startingApriltag = photon.apriltagID();
+        if(photon.getApriltagID()!=100){
+            Constants.startingApriltag = photon.getApriltagID();
         }
     }
 

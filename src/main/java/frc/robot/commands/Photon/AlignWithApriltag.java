@@ -18,6 +18,7 @@ public class AlignWithApriltag extends CommandBase {
   double yawPID = 1; 
   double driveLeft = 0;
   double driveRight = 0;
+  boolean hasStartingApriltag = false;
 
   double m_setpoint;
   PIDController pid = new PIDController(kP, kI, kD);
@@ -38,10 +39,11 @@ public class AlignWithApriltag extends CommandBase {
   @Override
   public void execute() {
     if(targetID!=100){
-      yawPID = pid.calculate(photon.apriltagDistanceY(targetID), m_setpoint);
+      yawPID = pid.calculate(photon.getApriltagDistanceY(targetID), m_setpoint);
+      hasStartingApriltag = true;
     }
     else{
-      yawPID = pid.calculate(photon.apriltagDistanceYBest(), m_setpoint);
+      yawPID = pid.calculate(photon.getApriltagDistanceYBest(), m_setpoint);
     }
   
     if(yawPID>=1){
@@ -54,7 +56,7 @@ public class AlignWithApriltag extends CommandBase {
 
     driveLeft = 0.5-yawPID;
     driveRight = 0.5+yawPID;
-    if(photon.apriltagDistanceY(4)!=0){
+    if((photon.getApriltagDistanceY(targetID)!=0)){
       m_drivetrain.tankDrive(driveLeft, driveRight);
     }
     else{
@@ -73,7 +75,7 @@ public class AlignWithApriltag extends CommandBase {
 
   @Override
   public boolean isFinished() {
-    if((photon.apriltagDistanceX()>=0.5)||(photon.apriltagDistanceX()==0)){
+    if((photon.getApriltagDistanceX(targetID)>=0.5)||(photon.getApriltagDistanceX(targetID)==0)){
       return false;
     }
     else{

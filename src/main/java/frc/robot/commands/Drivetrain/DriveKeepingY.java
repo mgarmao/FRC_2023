@@ -7,6 +7,7 @@ package frc.robot.commands.Drivetrain;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants;
 
 import static frc.robot.RobotContainer.*;
 
@@ -34,7 +35,7 @@ public class DriveKeepingY extends CommandBase {
 
   @Override
   public void execute() {
-    distancePID = pid.calculate(photon.apriltagDistanceY(1), m_setpoint);
+    distancePID = pid.calculate(photon.getApriltagDistanceY(Constants.startingApriltag), m_setpoint);
     
     if(distancePID>=1){
       distancePID=1;
@@ -44,11 +45,11 @@ public class DriveKeepingY extends CommandBase {
       distancePID=-1;
     }
 
-    if(photon.getApriltagYaw()>=18){
+    if(photon.getApriltagYaw(Constants.startingApriltag)>=18){
       driveLeft = 0.5;
       driveRight = 0.3;
     }
-    else if (photon.getApriltagYaw()<=-18){
+    else if (photon.getApriltagYaw(Constants.startingApriltag)<=-18){
       driveLeft = 0.3;
       driveRight = 0.5;
     }
@@ -59,11 +60,6 @@ public class DriveKeepingY extends CommandBase {
 
     m_drivetrain.tankDrive(driveLeft, driveRight);
     
-    SmartDashboard.putBoolean("Drive Stage",true);
-    SmartDashboard.putNumber("DriveLeft",driveLeft);
-    SmartDashboard.putNumber("driveRight",driveRight);
-    SmartDashboard.putNumber("Distance Y",photon.apriltagDistanceY(1));
-    SmartDashboard.putNumber("Distance X",photon.apriltagDistanceX());
   }
 
   @Override
@@ -73,7 +69,7 @@ public class DriveKeepingY extends CommandBase {
 
   @Override
   public boolean isFinished() {
-    if(photon.apriltagHasTarget()&&(photon.apriltagHypot()>=m_stopDistance)){
+    if(photon.apriltagHasTarget()&&(photon.getApriltagHypot()>=m_stopDistance)){
       return false;
     }
     else{

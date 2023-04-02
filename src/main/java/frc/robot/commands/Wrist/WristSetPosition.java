@@ -32,14 +32,7 @@ public class WristSetPosition extends CommandBase {
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {  
-        double PID = pid.calculate(wrist.getPosition(), desiredPosition);
-        if(PID>Constants.WRIST_MAX_POWER){
-            PID=Constants.WRIST_MAX_POWER;
-        }
-        if(PID<-Constants.WRIST_MAX_POWER){
-            PID=-Constants.WRIST_MAX_POWER;
-        }
-        wrist.setPower(PID);
+        wrist.setPosition(desiredPosition);
     }
 
     // Called once the command ends or is interrupted.

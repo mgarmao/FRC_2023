@@ -50,6 +50,11 @@ public class Arm extends SubsystemBase {
     }
 
     public void controller(double input){
+        if((armEncoder.getPosition()>=Constants.MIN_ARM_SITUATION)&&Constants.Wrist_Position<=15){
+            if(input>=0.15){
+                input = 0.15;
+            }
+        }
         arm.set(input);
         Constants.ARM_IN_POSITION = false;
         opControl = true;
@@ -59,10 +64,10 @@ public class Arm extends SubsystemBase {
         desiredPosition = m_desiredPosition;
         opControl = false;
         if(armEncoder.getPosition()>desiredPosition){
-            arm.set(Constants.ARM_POWER); 
+            arm.set(-Constants.ARM_POWER); 
         }
         else if(armEncoder.getPosition()<desiredPosition){
-            arm.set(-Constants.ARM_POWER); 
+            arm.set(Constants.ARM_POWER); 
         }
         else{
             Constants.ARM_IN_POSITION = true;
@@ -95,11 +100,11 @@ public class Arm extends SubsystemBase {
             setPosition(Constants.RETRACT_ARM);
         }
 
-        if((m_operator.getPOV()==Constants.CUBE_SCORE_HIGH_POV)&&(Constants.elPosition<=Constants.MIN_EL_EXTENTION_FOR_ARM)){
+        if((m_operator.getPOV()==Constants.CUBE_SCORE_HIGH_POV)){
             setPosition(Constants.CUBE_SCORE_HIGH_ARM);
         }
         
-        if((m_operator.getPOV()==Constants.CONE_SCORE_MID_POV)&&(Constants.elPosition<=Constants.MIN_EL_EXTENTION_FOR_ARM)){
+        if((m_operator.getPOV()==Constants.CONE_SCORE_MID_POV)){
             setPosition(Constants.CONE_SCORE_MID_ARM);
         }
 

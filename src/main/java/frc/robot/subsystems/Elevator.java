@@ -45,8 +45,8 @@ public class Elevator extends SubsystemBase {
 
         elevatorLeft.follow(elevatorRight, true);
         
-        elevatorLeft.setSmartCurrentLimit(20);
-        elevatorRight.setSmartCurrentLimit(20);
+        elevatorLeft.setSmartCurrentLimit(35);
+        elevatorRight.setSmartCurrentLimit(35);
 
         elevatorRight.setSoftLimit(SoftLimitDirection.kForward, Constants.ELEVATOR_UPPER_LIMIT);
         elevatorRight.setSoftLimit(SoftLimitDirection.kReverse, Constants.ELEVATOR_LOWER_LIMIT);
@@ -72,13 +72,21 @@ public class Elevator extends SubsystemBase {
     public void retract(){
         moving=true;
         Constants.elInPosition = false;
-        elevatorRight.set(-Constants.ELEVATOR_POWER);
+        if(m_operator.getAButton()){
+            elevatorRight.set(-Constants.ELEVATOR_POWER_BOOST); 
+        }
+        else{
+            elevatorRight.set(-Constants.ELEVATOR_POWER);
+        }
     }
 
     public void extend(){
         moving = true;
         Constants.elInPosition = false;
+
+        
         elevatorRight.set(Constants.ELEVATOR_POWER); 
+        
     }
 
     public void stop() {
@@ -125,7 +133,7 @@ public class Elevator extends SubsystemBase {
             moving = false;
         }
 
-        if((m_operator.getPOV()==Constants.RETRACT_POV)&&Constants.ARM_IN_POSITION){
+        if((m_operator.getPOV()==Constants.RETRACT_POV)){
             elevatorCommanded = Constants.RETRACT_EL;
             Constants.elInPosition = false;
             moving = false;

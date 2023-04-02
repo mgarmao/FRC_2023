@@ -17,7 +17,6 @@ import frc.robot.subsystems.*;
 import frc.robot.commands.Drivetrain.*;
 
 import frc.robot.commands.Autonomous.*;
-import frc.robot.commands.Autonomous.Balance;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -51,8 +50,10 @@ public class RobotContainer {
   private final Command FifteenTaxi = new FifteenTaxi();
   private final Command FiveTaxi = new FiveTaxi();
   private final Command Balance = new Balance();
-  private final Command TwoCubeOneSide = new TwoCubeOneSide();
-  private final Command TwoCube = new TwoCube();
+  private final Command RegBalance = new RegBalance();
+  private final Command BackAndForth = new BackAndForth();
+  // private final Command TwoCubeOneSide = new TwoCubeOneSide();
+  // private final Command TwoCube = new TwoCube();
 
   // private final Command Square = new Square();
   private SendableChooser<Command> m_auto = new SendableChooser<>();
@@ -64,8 +65,8 @@ public class RobotContainer {
     m_auto.addOption("FifteenTaxi", FifteenTaxi);
     m_auto.addOption("FiveTaxi", FiveTaxi);
     m_auto.addOption("Balamce", Balance);
-    m_auto.setDefaultOption("1SideTwoCube", TwoCubeOneSide);
-    m_auto.addOption("TwoCube", TwoCube);
+    m_auto.setDefaultOption("RegBalance", RegBalance);
+    m_auto.addOption("BackAndForth", BackAndForth);
     m_auto.addOption("Do Nothing", WAIT_NONE);
 
     SmartDashboard.putData("Autonomous Routine", m_auto);

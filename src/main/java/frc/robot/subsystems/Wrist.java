@@ -141,5 +141,6 @@ public class Wrist extends SubsystemBase {
             desiredPosition = Constants.CONE_SCORE_MID_WRIST;
             setPoint = false;
         }
+        Constants.Wrist_Position = wristEncoder.getPosition();
     }
 }

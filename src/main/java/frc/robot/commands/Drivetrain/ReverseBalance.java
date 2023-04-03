@@ -17,7 +17,7 @@ public class ReverseBalance extends CommandBase {
   double kI = 0.0;
   double kD = 0.01;
 
-  double addedSpeed = 0.2;
+  double addedSpeed = 0.27;
   double detectAngle = 12;
   double anglePIDLimit = 0.2;
 /////

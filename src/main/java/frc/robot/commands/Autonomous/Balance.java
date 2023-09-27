@@ -19,7 +19,7 @@ public class Balance extends SequentialCommandGroup {
       addCommands(
         // new IntakeClose().withTimeout(0.1
         new MoveDistance(12, 0.4, 0.4).withTimeout(2),
-        new ElSetpoint(Constants.CUBE_SCORE_HIGH_El).alongWith(
+        new ElSetpoint(Constants.CUBE_SCORE_HIGH_EL).alongWith(
           new ArmSetpoint(Constants.CUBE_SCORE_HIGH_ARM).withTimeout(0.3),
           new WristSetPosition(Constants.CUBE_SCORE_HIGH_WRIST).withTimeout(1)
         ).withTimeout(1),

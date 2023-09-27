@@ -19,14 +19,14 @@ public class Balance extends SequentialCommandGroup {
       addCommands(
         // new IntakeClose().withTimeout(0.1
         new MoveDistance(12, 0.4, 0.4).withTimeout(2),
-        // new ElSetpoint(-77).alongWith(
-        //   new ArmSetpoint(5).withTimeout(0.3),
-        //   new WristSetPosition(16).withTimeout(1)
-        // ).withTimeout(1),
-        // new Eject(1).withTimeout(0.5),
-        // new ElSetpoint(-1).alongWith(
-        //   new IntakeStop()
-        // ).withTimeout(1),
+        new ElSetpoint(Constants.CUBE_SCORE_HIGH_El).alongWith(
+          new ArmSetpoint(Constants.CUBE_SCORE_HIGH_ARM).withTimeout(0.3),
+          new WristSetPosition(Constants.CUBE_SCORE_HIGH_WRIST).withTimeout(1)
+        ).withTimeout(1),
+        new Eject(1).withTimeout(0.5),
+        new ElSetpoint(-1).alongWith(
+          new IntakeStop()
+        ).withTimeout(1),
         new ReverseMoveDistance(68,0.65,0,false).andThen(
           new DriveOffChargeStation().withTimeout(3),
           new ReverseMoveDistance(18, 0.5,0,true).withTimeout(2),

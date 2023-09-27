@@ -18,7 +18,7 @@ public class BackAndForth extends SequentialCommandGroup {
     public BackAndForth() {
       addCommands(
         new MoveDistance(12, 0.5, 0.5).withTimeout(2),
-        new ReverseMoveDistance(170,0.45,0,false)
+        new ReverseMoveDistance(100,0.45,0,false)
       );
   }
 }

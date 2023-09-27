@@ -70,24 +70,25 @@ public final class Constants {
     public static double UPPER_ARM_DEADZONE = 45;
     public static double LOWER_ARM_DEADZONE = 26;
 
-    //Preset Positions
-    ///X conew
+    //Preset Positions //0 degrees is up on d-pad, 90 is left on d-pad,...
+    
+    //Cube Score
+    public static double CUBE_SCORE_HIGH_POV = 0;
+    public static double CUBE_SCORE_HIGH_WRIST = 21; 
+    public static double CUBE_SCORE_HIGH_ARM = 30;
+    public static double CUBE_SCORE_HIGH_EL = -70;
+
+    //Front Floor Pickup
     public static double CONE_FRONT_PICKUP_POV = 90;
     public static double CONE_FRONT_PICKUP_WRIST = 26;
-    public static double CONE_FRONT_PICKUP_ARM =  53;
+    public static double CONE_FRONT_PICKUP_ARM =  55;
     public static double CONE_FRONT_PICKUP_EL = -1;
     
-    /// Retract X
+    //Storage Position
     public static double RETRACT_POV = 180;
-    public static double RETRACT_WRIST = 6;
-    public static double RETRACT_ARM =  -62;
-    public static double RETRACT_EL = -74;
-
-    //X hgh
-    public static double CUBE_SCORE_HIGH_POV = 0;
-    public static double CUBE_SCORE_HIGH_WRIST = 26; 
-    public static double CUBE_SCORE_HIGH_ARM = 29;
-    public static double CUBE_SCORE_HIGH_EL = -75.5;
+    public static double RETRACT_WRIST = 50;
+    public static double RETRACT_ARM =  44;
+    public static double RETRACT_EL = 0;
 
     //Mid Cube X
     public static double CONE_SCORE_MID_POV = 270;

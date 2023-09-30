@@ -112,12 +112,16 @@ public class RobotContainer {
     .whenReleased(() -> elevator.stop());
   
     //Sets intake to run depending on left or right driver thumb button
+   
+
+    //(***************************************************************)
     new JoystickButton(m_driverLeft, 2)
       .whenPressed(() -> Intake.eject(Constants.EJECT_SPEED))
       .whenReleased(() -> Intake.stop());
     new JoystickButton(m_driverRight, 2)
       .whenPressed(() -> Intake.retrieve())
       .whenReleased(() -> Intake.stop());
+
 
     new JoystickButton(m_operator, Button.kA.value)
     .whenPressed(()->LEDs.sendData());
